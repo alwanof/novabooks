@@ -3,10 +3,14 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Silvanite\NovaToolPermissions\Role;
 
@@ -32,8 +36,10 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'name', 'email',
     ];
+
+
 
     /**
      * Get the fields displayed by the resource.
@@ -46,7 +52,7 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
+            Avatar::make('Avatar')->squared()->disk('public'),
 
             Text::make('Name')
                 ->sortable()
@@ -62,6 +68,12 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+            Select::make('level')->options([
+                0 => 'Root',
+                1 => 'Agent',
+                2 => 'user'
+            ]),
+            Boolean::make('Active')->onlyOnDetail()->onlyOnForms(),
             BelongsToMany::make('Roles', 'roles', Role::class),
         ];
     }

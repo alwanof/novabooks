@@ -14,7 +14,8 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.24",
         "laravel/nova": "*",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "muradalwan/nova-theme": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -23,10 +24,16 @@
         "nunomaduro/collision": "^4.1",
         "phpunit/phpunit": "^8.5"
     },
-    "repositories": [{
-        "type": "path",
-        "url": "./nova"
-    }],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/NovaTheme"
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

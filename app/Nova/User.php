@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Silvanite\NovaToolPermissions\Role;
+use Ctessier\NovaAdvancedImageField\AdvancedImage;
 
 class User extends Resource
 {
@@ -41,6 +42,7 @@ class User extends Resource
 
 
 
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -52,7 +54,8 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Avatar::make('Avatar')->squared()->disk('public'),
+            //Avatar::make('Avatar')->squared()->disk('public'),
+            AdvancedImage::make('Avatar')->croppable(1 / 1)->resize(320)->disk('public')->path('users'),
 
             Text::make('Name')
                 ->sortable()
@@ -68,12 +71,19 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
-            Select::make('level')->options([
-                0 => 'Root',
-                1 => 'Agent',
-                2 => 'user'
-            ]),
-            Boolean::make('Active')->onlyOnDetail()->onlyOnForms(),
+            /*Select::make('level')->options(function () {
+                $options = [];
+                $level = auth()->user()->level;
+                if ($level == 0) {
+                    $options[0] = 'Root';
+                    $options[1] = 'Agent';
+                }
+                if ($level == 1) {
+                    $options[2] = 'User';
+                }
+                return $options;
+            }),*/
+            Boolean::make('Active')->onlyOnDetail()->onlyOnForms()->withMeta(["value" => 1]),
             BelongsToMany::make('Roles', 'roles', Role::class),
         ];
     }

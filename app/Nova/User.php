@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\TestActionn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Avatar;
@@ -14,6 +15,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Silvanite\NovaToolPermissions\Role;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
+use Laravel\Nova\Fields\BelongsTo;
 
 class User extends Resource
 {
@@ -71,19 +73,40 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
-            /*Select::make('level')->options(function () {
+            Select::make('level', function () {
+                switch ($this->level) {
+                    case 0:
+                        return __('app.LEVELS.0');
+                        break;
+                    case 1:
+                        return __('app.LEVELS.1');
+                        break;
+                    case 2:
+                        return __('app.LEVELS.2');
+                        break;
+
+                    default:
+                        return '#NA';
+                        break;
+                }
+            })->options(function () {
                 $options = [];
                 $level = auth()->user()->level;
                 if ($level == 0) {
-                    $options[0] = 'Root';
-                    $options[1] = 'Agent';
+                    $options[0] = __('app.LEVELS.0');
+                    $options[1] = __('app.LEVELS.1');
                 }
                 if ($level == 1) {
-                    $options[2] = 'User';
+                    $options[2] = __('app.LEVELS.2');
                 }
                 return $options;
-            }),*/
+            })
+                ->creationRules('required'),
+
             Boolean::make('Active')->onlyOnDetail()->onlyOnForms()->withMeta(["value" => 1]),
+            Text::make('Ref', function () {
+                return $this->ref()->name;
+            }),
             BelongsToMany::make('Roles', 'roles', Role::class),
         ];
     }
@@ -129,6 +152,8 @@ class User extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new TestActionn())->showOnTableRow(),
+        ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Multitenantable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +12,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+    use Multitenantable;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +22,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'avatar', 'email', 'password', 'level', 'ref', 'active'
     ];
+
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -39,9 +43,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // public static function boot()
+    // {
+    //     parent::boot();
 
+    //     static::creating(function ($user) {
+    //         $user->ref = auth()->user()->id;
+    //     });
+    // }
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function ref()
+    {
+        return User::find($this->ref);
     }
 }

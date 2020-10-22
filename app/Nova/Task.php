@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\TestActionn;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
@@ -94,8 +95,8 @@ class Task extends Resource
         return [];
     }
 
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where('user_id', $request->user()->id);
-    }
+    // public static function indexQuery(NovaRequest $request, $query)
+    // {
+    //     return $query->where('user_id', $request->user()->id);
+    // }
 }

@@ -57,7 +57,8 @@ class User extends Resource
             ID::make()->sortable(),
 
             //Avatar::make('Avatar')->squared()->disk('public'),
-            AdvancedImage::make('Avatar')->croppable(1 / 1)->resize(320)->disk('public')->path('users'),
+            Avatar::make('Avatar')->onlyOnIndex(),
+            AdvancedImage::make('Avatar')->croppable(1 / 1)->resize(320)->disk('public')->path('users')->hideFromIndex(),
 
             Text::make('Name')
                 ->sortable()
@@ -73,7 +74,8 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
-            Select::make('level', function () {
+
+            Text::make('Level', function () {
                 switch ($this->level) {
                     case 0:
                         return __('app.LEVELS.0');
@@ -89,7 +91,8 @@ class User extends Resource
                         return '#NA';
                         break;
                 }
-            })->options(function () {
+            })->onlyOnIndex(),
+            Select::make('Level')->options(function () {
                 $options = [];
                 $level = auth()->user()->level;
                 if ($level == 0) {
@@ -100,13 +103,14 @@ class User extends Resource
                     $options[2] = __('app.LEVELS.2');
                 }
                 return $options;
-            })
-                ->creationRules('required'),
+            })->creationRules('required')->onlyOnForms(),
+
 
             Boolean::make('Active')->onlyOnDetail()->onlyOnForms()->withMeta(["value" => 1]),
             Text::make('Ref', function () {
-                return $this->ref()->name;
-            }),
+
+                return ($this->parent) ? $this->parent->name : '-';
+            })->onlyOnIndex(),
             BelongsToMany::make('Roles', 'roles', Role::class),
         ];
     }
@@ -153,7 +157,7 @@ class User extends Resource
     public function actions(Request $request)
     {
         return [
-            (new TestActionn())->showOnTableRow(),
+            //(new TestActionn())->showOnTableRow(),
         ];
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Nova\Actions;
 
-use App\Operator;
-use App\Task;
+
+use App\Parse\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
-class TestActionn extends Action
+class ActiveOperator extends Action
 {
     use InteractsWithQueue, Queueable;
 
@@ -22,10 +22,23 @@ class TestActionn extends Action
      * @param  \Illuminate\Support\Collection  $models
      * @return mixed
      */
+    public $name = 'DE/ACTIVATE';
+
     public function handle(ActionFields $fields, Collection $models)
     {
-        foreach ($models as $model)
-            Operator::create(['title' => $model->name]);
+        foreach ($models as $model) {
+            if ($model->active) {
+                $user = User::findOrFail($model->hash);
+                $model->active = 0;
+                $model->hash = '';
+                $model->save();
+            } else {
+                $user = User::create(['username' => $model->email, 'password' => $model->password, 'email' => $model->email]);
+                $model->active = 1;
+                $model->hash = $user->hash;
+                $model->save();
+            }
+        }
     }
 
     /**

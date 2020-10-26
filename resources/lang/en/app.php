@@ -1,6 +1,6 @@
 <?php
 return [
-    'LEVELS' => ['Root', 'Agent', 'User'],
+    'LEVELS' => ['Root', 'Agent', 'Office'],
     '' => '',
     '' => '',
     '' => '',

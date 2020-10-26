@@ -1,5 +1,9 @@
 <?php
 
+use App\Driver;
+use App\Notifications\SendCredentials;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $driver = Driver::find(6);
+    //$driver->notify(new SendCredentials());
+
+    return $driver;
 });

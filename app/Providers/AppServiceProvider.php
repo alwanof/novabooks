@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Driver;
+use App\Observers\DriverObserver;
 use Illuminate\Support\ServiceProvider;
+use App\Observers\UserObserver;
+use App\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //User::observe(UserObserver::class);
+        //Driver::observe(DriverObserver::class);
     }
 }

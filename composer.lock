@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94e31effb68481cf4ae0b162f5d241ad",
+    "content-hash": "a290a4cb4381d50f57689cb2fdaf2de2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -106,6 +106,57 @@
                 "nova"
             ],
             "time": "2020-09-23T17:10:16+00:00"
+        },
+        {
+            "name": "bissolli/nova-phone-field",
+            "version": "v0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bissolli/nova-phone-field.git",
+                "reference": "29e0e26c17366aa7e4e290c311419735e4b05b94"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bissolli/nova-phone-field/zipball/29e0e26c17366aa7e4e290c311419735e4b05b94",
+                "reference": "29e0e26c17366aa7e4e290c311419735e4b05b94",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bissolli\\NovaPhoneField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bissolli\\NovaPhoneField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gustavo Bissolli",
+                    "email": "gustavo.bissolli@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Nova Phone Number field with a dynamic mask based on the country code inserted by the user.",
+            "homepage": "https://github.com/bissolli/nova-phone-field",
+            "keywords": [
+                "input mask",
+                "laravel",
+                "nova",
+                "phone mask"
+            ],
+            "time": "2019-09-08T06:05:47+00:00"
         },
         {
             "name": "brick/math",
@@ -1331,6 +1382,50 @@
             "time": "2020-09-30T07:37:11+00:00"
         },
         {
+            "name": "inspheric/nova-email-field",
+            "version": "v1.42",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inspheric/nova-email-field.git",
+                "reference": "f1930d05c29cc9008599a9bebf2123f36ecbdfbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inspheric/nova-email-field/zipball/f1930d05c29cc9008599a9bebf2123f36ecbdfbb",
+                "reference": "f1930d05c29cc9008599a9bebf2123f36ecbdfbb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Inspheric\\Fields\\EmailFieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Inspheric\\Fields\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova email field.",
+            "keywords": [
+                "email",
+                "field",
+                "laravel",
+                "mailto",
+                "nova"
+            ],
+            "time": "2019-06-02T13:22:15+00:00"
+        },
+        {
             "name": "intervention/image",
             "version": "2.5.1",
             "source": {
@@ -2305,6 +2400,47 @@
             "time": "2020-09-26T10:30:38+00:00"
         },
         {
+            "name": "opanegro/field-nova-password-show-hide",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/opanegro/field-nova-password-show-hide.git",
+                "reference": "456a5e9ed7fd828936836300db945e6d71330a87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/opanegro/field-nova-password-show-hide/zipball/456a5e9ed7fd828936836300db945e6d71330a87",
+                "reference": "456a5e9ed7fd828936836300db945e6d71330a87",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Opanegro\\FieldNovaPasswordShowHide\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Opanegro\\FieldNovaPasswordShowHide\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2019-10-23T03:44:11+00:00"
+        },
+        {
             "name": "opis/closure",
             "version": "3.5.7",
             "source": {
@@ -2409,6 +2545,104 @@
                 "random"
             ],
             "time": "2018-07-02T15:55:56+00:00"
+        },
+        {
+            "name": "parse/php-sdk",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/parse-community/parse-php-sdk.git",
+                "reference": "6a8d8c8ba4f1189c7da1fbb611bfe3093062b219"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/parse-community/parse-php-sdk/zipball/6a8d8c8ba4f1189c7da1fbb611bfe3093062b219",
+                "reference": "6a8d8c8ba4f1189c7da1fbb611bfe3093062b219",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">= 7.1"
+            },
+            "require-dev": {
+                "jms/serializer": "1.7.1",
+                "phpdocumentor/phpdocumentor": "~2.9",
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "^3.0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Parse\\": "src/Parse/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Parse",
+                    "homepage": "https://github.com/parse-community/parse-php-sdk/graphs/contributors"
+                }
+            ],
+            "description": "Parse PHP SDK",
+            "homepage": "https://github.com/parse-community/parse-php-sdk",
+            "keywords": [
+                "parse",
+                "sdk"
+            ],
+            "time": "2019-08-17T18:37:33+00:00"
+        },
+        {
+            "name": "parziphal/parse",
+            "version": "v0.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Parziphal/parse.git",
+                "reference": "6731ea298f402a9778784842a6f21e84d69a1efe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Parziphal/parse/zipball/6731ea298f402a9778784842a6f21e84d69a1efe",
+                "reference": "6731ea298f402a9778784842a6f21e84d69a1efe",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.2 || ^6.0 || ^7.0",
+                "parse/php-sdk": "^1.2.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Parziphal\\Parse\\ParseServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Parziphal\\Parse\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "An Eloquent-like interface for Parse",
+            "keywords": [
+                "eloquent",
+                "laravel",
+                "parse",
+                "parse-sdk",
+                "sdk"
+            ],
+            "time": "2020-05-04T21:45:29+00:00"
         },
         {
             "name": "phpoption/phpoption",

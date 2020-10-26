@@ -2,8 +2,7 @@
 
 namespace App\Nova\Actions;
 
-use App\Operator;
-use App\Task;
+use App\Notifications\SendCredentials;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -11,7 +10,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
-class TestActionn extends Action
+class SendCredentionalAction extends Action
 {
     use InteractsWithQueue, Queueable;
 
@@ -22,10 +21,13 @@ class TestActionn extends Action
      * @param  \Illuminate\Support\Collection  $models
      * @return mixed
      */
+
+    public $name = 'Send Credentional Email';
+
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model)
-            Operator::create(['title' => $model->name]);
+            $model->notify(new SendCredentials());;
     }
 
     /**

@@ -56,8 +56,9 @@ class User extends Authenticatable
         return $this->hasMany(Task::class);
     }
 
-    public function ref()
+    public function getParentAttribute()
     {
-        return User::find($this->ref);
+
+        return User::withoutGlobalScope('ref')->find($this->ref);
     }
 }

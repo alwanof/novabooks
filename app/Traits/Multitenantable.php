@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Task;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -12,21 +13,60 @@ trait Multitenantable
     protected static function bootMultitenantable()
     {
 
+
         if (auth()->check()) {
+
             static::creating(function ($model) {
                 try {
                     $table = $model->getTable();
                     if ($table == 'users') {
-                        $model->ref = auth()->id();
+
+                        $model->ref = User::withoutGlobalScope('ref')->find(auth()->user()->id)->id;
+                        switch ($model->level) {
+                            case 0:
+                                $model->roles()->sync([1]);
+
+                                break;
+                            case 1:
+                                $model->roles()->sync([2]);
+
+                                break;
+                            case 2:
+                                $model->roles()->sync([3]);
+                                break;
+                        }
                     } else {
-                        $model->user_id = auth()->id();
+
+                        $model->user_id = auth()->user()->id;
+                        $model->parent = auth()->user()->parent->id;
                     }
                 } catch (\Throwable $th) {
                     //throw $th;
                 }
             });
 
-            static::updating(function ($model) {
+            static::created(function ($model) {
+                try {
+                    $table = $model->getTable();
+                    if ($table == 'users') {
+                        switch ($model->level) {
+                            case 0:
+                                $model->roles()->sync([1]);
+                                break;
+                            case 1:
+                                $model->roles()->sync([2]);
+                                break;
+                            case 2:
+                                $model->roles()->sync([3]);
+                                break;
+                        }
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+            });
+
+            /*static::updating(function ($model) {
                 try {
                     $table = $model->getTable();
                     if ($table == 'users') {
@@ -37,7 +77,7 @@ trait Multitenantable
                 } catch (\Throwable $th) {
                     //throw $th;
                 }
-            });
+            });*/
 
             static::addGlobalScope('ref', function (Builder $builder) {
 
@@ -57,6 +97,24 @@ trait Multitenantable
                         }
                     } else {
                         $builder->where('user_id', auth()->id());
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+            });
+
+            static::addGlobalScope('active', function (Builder $builder) {
+                try {
+                    $table = ($builder->getModels()[0])->table;
+                    if ($table == 'users') {
+                        if (auth()->check()) {
+                            $level = auth()->user()->level;
+                            if ($level != 0) {
+                                $builder->where('active', 1);
+                            }
+                        } else {
+                            $builder->where('active', 1);
+                        }
                     }
                 } catch (\Throwable $th) {
                     //throw $th;

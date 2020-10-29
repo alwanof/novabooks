@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Driver;
 use App\Nova\Actions\TestActionn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +17,7 @@ use Laravel\Nova\Fields\Text;
 use Silvanite\NovaToolPermissions\Role;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 
 class User extends Resource
 {
@@ -112,6 +114,7 @@ class User extends Resource
                 return ($this->parent) ? $this->parent->name : '-';
             })->onlyOnIndex(),
             BelongsToMany::make('Roles', 'roles', Role::class),
+
         ];
     }
 

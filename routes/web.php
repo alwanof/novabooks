@@ -18,8 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $driver = Driver::find(6);
-    //$driver->notify(new SendCredentials());
 
-    return $driver;
+
+    return view('welcome');
 });

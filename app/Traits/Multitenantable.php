@@ -96,7 +96,14 @@ trait Multitenantable
                                 break;
                         }
                     } else {
-                        $builder->where('user_id', auth()->id());
+                        switch ($level) {
+                            case 1:
+                                $builder->where('parent', auth()->id());
+                                break;
+                            case 2:
+                                $builder->where('user_id', auth()->id());
+                                break;
+                        }
                     }
                 } catch (\Throwable $th) {
                     //throw $th;
@@ -104,20 +111,8 @@ trait Multitenantable
             });
 
             static::addGlobalScope('active', function (Builder $builder) {
-                try {
-                    $table = ($builder->getModels()[0])->table;
-                    if ($table == 'users') {
-                        if (auth()->check()) {
-                            $level = auth()->user()->level;
-                            if ($level != 0) {
-                                $builder->where('active', 1);
-                            }
-                        } else {
-                            $builder->where('active', 1);
-                        }
-                    }
-                } catch (\Throwable $th) {
-                    //throw $th;
+                if (auth()->guest()) {
+                    $builder->where('active', 1);
                 }
             });
         }

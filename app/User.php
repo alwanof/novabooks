@@ -61,4 +61,18 @@ class User extends Authenticatable
 
         return User::withoutGlobalScope('ref')->find($this->ref);
     }
+
+    // public function drivers()
+    // {
+    //     $level = $this->level;
+    //     switch ($level) {
+    //         case 1:
+    //             return $this->hasMany(Driver::class, 'parent');
+    //             break;
+
+    //         default:
+    //             return $this->hasMany(Driver::class, 'user_id');
+    //             break;
+    //     }
+    // }
 }

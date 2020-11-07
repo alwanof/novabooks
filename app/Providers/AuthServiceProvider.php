@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
         'App\Task' => 'App\Policies\TaskPolicy',
+        'App\Setting' => 'App\Policies\SettingPolicy',
     ];
 
     /**
@@ -30,7 +31,8 @@ class AuthServiceProvider extends ServiceProvider
             'viewTask',
             'manageTask',
             'viewDriver',
-            'manageDriver'
+            'manageDriver',
+            'manageSetting'
         ])->each(function ($permission) {
             Gate::define($permission, function ($user) use ($permission) {
                 return $user->hasRoleWithPermission($permission);

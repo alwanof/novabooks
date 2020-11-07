@@ -24,7 +24,7 @@
 export default {
      name: "DriverMap",
     props: [
-        'card',
+        'card'
 
         // The following props are only available on resource detail cards...
         // 'resource',
@@ -43,6 +43,8 @@ export default {
         }
     },
     created() {
+        //console.log(this.card.currentVisitors);
+
         axios.get('http://nova.local/api/drivers')
         .then(res => {
             this.drivers=res.data;

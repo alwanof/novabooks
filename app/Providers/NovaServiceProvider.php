@@ -14,6 +14,7 @@ use Laravel\Nova\NovaApplicationServiceProvider;
 use Silvanite\NovaToolPermissions\NovaToolPermissions;
 use Digitalcloud\MultilingualNova\NovaLanguageTool;
 use Muradalwan\DriversMap\DriversMap;
+use Muradalwan\TaxiOrder\TaxiOrder;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -92,7 +93,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             new NovaToolPermissions(),
-            new NovaLanguageTool()
+            new NovaLanguageTool(),
+            //(new TaxiOrder)->currentVisitors()
         ];
     }
 

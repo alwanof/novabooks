@@ -22,4 +22,9 @@ class DriversMap extends Card
     {
         return 'drivers-map';
     }
+
+    public function currentVisitors()
+    {
+        return $this->withMeta(['currentVisitors' => auth()->user()]);
+    }
 }

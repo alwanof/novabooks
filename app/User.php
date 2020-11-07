@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name', 'avatar', 'email', 'password', 'level', 'ref', 'active'
     ];
 
+    protected $appends = ['settings'];
+
 
 
     /**
@@ -61,6 +63,71 @@ class User extends Authenticatable
 
         return User::withoutGlobalScope('ref')->find($this->ref);
     }
+
+    public function config($key)
+    {
+        $officeConfig = Preference::where([
+            'key' => $key,
+            'user_id' => $this->id
+        ])->get();
+        if ($officeConfig->count() > 0) {
+            return $officeConfig->first()->value;
+        }
+
+        $agentConfig = Preference::where([
+            'key' => $key,
+            'user_id' => $this->parent
+        ])->get();
+        if ($agentConfig->count() > 0) {
+            return $agentConfig->first()->value;
+        }
+
+        $config = Setting::where([
+            'key' => $key
+        ])->get();
+
+        if ($config->count() > 0) {
+            return $config->first()->value;
+        }
+
+        return 'false';
+    }
+
+    public function getSettingsAttribute()
+    {
+
+        $settings = Setting::all();
+        $result = [];
+        $i = 0;
+        foreach ($settings as $setting) {
+            //$result[$i] = [$setting->key => $setting->value];
+            $result[$setting->key] = $setting->value;
+            $parentConfig = Preference::where([
+                'key' => $setting->key,
+                'user_id' => $this->parent->id
+            ])->get();
+            if ($parentConfig->count() > 0) {
+                //$result[$i] = [$parentConfig->first()->key => $parentConfig->first()->value];
+                $result[$parentConfig->first()->key] = $parentConfig->first()->value;
+            }
+
+            $userConfig = Preference::where([
+                'key' => $setting->key,
+                'user_id' => $this->id
+            ])->get();
+            if ($userConfig->count() > 0) {
+                //$result[$i] = [$userConfig->first()->key => $userConfig->first()->value];
+                $result[$userConfig->first()->key] = $userConfig->first()->value;
+            }
+
+
+            $i++;
+        }
+
+        return $result;
+    }
+
+
 
     // public function drivers()
     // {

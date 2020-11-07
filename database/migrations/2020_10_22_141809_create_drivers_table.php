@@ -26,6 +26,7 @@ class CreateDriversTable extends Migration
             $table->string('hash')->nullable();
             $table->float('lat')->nullable();
             $table->float('lng')->nullable();
+            $table->bigInteger('distanc')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('parent');
             $table->boolean('busy')->default(0);

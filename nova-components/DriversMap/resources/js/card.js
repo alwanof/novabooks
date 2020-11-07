@@ -8,5 +8,5 @@ Nova.booting((Vue, router, store) => {
             libraries: "places,directions"
         }
     });
-  console.log('here card.js',Vue.config.devtools);
+
 })

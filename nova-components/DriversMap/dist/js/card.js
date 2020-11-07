@@ -1101,15 +1101,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_google_maps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_google_maps__);
 
 Nova.booting(function (Vue, router, store) {
-  Vue.component('drivers-map', __webpack_require__(45));
-  Vue.config.devtools = true;
-  Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_google_maps__, {
-    load: {
-      key: "AIzaSyANYVpeOpsNN4DqdKR4AKAyd03IQ3_9PvU",
-      libraries: "places,directions"
-    }
-  });
-  console.log('here card.js', Vue.config.devtools);
+    Vue.component('drivers-map', __webpack_require__(45));
+    Vue.config.devtools = true;
+    Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue2_google_maps__, {
+        load: {
+            key: "AIzaSyANYVpeOpsNN4DqdKR4AKAyd03IQ3_9PvU",
+            libraries: "places,directions"
+        }
+    });
 });
 
 /***/ }),
@@ -3210,7 +3209,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "DriverMap",
-    props: ['card'],
+    props: ['card'
+
+    // The following props are only available on resource detail cards...
+    // 'resource',
+    // 'resourceId',
+    // 'resourceName',
+    ],
     data: function data() {
         return {
             drivers: [],
@@ -3224,6 +3229,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         var _this = this;
+
+        //console.log(this.card.currentVisitors);
 
         axios.get('http://nova.local/api/drivers').then(function (res) {
             _this.drivers = res.data;

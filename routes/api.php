@@ -211,3 +211,25 @@ Route::get('/testo/{id}', function ($id) {
 
     return $result;
 });
+
+
+// API Mobile APP:
+
+Route::get('/mobile/get/order', function ($driver, $order) {
+    $driver = Driver::find($driver);
+    $order = Order::find($order);
+    $order->status = 2;
+    $order->driver_id = $driver->id;
+    $order->save();
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $order->id,
+        'model' => 'Order',
+        'action' => 'U',
+    ]);
+
+    return $order;
+});

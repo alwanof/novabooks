@@ -28,6 +28,12 @@ class Order extends Model
     //Driver: 2 => Y/N option | 21 on the way
     //Customer: 3 => Y/N option
     //Done 9=> done | 91=> RO | 92=>RC | 93=>NoRO | 94=>NoRC
+
+    //emos_murad emos_taxidb
+    // ssh root@142.93.174.231
+    // cd /home/emostaxi.com/public_html
+    // scp narabana.com.zip root@142.93.174.231:/home/narabana.com/public_html
+    //Zoom+9314MU
     use Multitenantable;
 
     protected $fillable = [

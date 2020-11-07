@@ -22,6 +22,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    return auth()->user()->level;
+    //return auth()->user()->level;
     return view('welcome');
 });

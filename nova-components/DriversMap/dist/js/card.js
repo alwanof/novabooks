@@ -3232,12 +3232,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         //console.log(this.card.currentVisitors);
 
-        axios.get('http://nova.local/api/drivers').then(function (res) {
+        axios.get('/api/drivers').then(function (res) {
             _this.drivers = res.data;
             res.data.forEach(function (item) {
                 var element = {};
                 element.position = { lat: item.lat, lng: item.lng };
-                element.icon = 'http://nova.local/images/car-active.png';
+                element.icon = item.busy == 1 ? '/images/car-active.png' : '/images/car-deactive.png';
                 _this.markers.push(element);
             });
         });

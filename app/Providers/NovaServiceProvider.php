@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Nova\Metrics\DriverCount;
 use App\Nova\Metrics\DriverPartition;
 use App\Nova\Metrics\DriverTrend;
+use App\Nova\Metrics\OrderCount;
+use App\Nova\Metrics\OrderTrend;
 use App\Nova\Metrics\UserCount;
 use App\User;
 use Illuminate\Support\Facades\Gate;
@@ -70,7 +72,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new UserCount(),
             new DriverCount(),
             new DriverTrend(),
-            new DriverPartition()
+            new DriverPartition(),
+            new OrderCount(),
+            new OrderTrend()
         ];
     }
 

@@ -2,11 +2,11 @@
 
 namespace App\Nova\Metrics;
 
-use App\Driver;
+use App\Order;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Metrics\Partition;
+use Laravel\Nova\Metrics\Value;
 
-class DriverPartition extends Partition
+class OrderCount extends Value
 {
     /**
      * Calculate the value of the metric.
@@ -16,21 +16,25 @@ class DriverPartition extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Driver::class, 'busy')
-            ->label(function ($value) {
-                switch ($value) {
-                    case 0:
-                        return 'Free';
-                    case 1:
-                        return 'Busy';
-                    default:
-                        return ucfirst($value);
-                }
-            })->colors([
-                0 => '#27ae60',
-                1 => '#c0392b',
-                // photo will use the default color from Nova
-            ]);
+        return $this->count($request, Order::class);
+    }
+
+    /**
+     * Get the ranges available for the metric.
+     *
+     * @return array
+     */
+    public function ranges()
+    {
+        return [
+            30 => __('30 Days'),
+            60 => __('60 Days'),
+            365 => __('365 Days'),
+            'TODAY' => __('Today'),
+            'MTD' => __('Month To Date'),
+            'QTD' => __('Quarter To Date'),
+            'YTD' => __('Year To Date'),
+        ];
     }
 
     /**
@@ -50,6 +54,6 @@ class DriverPartition extends Partition
      */
     public function uriKey()
     {
-        return 'driver-partition';
+        return 'order-count';
     }
 }

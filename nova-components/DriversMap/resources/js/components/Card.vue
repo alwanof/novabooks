@@ -45,13 +45,13 @@ export default {
     created() {
         //console.log(this.card.currentVisitors);
 
-        axios.get('http://nova.local/api/drivers')
+        axios.get('/api/drivers')
         .then(res => {
             this.drivers=res.data;
             res.data.forEach(item=>{
                 var element={}
                 element.position={lat:item.lat,lng:item.lng}
-                element.icon='http://nova.local/images/car-active.png'
+                element.icon=(item.busy==1)?'/images/car-active.png':'/images/car-deactive.png'
                 this.markers.push(element);
             });
         });

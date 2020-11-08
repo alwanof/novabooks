@@ -150,6 +150,10 @@ Route::get('/order/office/select/{driver}/to/{order}', function ($driver, $order
     $order->status = 2;
     $order->driver_id = $driver->id;
     $order->save();
+
+    $driver->busy = 1;
+    $driver->save();
+
     $response = Http::withHeaders([
         'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
         'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
@@ -158,6 +162,17 @@ Route::get('/order/office/select/{driver}/to/{order}', function ($driver, $order
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['hash' => $driver->hash]
+    ]);
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $driver->id,
+        'model' => 'Driver',
+        'action' => 'U',
+        'meta' => ['hash' => $driver->hash]
     ]);
 
     return $order;
@@ -215,11 +230,30 @@ Route::get('/testo/{id}', function ($id) {
 
 // API Mobile APP:
 
-Route::get('/mobile/get/order', function ($driver, $order) {
-    $driver = Driver::find($driver);
-    $order = Order::find($order);
-    $order->status = 2;
-    $order->driver_id = $driver->id;
+Route::get('/app/get/order/{hash}', function ($hash) {
+    $driver = Driver::where('hash', $hash)->firstOrFail();
+    $pendingOrder = Order::where([
+        'driver_id' => $driver->id,
+        'status' => 21
+    ]);
+    if ($pendingOrder->count() > 0) {
+        return $pendingOrder->first();
+    }
+
+    $newOrder = Order::where([
+        'driver_id' => $driver->id,
+        'status' => 2
+    ]);
+    if ($newOrder->count() > 0) {
+        return $newOrder->first();
+    }
+
+    return false;
+});
+
+Route::get('/app/approve/{order_id}', function ($order_id) {
+    $order = Order::findOrFail($order_id);
+    $order->status = 21;
     $order->save();
     $response = Http::withHeaders([
         'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
@@ -231,5 +265,96 @@ Route::get('/mobile/get/order', function ($driver, $order) {
         'action' => 'U',
     ]);
 
-    return $order;
+
+    return response(1, 200);
+});
+
+Route::get('/app/{hash}/reject/{order_id}', function ($hash, $order_id) {
+    $driver = Driver::where('hash', $hash)->firstOrFail();
+    $order = Order::findOrFail($order_id);
+    $order->status = 1;
+    $order->driver_id = null;
+    $order->block = ($order->block == null) ? $driver->id : '--' . $driver->id;
+    $order->save();
+
+    $driver->busy = 0;
+    $driver->save();
+
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $order->id,
+        'model' => 'Order',
+        'action' => 'U',
+        'meta' => ['hash' => $driver->hash]
+    ]);
+
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $driver->id,
+        'model' => 'Driver',
+        'action' => 'U',
+        'meta' => ['hash' => $driver->hash]
+    ]);
+
+    return response(1, 200);
+});
+
+Route::get('/app/{hash}/done/{order_id}', function ($hash, $order_id) {
+    $driver = Driver::where('hash', $hash)->firstOrFail();
+    $order = Order::findOrFail($order_id);
+    $order->status = 9;
+    $order->save();
+
+    $driver->busy = 0;
+    $driver->save();
+
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $order->id,
+        'model' => 'Order',
+        'action' => 'U',
+        'meta' => ['hash' => $driver->hash]
+    ]);
+
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $driver->id,
+        'model' => 'Driver',
+        'action' => 'U',
+        'meta' => ['hash' => $driver->hash]
+    ]);
+
+    return response(1, 200);
+});
+
+Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
+    $driver = Driver::where('hash', $hash)->firstOrFail();
+    $driver->lat = $lat;
+    $driver->lng = $lng;
+    $driver->save();
+
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $driver->id,
+        'model' => 'Driver',
+        'action' => 'U',
+        'meta' => ['hash' => $driver->hash]
+    ]);
+
+    return response(1, 200);
 });

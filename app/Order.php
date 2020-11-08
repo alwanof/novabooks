@@ -32,6 +32,7 @@ class Order extends Model
     //emos_murad emos_taxidb
     // ssh root@142.93.174.231
     // cd /home/emostaxi.com/public_html
+    //rm -rf storage
     // scp narabana.com.zip root@142.93.174.231:/home/narabana.com/public_html
     //Zoom+9314MU
     use Multitenantable;

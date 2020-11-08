@@ -7,6 +7,7 @@ use App\Role;
 use App\Setting;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    //return auth()->user()->level;
+
     return view('welcome');
 });

@@ -34,6 +34,10 @@ class Preference extends Resource
     public static $search = [
         'id',
     ];
+    public static function authorizable()
+    {
+        return false;
+    }
 
     /**
      * Get the fields displayed by the resource.

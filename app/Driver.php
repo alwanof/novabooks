@@ -10,4 +10,10 @@ class Driver extends Model
 {
     use Multitenantable;
     use Notifiable;
+
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

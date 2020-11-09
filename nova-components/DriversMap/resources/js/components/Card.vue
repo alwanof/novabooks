@@ -21,6 +21,17 @@
 </template>
 
 <script>
+window.Vue = require('vue');
+  // Parse Here
+const Parse = require('parse');
+Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
+Parse.serverURL = "https://smartaxi.b4a.io";
+
+var Client = new Parse.LiveQueryClient({
+    applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+    serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
+    javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
+});
 export default {
      name: "DriverMap",
     props: [
@@ -43,18 +54,52 @@ export default {
         }
     },
     created() {
-        //console.log(this.card.currentVisitors);
+        //this.listen();
+        this.getDrivers();
 
-        axios.get('/api/drivers')
-        .then(res => {
-            this.drivers=res.data;
-            res.data.forEach(item=>{
-                var element={}
-                element.position={lat:item.lat,lng:item.lng}
-                element.icon=(item.busy==1)?'/images/car-active.png':'/images/car-deactive.png'
-                this.markers.push(element);
+
+    },
+    methods: {
+        getDrivers(){
+            axios.get('/api/drivers')
+            .then(res => {
+                this.drivers=res.data;
+                res.data.forEach(item=>{
+                    var element={}
+                    element.position={lat:item.lat,lng:item.lng}
+                    element.icon=(item.busy==1)?'/images/car-active.png':'/images/car-deactive.png'
+                    this.markers.push(element);
+                });
             });
-        });
+        },
+        listen(){
+
+                const query = new Parse.Query("Stream");
+                query.equalTo("model", "Driver");
+                Client.open();
+                var subscription = Client.subscribe(query);
+                subscription.on("create", (feedDoc) => {
+                    console.log(feedDoc);
+                    let index = this.drivers.findIndex(
+                    (o) => o.id === feedDoc.attributes.pid
+                    );
+
+                    axios.get('/api/drivers')
+                    .then((res) => {
+                        if (feedDoc.attributes.action == "U") {
+                            Vue.set(this.drivers, index, res.data);
+                        } else if (feedDoc.attributes.action == "C") {
+                            console.log('C',feedDoc.attributes.action);
+                            this.drivers.unshift(res.data);
+                        } else if (feedDoc.attributes.action == "D") {
+                            this.drivers.splice(index, 1);
+                        }
+                    });
+
+                });
+
+
+        },
     },
 
     mounted() {

@@ -340,10 +340,20 @@ Route::get('/app/{hash}/done/{order_id}', function ($hash, $order_id) {
 });
 
 Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
+
+
     $driver = Driver::where('hash', $hash)->firstOrFail();
+    $office = User::find($driver->user_id);
+    $olat = $office->config('coordinate_lat');
+    $olng = $office->config('coordinate_lng');
+    $distance = cooDistance($olat, $olng, $lat, $lng);
+
     $driver->lat = $lat;
     $driver->lng = $lng;
+    $driver->distance = $distance;
     $driver->save();
+
+
 
     $response = Http::withHeaders([
         'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',

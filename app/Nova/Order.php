@@ -2,8 +2,10 @@
 
 namespace App\Nova;
 
+use App\Driver;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Muradalwan\OrdersCard\OrdersCard;
@@ -17,6 +19,8 @@ class Order extends Resource
      * @var string
      */
     public static $model = \App\Order::class;
+    //public static $polling = true;
+    //public static $showPollingToggle = true;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -47,6 +51,17 @@ class Order extends Resource
             Text::make('Name'),
             Text::make('Email'),
             Text::make('Phone'),
+            Text::make('Status', function () {
+                return $this->statusLabel($this->status);
+            }),
+            Text::make('Driver', function () {
+                if ($this->driver_id) {
+                    return Driver::find($this->driver_id)->name;
+                }
+                return '-';
+            }),
+            Number::make('Offer'),
+
 
         ];
     }
@@ -95,5 +110,46 @@ class Order extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    private function statusLabel($status)
+    {
+        $label = '-';
+        switch ($status) {
+            case 0:
+                $label = 'New';
+                break;
+            case 1:
+                $label = 'Accepted';
+                break;
+            case 2:
+                $label = 'Waiting Driver Approve';
+                break;
+            case 21:
+                $label = 'Proccessing..';
+                break;
+            case 3:
+                $label = 'Waiting Customer Approve';
+                break;
+            case 9:
+                $label = 'Done';
+                break;
+            case 91:
+                $label = 'Office Reject';
+                break;
+            case 92:
+                $label = 'Customer Reject';
+                break;
+            case 93:
+                $label = 'No-Resp from Office';
+                break;
+            case 94:
+                $label = 'No-Resp from Customer';
+                break;
+
+            default:
+                break;
+        }
+        return $label;
     }
 }

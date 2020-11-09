@@ -5,6 +5,7 @@ namespace App\Nova;
 
 use App\Nova\Actions\ActiveOperator;
 use App\Nova\Actions\SendCredentionalAction;
+use App\Order;
 use App\User;
 use Bissolli\NovaPhoneField\PhoneNumber;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
@@ -17,6 +18,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Opanegro\FieldNovaPasswordShowHide\FieldNovaPasswordShowHide;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 
 class Driver extends Resource
@@ -63,7 +65,8 @@ class Driver extends Resource
             Text::make('Taxi')
                 ->rules('required', 'max:255'),
             Text::make('TaxiNo', 'taxiNo')
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->hideFromIndex(),
             Email::make('Email')
                 ->rules('required', 'email', 'max:255')
                 ->hideFromIndex()
@@ -81,9 +84,17 @@ class Driver extends Resource
             //Text::make('Agent', 'parent')->onlyOnIndex(),
             //Text::make('Office', 'user_id')->onlyOnIndex(),
             Boolean::make('Busy')
+                ->onlyOnDetail(),
+            Number::make('Distance')
                 ->onlyOnIndex(),
-            Boolean::make('Active')
-                ->onlyOnIndex(),
+            Number::make('Orders', function () {
+                return Order::where([
+                    'driver_id' => $this->id,
+                ])->get()->count();
+            })->onlyOnIndex(),
+
+            Boolean::make('Active'),
+            HasMany::make('Orders')
         ];
     }
 

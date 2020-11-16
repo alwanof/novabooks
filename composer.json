@@ -20,12 +20,13 @@
         "laravel/framework": "^7.24",
         "laravel/nova": "*",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.4",
+        "muradalwan/drivers-map": "*",
         "muradalwan/nova-theme": "*",
+        "muradalwan/orders-card": "*",
         "opanegro/field-nova-password-show-hide": "^1.0",
         "parziphal/parse": "^0.0.8",
-        "silvanite/novatoolpermissions": "^1.1",
-        "muradalwan/drivers-map": "*",
-        "muradalwan/orders-card": "*"
+        "silvanite/novatoolpermissions": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -1,10 +1,6 @@
 <template>
 <div>
-    <div class="m-4">
-        <button type="button" @click="createOrder" class="btn btn-default btn-primary">create order</button>
-        <button type="button" @click="updateOrder" class="btn btn-default btn-primary">update order</button>
-        <button type="button" @click="deleteOrder" class="btn btn-default btn-primary">delete order</button>
-    </div>
+
           <card class="flex flex-col items-center justify-center">
         <div class="px-3 py-3">
             <h1 class="text-center text-3xl text-80 font-light">
@@ -281,6 +277,9 @@ export default {
                     break;
                 case 94:
                     label='No-Resp from Customer';
+                    break;
+                case 99:
+                    label='Canceled from Customer';
                     break;
 
                 default:

@@ -111,6 +111,24 @@ Route::get('/orders/get/{order}', function ($order) {
     return $order;
 });
 
+Route::get('/orders/cancel/{order}', function ($order) {
+    $order = Order::find($order->id);
+
+
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $order->id,
+        'model' => 'Order',
+        'action' => 'D',
+    ]);
+    $order->delete();
+
+    return response(1, 200);
+});
+
 Route::get('/order/office/reject/{order}', function ($order) {
     $order = Order::find($order);
     $order->status = 91;
@@ -127,7 +145,40 @@ Route::get('/order/office/reject/{order}', function ($order) {
 
     return $order;
 });
+Route::get('/order/customer/reject/{order}', function ($order) {
+    $order = Order::find($order);
+    $order->status = 92;
+    $order->save();
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $order->id,
+        'model' => 'Order',
+        'action' => 'U',
+    ]);
+
+    return $order;
+});
 Route::get('/order/office/approve/{order}', function ($order) {
+    $order = Order::find($order);
+    $order->status = 1;
+    $order->save();
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $order->id,
+        'model' => 'Order',
+        'action' => 'U',
+    ]);
+
+    return $order;
+});
+
+Route::get('/order/customer/approve/{order}', function ($order) {
     $order = Order::find($order);
     $order->status = 1;
     $order->save();

@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Muradalwan\DriversMap\DriversMap;
 use Muradalwan\OrdersCard\OrdersCard;
 use Muradalwan\OrderStream\OrderStream;
 
@@ -75,7 +76,8 @@ class Order extends Resource
     public function cards(Request $request)
     {
         return [
-            (new OrdersCard)->authUser()
+            (new OrdersCard)->authUser(),
+            new DriversMap(),
         ];
     }
 

@@ -54412,10 +54412,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 window.Vue = __webpack_require__(316);
 // Parse Here
@@ -54596,6 +54592,9 @@ var Client = new Parse.LiveQueryClient({
                     break;
                 case 94:
                     label = 'No-Resp from Customer';
+                    break;
+                case 99:
+                    label = 'Canceled from Customer';
                     break;
 
                 default:
@@ -98724,38 +98723,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("div", { staticClass: "m-4" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-default btn-primary",
-            attrs: { type: "button" },
-            on: { click: _vm.createOrder }
-          },
-          [_vm._v("create order")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-default btn-primary",
-            attrs: { type: "button" },
-            on: { click: _vm.updateOrder }
-          },
-          [_vm._v("update order")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-default btn-primary",
-            attrs: { type: "button" },
-            on: { click: _vm.deleteOrder }
-          },
-          [_vm._v("delete order")]
-        )
-      ]),
-      _vm._v(" "),
       _c("card", { staticClass: "flex flex-col items-center justify-center" }, [
         _c("div", { staticClass: "px-3 py-3" }, [
           _c("h1", { staticClass: "text-center text-3xl text-80 font-light" }, [

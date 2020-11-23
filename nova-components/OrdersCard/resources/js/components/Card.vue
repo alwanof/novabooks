@@ -141,7 +141,7 @@ export default {
     },
     created() {
         this.listen("Order");
-        this.notify();
+        /*this.notify();
         console.log('Working ..');
         axios.post(
           "https://fcm.googleapis.com/fcm/send",
@@ -165,7 +165,7 @@ export default {
         })
         .catch(function (error) {
           console.log(error);
-        });
+        });*/
 
 
 

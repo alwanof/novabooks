@@ -143,7 +143,7 @@ export default {
         this.listen("Order");
         this.notify();
         console.log('Working ..');
-        xios.post(
+        axios.post(
           "https://fcm.googleapis.com/fcm/send",
           {
             to: "ef1jFZERQaK4ozAk1TRtBg:APA91bGuXg4RH56jmgPeZmQGR_7juJSNIDw5U7j7YnLJUtUbpLg5Mi2PbLY3V6OqPJeOdm89t7GYyXMzq6qAao5wvfv5PZm8VRtYtRIPncxi51Nmo--izNh-WRbU5pjt0ixC6iGFrQa9",

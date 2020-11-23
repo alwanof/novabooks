@@ -6,7 +6,7 @@
 
     <img class="img-thumbnail rounded-circle" src="/storage/{{ $agent->avatar }}" alt="" width="64">
     <div class="container text-center">
-        @if ($office->settings['offer_enabled'])
+        @if (!$office->settings['auto_fwd_order'] && $office->settings['offer_enabled'])
             <form class="form-signin was-validated text-center" action="{{ route('client.dist') }}" method="POST">
             @else
                 <form class="form-signin was-validated text-center" action="{{ route('client.composse') }}" method="POST">
@@ -57,7 +57,7 @@
         </div>
 
 
-        @if ($office->settings['offer_enabled'])
+        @if (!$office->settings['auto_fwd_order'] && $office->settings['offer_enabled'])
             <button type="submit" class="btn btn-lg btn-primary btn-block">Continue</button>
         @else
             <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>

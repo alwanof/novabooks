@@ -14,6 +14,16 @@ use Laravel\Nova\Fields\Text;
 class SetPreference extends Action
 {
     use InteractsWithQueue, Queueable;
+    /**
+     * Get the displayable name of the action.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Set Preference');
+    }
+
 
     /**
      * Perform the action on the given models.
@@ -22,6 +32,7 @@ class SetPreference extends Action
      * @param  \Illuminate\Support\Collection  $models
      * @return mixed
      */
+
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {

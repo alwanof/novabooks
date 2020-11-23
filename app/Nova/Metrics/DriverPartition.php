@@ -9,6 +9,16 @@ use Laravel\Nova\Metrics\Partition;
 class DriverPartition extends Partition
 {
     /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Drivers Availability');
+    }
+
+    /**
      * Calculate the value of the metric.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request

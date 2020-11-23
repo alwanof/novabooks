@@ -13,6 +13,17 @@ use Laravel\Nova\Fields\ActionFields;
 class SendCredentionalAction extends Action
 {
     use InteractsWithQueue, Queueable;
+    /**
+     * Get the displayable name of the action.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Send Credentional Email');
+    }
+
+
 
     /**
      * Perform the action on the given models.
@@ -22,7 +33,8 @@ class SendCredentionalAction extends Action
      * @return mixed
      */
 
-    public $name = 'Send Credentional Email';
+
+
 
     public function handle(ActionFields $fields, Collection $models)
     {

@@ -18,6 +18,16 @@ class OrderCount extends Value
     {
         return $this->count($request, Order::class);
     }
+    /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Total Orders');
+    }
+
 
     /**
      * Get the ranges available for the metric.

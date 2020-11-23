@@ -9,6 +9,16 @@ use Laravel\Nova\Metrics\Value;
 class DriverCount extends Value
 {
     /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Total Drivers');
+    }
+
+    /**
      * Calculate the value of the metric.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request

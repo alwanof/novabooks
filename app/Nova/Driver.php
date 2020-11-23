@@ -47,6 +47,26 @@ class Driver extends Resource
     public static $search = [
         'id', 'name', 'taxiNo'
     ];
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Drivers');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Driver');
+    }
+
 
     /**
      * Get the fields displayed by the resource.
@@ -58,43 +78,43 @@ class Driver extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            AdvancedImage::make('Avatar')->croppable(1 / 1)->resize(320)->disk('public')->path('drivers'),
-            Text::make('Name')
+            AdvancedImage::make(__('Avatar'), 'avatar')->croppable(1 / 1)->resize(320)->disk('public')->path('drivers'),
+            Text::make(__('Name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-            Text::make('Taxi')
+            Text::make(__('Taxi'), 'taxi')
                 ->rules('required', 'max:255'),
-            Text::make('TaxiNo', 'taxiNo')
+            Text::make(__('TaxiNo'), 'taxiNo')
                 ->rules('required', 'max:255')
                 ->hideFromIndex(),
-            Email::make('Email')
+            Email::make(__('Email'), 'email')
                 ->rules('required', 'email', 'max:255')
                 ->hideFromIndex()
                 ->clickable(),
-            Text::make('Password')
+            Text::make(__('Password'), 'password')
                 ->rules('required', 'min:8', 'max:20')
                 ->default(Str::random(8))
                 ->hideFromIndex(),
-            PhoneNumber::make('Phone')
+            PhoneNumber::make(__('Phone'), 'phone')
                 ->rules('required', 'min:6', 'max:20')
                 ->hideFromIndex(),
-            Text::make('TaxiColor')
+            Text::make(__('TaxiColor'), 'taxiColor')
                 ->rules('required', 'max:25')
                 ->hideFromIndex(),
             //Text::make('Agent', 'parent')->onlyOnIndex(),
             //Text::make('Office', 'user_id')->onlyOnIndex(),
-            Boolean::make('Busy')
+            Boolean::make(__('Busy'), 'busy')
                 ->onlyOnDetail(),
-            Number::make('Distance')
+            Number::make(__('Distance'), 'distance')
                 ->onlyOnIndex(),
-            Number::make('Orders', function () {
+            Number::make(__('Orders'), function () {
                 return Order::where([
                     'driver_id' => $this->id,
                 ])->get()->count();
             })->onlyOnIndex(),
 
-            Boolean::make('Active'),
-            HasMany::make('Orders')
+            Boolean::make(__('Active'), 'active'),
+            HasMany::make(__('Orders'), 'orders')
         ];
     }
 

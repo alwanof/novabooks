@@ -4,42 +4,55 @@
           <card class="flex flex-col items-center justify-center">
         <div class="px-3 py-3">
             <h1 class="text-center text-3xl text-80 font-light">
-                Orders Card
-                <button type="button" v-show="card.authUser.settings.auto_fwd_order==1"  class="btn btn-default btn-danger">Auto-Forward</button>
+                <i class="fas fa-cog fa-spin text-danger" v-show="loading"></i> {{__('Current Orders')}}
+                <button type="button" v-show="card.authUser.settings.auto_fwd_order==1"  class="btn btn-default btn-danger">{{__("Auto-Forward")}}</button>
             </h1>
         </div>
+
 
             <table class="table w-full table-default">
                 <thead>
                     <tr>
-                        <th>#ID</th>
-                        <th>Customer</th>
-                        <th>From/TO</th>
-                        <th>Info</th>
-                        <th>Action</th>
+                        <th>{{__("ID")}}</th>
+                        <th>{{__("Customer")}}</th>
+                        <th>{{__("From/TO")}}</th>
+                        <th>{{__("Details")}}</th>
+                        <th width="35%">{{__("Action")}}</th>
                     </tr>
                 </thead>
                 <tbody v-for="order in orders" :key="order.id">
-                    <tr class="text-center">
-                        <td>[{{(order.driver)?'>>':'o'}}] {{order.id}}</td>
+                    <tr class="text-left">
                         <td>
-                            {{order.name}}<br>
-                            {{order.email}} {{order.phone}}
+                            <i :class="statusIcon(order.status)+' text-danger'"></i> {{order.id}}
                             </td>
                         <td>
-                            {{order.from_address}}<br>
-                            {{order.to_address}}<br>
+                            <span style="white-space: nowrap;"><i class="fas fa-user-alt"></i> {{order.name}}</span><br>
+                            <span style="white-space: nowrap;"><i class="far fa-envelope"></i> {{order.email}}</span><br>
+                            <span style="white-space: nowrap;"><i class="fas fa-phone-alt"></i> {{order.phone}}</span>
+                            </td>
+                        <td>
+                            <i class="fas fa-location-arrow"></i><span style="white-space: nowrap;" :title="order.from_address"> {{order.from_address.substring(0, 32)}}</span><br>
+
                             <span v-if="order.to_lat>0 && order.to_lng>0 && order.from_lat>0 && order.from_lng>0">
-                                {{distance(order.from_lat,order.from_lng,order.to_lat,order.to_lng,'K')}}KM
+                                <i class="fas fa-map-marker-alt"></i><span style="white-space: nowrap;" :title="order.to_address"> {{order.to_address.substring(0, 32)}}</span><br>
+                                <i class="fas fa-map-marked-alt"></i> {{distance(order.from_lat,order.from_lng,order.to_lat,order.to_lng,'K')}}KM
                             </span><br>
-                            {{order.offer}}
+                            <span v-show="order.offer">
+                                <i class="fas fa-comments-dollar"></i> {{order.offer}} {{card.authUser.settings['currency']}}
+                            </span>
+
 
                         </td>
                         <td>
-                            {{(order.driver)?order.driver.name:''}}<br>
-                            {{statusLabel(order.status)}}
+                            <span v-show="order.driver">
+                                <i class="fas fa-taxi"></i> {{(order.driver)?order.driver.name:''}}
+                            </span>
+                            <br>
+                           <span style="font-weight:bold">{{statusLabel(order.status)}}</span>
+
                         </td>
                         <td >
+
                             <span class="m-2" v-if="order.status==0">
                                 <button class="btn btn-default" @click="reject(order)"><i class="far fa-window-close"></i> </button>
                             </span>
@@ -49,7 +62,7 @@
                             </span>
                             <span class="m-2" v-if="order.status==0 && card.authUser.settings.offer_enabled==1 && order.to_address!=null">
                                 <input type="number" placeholder="Ex. 50" v-model="offer" class="w-50 form-control form-input form-input-bordered">
-                                <button class="btn btn-default btn-primary mr-4" @click="sendOffer(order)">Send</button>
+                                <button class="btn btn-default btn-primary mr-4" @click="sendOffer(order)">{{__("Send")}}</button>
                             </span>
 
                             <span class="m-2" v-if="order.status==1">
@@ -58,7 +71,13 @@
                                     <option v-for="driver in order.drivers" :key="driver.id" :value="driver.id">{{driver.name}}({{driver.distance}}km)</option>
 
                                 </select>
-                                <button class="btn btn-default btn-primary mr-4" @click="selectDriver(order)">Apply</button>
+                                <button class="btn btn-default btn-primary mr-4" @click="selectDriver(order)">{{__("Apply")}}</button>
+                            </span>
+                            <span class="m-2" v-if="order.status==2">
+
+                                <button class="btn btn-default btn-sm btn-primary" @click="undo(order)">
+                                    <i class="fas fa-undo"></i> {{__("UNDO")}}
+                                </button>
                             </span>
 
                         </td>
@@ -79,6 +98,13 @@
 
 <script>
 window.Vue = require('vue');
+import VueNativeNotification from 'vue-native-notification'
+
+Vue.use(VueNativeNotification, {
+  // Automatic permission request before
+  // showing notification (default: true)
+  requestOnNotify: true
+});
   // Parse Here
 const Parse = require('parse');
 Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
@@ -89,6 +115,11 @@ var Client = new Parse.LiveQueryClient({
     serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
     javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
 });
+const streamQuery = new Parse.Query("Stream");
+streamQuery.equalTo("model", "Order");
+Client.open();
+var subscription = Client.subscribe(streamQuery);
+
 export default {
     name: "TaxiOrderCard",
     props: [
@@ -103,78 +134,96 @@ export default {
         return {
             orders:[],
             offer:0,
-            driver:0
+            driver:0,
+            loading:false
 
         }
     },
     created() {
         this.listen("Order");
-        // axios.get('/api/testo/'+this.card.authUser.id).then((res) => {
-        //         console.log(res.data);
-        //     });
+        this.notify();
+        xios.post(
+          "https://fcm.googleapis.com/fcm/send",
+          {
+            to: "ef1jFZERQaK4ozAk1TRtBg:APA91bGuXg4RH56jmgPeZmQGR_7juJSNIDw5U7j7YnLJUtUbpLg5Mi2PbLY3V6OqPJeOdm89t7GYyXMzq6qAao5wvfv5PZm8VRtYtRIPncxi51Nmo--izNh-WRbU5pjt0ixC6iGFrQa9",
+            notification: {
+              title: "New notification from web",
+              body: "hammode needs a taxi",
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization:
+                "key=AAAAL7epsrw:APA91bGgOmwkI-dPOJAI86XP9_LtipbeeshHEgkdGK_r7gLQEupcza9ApKgr1T97mEBwn8psdaNmgXRi4UtxAGju15rVBwlB3wcXRXWBbLglwtcJeeHrFwgO_arXK4-KTPszqjCYZKfM",
+            },
+          }
+        )
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
-        console.log(this.card.authUser.settings.auto_fwd_order);
 
 
     },
     methods: {
+        trans(key){
+            if(Nova.config.translations[key]!== undefined){
+                return Nova.config.translations[key];
+            }
+            return '-';
+
+        },
+        notify () {
+            // https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification#Parameters
+            Vue.notification.show('Hello World', {
+                body: 'This is an example!'
+            }, {})
+        },
+        undo(order){
+            this.loading=true;
+            axios.get('/api/order/office/undo/'+order.id).then((res) => {
+                this.loading=false;
+            });
+
+        },
         reject(order){
+            this.loading=true;
             axios.get('/api/order/office/reject/'+order.id).then((res) => {
-                console.log(res.data);
+                this.loading=false;
             });
 
         },
         approve(order){
+            this.loading=true;
             axios.get('/api/order/office/approve/'+order.id).then((res) => {
-                console.log(res.data);
+                this.loading=false;
             });
 
         },
         sendOffer(order){
+            this.loading=true;
              axios.get('/api/order/office/send/'+this.offer+'/to/'+order.id).then((res) => {
-                //console.log(res.data);
+                this.loading=false;
             });
 
         },
         selectDriver(order){
+            this.loading=true;
             axios.get('/api/order/office/select/'+this.driver+'/to/'+order.id).then((res) => {
-                //console.log(res.data);
+                this.loading=false;
             });
 
         },
 
-
-        createOrder(){
-            axios.post('/api/orders/create',
-                {
-                    uid:this.card.authUser.id,
-                    session:this.makeid(6),
-                    name:this.makeid(4)+' '+this.makeid(3),
-                    email:this.makeid(5)+'@'+this.makeid(4)+'.com',
-                    phone:'90'+this.makeint(10),
-                    from_address:this.makeid(5),
-                    from_lat:41.986543,
-                    from_lng:28.986543,
-                }
-            ).then((res) => {
-                //this.parseBroadcast({pid:res.data.id,model:'Order',action:'C'});
-            });
-
-
-        },
-        updateOrder(){
-             axios.post('/api/orders/update',{title:'some title 3',desc:'some desc 3'}).then((res) => {
-                //this.parseBroadcast({pid:res.data.id,model:'Order',action:'C'});
-            });
-        },
-        deleteOrder(){
-             axios.post('/api/orders/delete',{title:'some title 3',desc:'some desc 3'}).then((res) => {
-                //this.parseBroadcast({pid:res.data.id,model:'Order',action:'C'});
-            });
-        },
         getOrders(){
-        axios.get('/api/orders/'+this.card.authUser.id).then((res) => {
+            this.loading=true;
+            axios.get('/api/orders/'+this.card.authUser.id).then((res) => {
                 this.orders=res.data;
+                this.loading=false;
             });
         },
         parseBroadcast({pid:pid,model:model,action:action},meta=null){
@@ -198,17 +247,10 @@ export default {
 
         },
         listen(){
-
-                const query = new Parse.Query("Stream");
-                query.equalTo("model", "Order");
-                Client.open();
-                var subscription = Client.subscribe(query);
                 subscription.on("create", (feedDoc) => {
                     let index = this.orders.findIndex(
                     (o) => o.id === feedDoc.attributes.pid
                     );
-
-
                     //if (index > -1) {
                     axios
                         .get( '/api/orders/get/' + feedDoc.attributes.pid)
@@ -216,7 +258,7 @@ export default {
                         if (feedDoc.attributes.action == "U") {
                             Vue.set(this.orders, index, res.data);
                         } else if (feedDoc.attributes.action == "C") {
-                            console.log('C',feedDoc.attributes.action);
+                            //console.log('C',feedDoc.attributes.action);
                             this.orders.unshift(res.data);
                         } else if (feedDoc.attributes.action == "D") {
                             this.orders.splice(index, 1);
@@ -249,37 +291,40 @@ export default {
             var label='-';
             switch (status) {
                 case 0:
-                    label='New';
+                    label=this.trans('New');
                     break;
                 case 1:
-                    label='Accepted';
+                    label=this.trans('Accepted');
                     break;
                 case 2:
-                    label='Waiting Driver Approve';
+                    label=this.trans('Waiting Driver Approve');
                     break;
                 case 21:
-                    label='Proccessing..';
+                    label=this.trans('On the way');
                     break;
                 case 3:
-                    label='Waiting Customer Approve';
+                    label=this.trans('Waiting Customer Approve');
                     break;
                 case 9:
-                    label='Done';
+                    label=this.trans('Done');
                     break;
                 case 91:
-                    label='Office Reject';
+                    label=this.trans('Office Rejected');
                     break;
                 case 92:
-                    label='Customer Reject';
+                    label=this.trans('Customer Rejected');
                     break;
                 case 93:
-                    $label='No-Resp from Office';
+                    $label=this.trans('No-Res. from Customer');
                     break;
                 case 94:
-                    label='No-Resp from Customer';
+                    label=this.trans('No-Res. from Customer');
+                    break;
+                 case 95:
+                    label=this.trans('Canceled');
                     break;
                 case 99:
-                    label='Canceled from Customer';
+                    label=this.trans('Canceled from Customer');
                     break;
 
                 default:
@@ -287,6 +332,51 @@ export default {
             }
             return label;
         },
+        statusIcon(status){
+                var icon='far fa-circle';
+                switch (status) {
+                    case 0:
+                        icon='fas fa-circle';
+                        break;
+                    case 1:
+                        icon='fas fa-check-circle';
+                        break;
+                    case 2:
+                        icon='far fa-pause-circle';
+                        break;
+                    case 21:
+                        icon='fas fa-car';
+                        break;
+                    case 3:
+                        icon='fas fa-user-clock';
+                        break;
+                    case 9:
+                        icon='fas fa-check-double';
+                        break;
+                    case 91:
+                        icon='fas fa-minus-circle';
+                        break;
+                    case 92:
+                        icon='far fa-times-circle';
+                        break;
+                    case 93:
+                        $icon='far fa-times-circle';
+                        break;
+                    case 94:
+                        icon='fab fa-gg-circle';
+                        break;
+                    case 95:
+                        icon='fab fa-gg-circle';
+                        break;
+                    case 99:
+                        icon='far fa-times-circle';
+                        break;
+
+                    default:
+                        break;
+                }
+                return icon;
+            },
         distance(lat1, lon1, lat2, lon2, unit) {
             if ((lat1 == lat2) && (lon1 == lon2)) {
                 return 0;
@@ -305,6 +395,7 @@ export default {
                 dist = dist * 60 * 1.1515;
                 if (unit=="K") { dist = dist * 1.609344 }
                 if (unit=="N") { dist = dist * 0.8684 }
+                console.log( Math.round(dist*100)/100);
                 return Math.round(dist*100)/100;
             }
         }
@@ -318,3 +409,4 @@ export default {
     },
 }
 </script>
+

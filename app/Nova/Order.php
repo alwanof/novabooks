@@ -38,6 +38,26 @@ class Order extends Resource
     public static $search = [
         'id',
     ];
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Orders');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Order');
+    }
+
 
     /**
      * Get the fields displayed by the resource.
@@ -49,19 +69,19 @@ class Order extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('Name'),
-            Text::make('Email'),
-            Text::make('Phone'),
-            Text::make('Status', function () {
+            Text::make(__('Name'), 'name'),
+            Text::make(__('Email'), 'email'),
+            Text::make(__('Phone'), 'phone'),
+            Text::make(__('Status'), 'status', function () {
                 return $this->statusLabel($this->status);
             }),
-            Text::make('Driver', function () {
+            Text::make(__('Driver'), function () {
                 if ($this->driver_id) {
                     return Driver::find($this->driver_id)->name;
                 }
                 return '-';
             }),
-            Number::make('Offer'),
+            Number::make(__('Offer'), 'offer'),
 
 
         ];

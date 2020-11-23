@@ -32,6 +32,25 @@ class Setting extends Resource
     public static $search = [
         'id', 'key',
     ];
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Settings');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Setting');
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -43,12 +62,12 @@ class Setting extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('Key')
+            Text::make(__('Key'), 'key')
                 ->sortable()
                 ->rules('required', 'max:15'),
-            Text::make('Value')
+            Text::make(__('Value'), 'value')
                 ->rules('required', 'max:255'),
-            BelongsToMany::make('Roles', 'roles', 'App\Nova\Rolee')
+            BelongsToMany::make(__('Roles'), 'roles', 'App\Nova\Rolee')
 
         ];
     }

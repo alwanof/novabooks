@@ -18,6 +18,16 @@ class UserCount extends Value
     {
         return $this->count($request, User::class);
     }
+    /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Total Users');
+    }
+
 
     /**
      * Get the ranges available for the metric.

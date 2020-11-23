@@ -14,6 +14,16 @@ use Laravel\Nova\Fields\ActionFields;
 class ActiveOperator extends Action
 {
     use InteractsWithQueue, Queueable;
+    /**
+     * Get the displayable name of the action.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('De/Activate');
+    }
+
 
     /**
      * Perform the action on the given models.
@@ -22,7 +32,7 @@ class ActiveOperator extends Action
      * @param  \Illuminate\Support\Collection  $models
      * @return mixed
      */
-    public $name = 'DE/ACTIVATE';
+
 
     public function handle(ActionFields $fields, Collection $models)
     {

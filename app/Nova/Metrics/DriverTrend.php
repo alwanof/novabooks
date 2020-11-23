@@ -18,6 +18,16 @@ class DriverTrend extends Trend
     {
         return $this->countByDays($request, Driver::class);
     }
+    /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Drivers Trend');
+    }
+
 
     /**
      * Get the ranges available for the metric.

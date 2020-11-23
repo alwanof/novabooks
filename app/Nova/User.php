@@ -43,8 +43,25 @@ class User extends Resource
     public static $search = [
         'name', 'email',
     ];
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Users');
+    }
 
-
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('User');
+    }
 
 
     /**
@@ -56,28 +73,28 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            ID::make(__('ID'), 'id')->sortable(),
 
             //Avatar::make('Avatar')->squared()->disk('public'),
-            Avatar::make('Avatar')->onlyOnIndex(),
-            AdvancedImage::make('Avatar')->croppable(1 / 1)->resize(320)->disk('public')->path('users')->hideFromIndex(),
+            Avatar::make(__('Avatar'), 'avatar')->onlyOnIndex(),
+            AdvancedImage::make(__('Avatar'), 'avatar')->croppable(1 / 1)->resize(320)->disk('public')->path('users')->hideFromIndex(),
 
-            Text::make('Name')
+            Text::make(__('Name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Email')
+            Text::make(__('Email'), 'email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Password::make('Password')
+            Password::make(__('Password'), 'password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
-            Text::make('Level', function () {
+            Text::make(__('Level'), 'level', function () {
                 switch ($this->level) {
                     case 0:
                         return __('app.LEVELS.0');
@@ -94,7 +111,7 @@ class User extends Resource
                         break;
                 }
             })->onlyOnIndex(),
-            Select::make('Level')->options(function () {
+            Select::make(__('Level'), 'level')->options(function () {
                 $options = [];
                 $level = auth()->user()->level;
                 if ($level == 0) {
@@ -108,12 +125,12 @@ class User extends Resource
             })->creationRules('required')->onlyOnForms(),
 
 
-            Boolean::make('Active')->onlyOnDetail()->onlyOnForms()->withMeta(["value" => 1]),
-            Text::make('Ref', function () {
+            Boolean::make(__('Active'), 'active')->onlyOnDetail()->onlyOnForms()->withMeta(["value" => 1]),
+            Text::make(__('Ref'), 'ref', function () {
 
                 return ($this->parent) ? $this->parent->name : '-';
             })->onlyOnIndex(),
-            BelongsToMany::make('Roles', 'roles', Role::class),
+            BelongsToMany::make(__('Roles'), 'roles', Role::class),
 
         ];
     }

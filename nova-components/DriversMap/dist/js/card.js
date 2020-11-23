@@ -57310,6 +57310,10 @@ var Client = new Parse.LiveQueryClient({
     serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
     javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
 });
+var query = new Parse.Query("Stream");
+query.equalTo("model", "Driver");
+Client.open();
+var subscription = Client.subscribe(query);
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "DriverMap",
     props: ['card'
@@ -57345,6 +57349,7 @@ var Client = new Parse.LiveQueryClient({
                     var element = {};
                     element.position = { lat: item.lat, lng: item.lng };
                     element.icon = item.busy == 1 ? '/images/car-active.png' : '/images/car-deactive.png';
+                    element.id = item.id;
                     _this.markers.push(element);
                 });
             });
@@ -57352,26 +57357,19 @@ var Client = new Parse.LiveQueryClient({
         listen: function listen() {
             var _this2 = this;
 
-            var query = new Parse.Query("Stream");
-            query.equalTo("model", "Driver");
-            Client.open();
-            var subscription = Client.subscribe(query);
             subscription.on("create", function (feedDoc) {
-                console.log(feedDoc);
-                var index = _this2.drivers.findIndex(function (o) {
+                var index = _this2.markers.findIndex(function (o) {
                     return o.id === feedDoc.attributes.pid;
                 });
 
-                axios.get('/api/drivers').then(function (res) {
-                    if (feedDoc.attributes.action == "U") {
-                        Vue.set(_this2.drivers, index, res.data);
-                    } else if (feedDoc.attributes.action == "C") {
-                        console.log('C', feedDoc.attributes.action);
-                        _this2.drivers.unshift(res.data);
-                    } else if (feedDoc.attributes.action == "D") {
-                        _this2.drivers.splice(index, 1);
-                    }
-                });
+                if (index > -1) {
+                    axios.get('/api/drivers/' + feedDoc.attributes.pid).then(function (res) {
+                        var element = {};
+                        element.position = { lat: res.data.lat, lng: res.data.lng };
+                        element.icon = res.data.busy == 1 ? '/images/car-active.png' : '/images/car-deactive.png';
+                        Vue.set(_this2.markers, index, element);
+                    });
+                }
             });
         }
     },

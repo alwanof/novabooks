@@ -32,6 +32,26 @@ class Rolee extends Resource
     public static $search = [
         'id',
     ];
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Roles');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Role');
+    }
+
 
     /**
      * Get the fields displayed by the resource.
@@ -43,7 +63,7 @@ class Rolee extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('Name')
+            Text::make(__('Name'), 'name')
         ];
     }
 

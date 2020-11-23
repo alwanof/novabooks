@@ -18,6 +18,16 @@ class OrderTrend extends Trend
     {
         return $this->countByDays($request, Order::class);
     }
+    /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Orders Trend');
+    }
+
 
     /**
      * Get the ranges available for the metric.

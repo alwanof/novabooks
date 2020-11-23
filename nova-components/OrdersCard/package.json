@@ -14,7 +14,8 @@
         "laravel-mix": "^1.0"
     },
     "dependencies": {
+        "parse": "^2.16.0",
         "vue": "^2.5.0",
-        "parse": "^2.16.0"
+        "vue-native-notification": "^1.1.1"
     }
 }

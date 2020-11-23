@@ -54168,6 +54168,7 @@ module.exports = __webpack_require__(686);
 /***/ (function(module, exports, __webpack_require__) {
 
 Nova.booting(function (Vue, router, store) {
+
   Vue.component('orders-card', __webpack_require__(313));
 });
 
@@ -54432,6 +54433,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 window.Vue = __webpack_require__(316);
 
@@ -54464,37 +54466,13 @@ var subscription = Client.subscribe(streamQuery);
             orders: [],
             offer: 0,
             driver: 0,
+            url: window.location.hostname,
             loading: false
 
         };
     },
     created: function created() {
         this.listen("Order");
-        /*this.notify();
-        console.log('Working ..');
-        axios.post(
-          "https://fcm.googleapis.com/fcm/send",
-          {
-            to: "ef1jFZERQaK4ozAk1TRtBg:APA91bGuXg4RH56jmgPeZmQGR_7juJSNIDw5U7j7YnLJUtUbpLg5Mi2PbLY3V6OqPJeOdm89t7GYyXMzq6qAao5wvfv5PZm8VRtYtRIPncxi51Nmo--izNh-WRbU5pjt0ixC6iGFrQa9",
-            notification: {
-              title: "New notification from web",
-              body: "hammode needs a taxi",
-            },
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization:
-                "key=AAAAL7epsrw:APA91bGgOmwkI-dPOJAI86XP9_LtipbeeshHEgkdGK_r7gLQEupcza9ApKgr1T97mEBwn8psdaNmgXRi4UtxAGju15rVBwlB3wcXRXWBbLglwtcJeeHrFwgO_arXK4-KTPszqjCYZKfM",
-            },
-          }
-        )
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });*/
     },
 
     methods: {
@@ -84795,7 +84773,7 @@ module.exports.makeKey = makeKey
 /* 603 */
 /***/ (function(module, exports) {
 
-module.exports = {"_from":"elliptic@^6.5.3","_id":"elliptic@6.5.3","_inBundle":false,"_integrity":"sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"elliptic@^6.5.3","name":"elliptic","escapedName":"elliptic","rawSpec":"^6.5.3","saveSpec":null,"fetchSpec":"^6.5.3"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.5.3.tgz","_shasum":"cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6","_spec":"elliptic@^6.5.3","_where":"/Applications/XAMPP/xamppfiles/htdocs/nova/nova-components/OrdersCard/node_modules/browserify-sign","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"bundleDependencies":false,"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"deprecated":false,"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^3.0.8","grunt":"^1.0.4","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^9.0.1","istanbul":"^0.4.2","jscs":"^3.0.7","jshint":"^2.10.3","mocha":"^6.2.2"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.5.3"}
+module.exports = {"_args":[["elliptic@6.5.3","/Applications/XAMPP/xamppfiles/htdocs/nova/nova-components/OrdersCard"]],"_development":true,"_from":"elliptic@6.5.3","_id":"elliptic@6.5.3","_inBundle":false,"_integrity":"sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.5.3","name":"elliptic","escapedName":"elliptic","rawSpec":"6.5.3","saveSpec":null,"fetchSpec":"6.5.3"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.5.3.tgz","_spec":"6.5.3","_where":"/Applications/XAMPP/xamppfiles/htdocs/nova/nova-components/OrdersCard","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^3.0.8","grunt":"^1.0.4","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^9.0.1","istanbul":"^0.4.2","jscs":"^3.0.7","jshint":"^2.10.3","mocha":"^6.2.2"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.5.3"}
 
 /***/ }),
 /* 604 */
@@ -98993,6 +98971,23 @@ var render = function() {
                 attrs: { type: "button" }
               },
               [_vm._v(_vm._s(_vm.__("Auto-Forward")))]
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _c(
+              "a",
+              {
+                attrs: {
+                  href: _vm.url + "/taxi/" + _vm.card.authUser.email,
+                  target: "_blank"
+                }
+              },
+              [
+                _vm._v(
+                  _vm._s(_vm.url) + "/taxi/" + _vm._s(_vm.card.authUser.email)
+                )
+              ]
             )
           ])
         ]),

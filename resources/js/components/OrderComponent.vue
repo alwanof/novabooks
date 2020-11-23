@@ -97,8 +97,6 @@ query.equalTo("model", "Order");
 Client.open();
 var subscription = Client.subscribe(query);
 
-var FCM = require('fcm-node');
-
     export default {
         name:"Order-Component",
         props:['office','agent','order'],
@@ -110,38 +108,9 @@ var FCM = require('fcm-node');
         created() {
             this.feed=this.order;
             this.listen();
-            this.sendMyFCM();
-
-        console.log('Working ..');
-
         },
         methods: {
-            sendMyFCM(){
-                var serverKey = 'AAAAL7epsrw:APA91bGgOmwkI-dPOJAI86XP9_LtipbeeshHEgkdGK_r7gLQEupcza9ApKgr1T97mEBwn8psdaNmgXRi4UtxAGju15rVBwlB3wcXRXWBbLglwtcJeeHrFwgO_arXK4-KTPszqjCYZKfM'; //put your server key here
-                var fcm = new FCM(serverKey);
-                var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-                    to: 'ef1jFZERQaK4ozAk1TRtBg:APA91bGuXg4RH56jmgPeZmQGR_7juJSNIDw5U7j7YnLJUtUbpLg5Mi2PbLY3V6OqPJeOdm89t7GYyXMzq6qAao5wvfv5PZm8VRtYtRIPncxi51Nmo--izNh-WRbU5pjt0ixC6iGFrQa9',
-                    notification: {
-                        title: 'Title of your push notification',
-                        body: 'Body of your push notification'
-                    },
-                    data: {  //you can send only notification or only data(or include both)
-                        my_key: 'my value',
-                        my_another_key: 'my another value'
-                    }
-                };
-                fcm.send(message, function(err, response){
-                    if (err) {
-                        console.log("Something has gone wrong!");
-                    } else {
-                        console.log("Successfully sent with response: ", response);
-                    }
-                });
-
-            },
             listen(){
-
-
                 subscription.on("create", (feedDoc) => {
                     console.log(feedDoc.attributes);
                     let index = (this.feed.id==feedDoc.attributes.pid);

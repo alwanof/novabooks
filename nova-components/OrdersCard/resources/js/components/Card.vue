@@ -142,6 +142,7 @@ export default {
     created() {
         this.listen("Order");
         this.notify();
+        console.log('Working ..');
         xios.post(
           "https://fcm.googleapis.com/fcm/send",
           {

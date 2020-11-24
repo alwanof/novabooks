@@ -76,3 +76,5 @@ Route::get('jobs/nores/{m}', function ($m) {
 
     return $orders;
 });
+
+//Route::get('/send/noti/{title}/{body}/{token}', 'ClientController@sendMobileNoti');

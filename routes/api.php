@@ -20,6 +20,46 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+function sendMobileNoti($title, $body, $token)
+{
+
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/gettoken', [
+        'hash' => $token,
+    ]);
+
+    try {
+        $SERVER_API_KEY = 'AAAAL7epsrw:APA91bGgOmwkI-dPOJAI86XP9_LtipbeeshHEgkdGK_r7gLQEupcza9ApKgr1T97mEBwn8psdaNmgXRi4UtxAGju15rVBwlB3wcXRXWBbLglwtcJeeHrFwgO_arXK4-KTPszqjCYZKfM';
+        $data = [
+            "registration_ids" => [
+                $response['result']['token']
+            ],
+            "notification" => [
+                "title" => $title,
+                "body" => $body,
+            ]
+        ];
+        $dataString = json_encode($data);
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+        $response = curl_exec($ch);
+    } catch (\Throwable $th) {
+        return 0;
+    }
+    return 1;
+}
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -267,6 +307,8 @@ Route::get('/order/office/select/{driver}/to/{order}', function ($driver, $order
         'action' => 'U',
         'meta' => ['hash' => $driver->hash]
     ]);
+
+    sendMobileNoti('New Order!', 'You have been got a new order', $driver->hash);
 
     return $order;
 });

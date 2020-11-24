@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 
 class ClientController extends Controller
 {
+
     public function index($office_email)
     {
         $office = User::where('email', $office_email)->firstOrFail();
@@ -100,6 +101,7 @@ class ClientController extends Controller
 
         return view('client.order', compact(['office', 'agent', 'order']));
     }
+
 
     public function dist(Request $request)
     {

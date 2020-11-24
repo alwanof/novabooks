@@ -75,9 +75,11 @@ class Preference extends Resource
             Text::make(__('Value'), 'value')
                 ->rules('required', 'max:255'),
             Text::make(__('Current Value'), function () {
-                $prefer = AppPreference::where('key', $this->key);
+                //$prefer = AppPreference::withoutGlobalScope('ref')->where(['key' => $this->key, 'user_id' => auth()->user()->id]);
+                $prefer = auth()->user()->settings[$this->key];
+                return $prefer;
 
-                return ($prefer->count() > 0) ? $prefer->first()->value : '-';
+                //return ($prefer->count() > 0) ? $prefer->first()->value : '-';
             })->onlyOnIndex()
 
         ];

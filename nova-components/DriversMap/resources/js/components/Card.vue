@@ -62,9 +62,16 @@ export default {
         this.getDrivers();
 
 
+
+
     },
     methods: {
         getDrivers(){
+            var lat=(parseFloat(this.card.authUser.settings['coordinate_lat'])!=0)?parseFloat(this.card.authUser.settings['coordinate_lat']):41.1374382;
+            var lng=(parseFloat(this.card.authUser.settings['coordinate_lng'])!=0)?parseFloat(this.card.authUser.settings['coordinate_lng']):28.7547977;
+           this.center.lat=lat;
+           this.center.lng=lng;
+
             axios.get('/api/drivers')
             .then(res => {
                 this.drivers=res.data;

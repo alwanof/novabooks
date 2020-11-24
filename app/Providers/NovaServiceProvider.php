@@ -68,7 +68,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             //new Help,
-            new DriversMap(),
+            (new DriversMap)->authUser(),
             new UserCount(),
             new DriverCount(),
             new DriverTrend(),

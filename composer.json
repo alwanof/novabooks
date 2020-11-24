@@ -28,7 +28,8 @@
         "muradalwan/orders-card": "*",
         "opanegro/field-nova-password-show-hide": "^1.0",
         "parziphal/parse": "^0.0.8",
-        "silvanite/novatoolpermissions": "^1.1"
+        "silvanite/novatoolpermissions": "^1.1",
+        "simplesoftwareio/simple-qrcode": "~4"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

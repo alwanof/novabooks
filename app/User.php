@@ -98,30 +98,29 @@ class User extends Authenticatable
 
         $settings = Setting::all();
         $result = [];
-        $i = 0;
+
         foreach ($settings as $setting) {
-            //$result[$i] = [$setting->key => $setting->value];
+
             $result[$setting->key] = $setting->value;
-            $parentConfig = Preference::where([
+            $parentConfig = Preference::withoutGlobalScope('ref')->where([
                 'key' => $setting->key,
                 'user_id' => $this->parent->id
             ])->get();
             if ($parentConfig->count() > 0) {
-                //$result[$i] = [$parentConfig->first()->key => $parentConfig->first()->value];
+
                 $result[$parentConfig->first()->key] = $parentConfig->first()->value;
             }
 
-            $userConfig = Preference::where([
+            $userConfig = Preference::withoutGlobalScope('ref')->where([
                 'key' => $setting->key,
                 'user_id' => $this->id
             ])->get();
+
+
             if ($userConfig->count() > 0) {
-                //$result[$i] = [$userConfig->first()->key => $userConfig->first()->value];
+
                 $result[$userConfig->first()->key] = $userConfig->first()->value;
             }
-
-
-            $i++;
         }
 
         return $result;

@@ -128,6 +128,7 @@ Route::get('/orders/cancel/{order}', function ($order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+
     ]);
 
     return $order;

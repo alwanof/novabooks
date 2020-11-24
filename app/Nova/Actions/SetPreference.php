@@ -36,7 +36,7 @@ class SetPreference extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {
-            $user_preference = Preference::where('user_id', auth()->user()->id)
+            $user_preference = Preference::withoutGlobalScope('ref')->where('user_id', auth()->user()->id)
                 ->where('key', $model->key);
             if ($user_preference->count() > 0) {
                 $feed = $user_preference->first();

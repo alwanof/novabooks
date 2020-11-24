@@ -96,8 +96,20 @@ class Order extends Resource
     public function cards(Request $request)
     {
         return [
-            (new OrdersCard)->authUser(),
-            new DriversMap(),
+            (new OrdersCard)->authUser()->canSee(function ($request) {
+
+                if (auth()->user()->level != 2) {
+                    return false;
+                }
+                return true;
+            }),
+            (new DriversMap)->authUser()->canSee(function ($request) {
+
+                if (auth()->user()->level != 2) {
+                    return false;
+                }
+                return true;
+            }),
         ];
     }
 

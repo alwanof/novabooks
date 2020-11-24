@@ -24,6 +24,7 @@ class ClientController extends Controller
     public function composse(Request $request)
     {
 
+
         $hash = explode('%&', $request->hash);
         $office = User::findOrFail($hash[0]);
         $agent = User::findOrFail($hash[2]);

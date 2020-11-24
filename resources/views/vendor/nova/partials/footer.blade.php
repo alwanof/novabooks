@@ -5,7 +5,9 @@
         v0.0.1
         <div class="text-center mt-4">
             <a href="{{ env('APP_URL') }}/taxi/{{ auth()->user()->email }}" target="_blank">
-                {!! QrCode::size(250)->generate(env('APP_URL') . '/taxi/' . auth()->user()->email) !!}
+                {!!
+
+                //QrCode::size(250)->generate(env('APP_URL') . '/taxi/' . auth()->user()->email) !!}
             </a>
 
 

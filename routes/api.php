@@ -501,8 +501,6 @@ Route::get('/app/{hash}/check/active', function ($hash) {
 });
 
 Route::get('/app/{hash}/toggle', function ($hash) {
-
-
     $driver = Driver::where('hash', $hash)->firstOrFail();
     $order = Order::where('driver_id', $driver->id)->whereIn('status', [2, 21])->count();
     if ($order == 0) {

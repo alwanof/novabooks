@@ -10,6 +10,46 @@ use Illuminate\Support\Facades\Http;
 
 class ClientController extends Controller
 {
+    private function sendMobileNoti($title, $body, $token)
+    {
+
+        $response = Http::withHeaders([
+            'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+            'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+            'Content-Type' => 'application/json'
+        ])->post('https://parseapi.back4app.com/functions/gettoken', [
+            'hash' => $token,
+        ]);
+
+        try {
+            $SERVER_API_KEY = 'AAAAwpX5cTo:APA91bG5qS4xNQCAdOxn8N2tVhkFR7nHsk8smxNTgw-Lh-ceWtxuYXwdhsGadenH3wrrKsA96pg5KDu7cA9JssEyp_LjKA99xEYpernypzDbVFqqzLTO8BLpyALDLcnwAhNKCXmHCD4s';
+            $data = [
+                "registration_ids" => [
+                    $response['result']['token']
+                ],
+                "notification" => [
+                    "title" => $title,
+                    "body" => $body,
+                ]
+            ];
+            $dataString = json_encode($data);
+            $headers = [
+                'Authorization: key=' . $SERVER_API_KEY,
+                'Content-Type: application/json',
+            ];
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+            $response = curl_exec($ch);
+        } catch (\Throwable $th) {
+            return 0;
+        }
+        return 1;
+    }
 
     public function index($office_email)
     {
@@ -84,6 +124,7 @@ class ClientController extends Controller
                 'meta' => ['hash' => $driver->hash]
 
             ]);
+            $this->sendMobileNoti('New Order!', 'You have been got a new order', $driver->hash);
         } else {
             $response = Http::withHeaders([
                 'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',

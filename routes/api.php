@@ -211,7 +211,7 @@ Route::get('/order/office/undo/{order}', function ($order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'action' => 'undo']
     ]);
     $response = Http::withHeaders([
         'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
@@ -221,7 +221,7 @@ Route::get('/order/office/undo/{order}', function ($order) {
         'pid' => $driver->id,
         'model' => 'Driver',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'action' => 'undo']
     ]);
 
     return $order;
@@ -493,4 +493,33 @@ Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
     ]);
 
     return response(1, 200);
+});
+
+Route::get('/app/{hash}/check/active', function ($hash) {
+    $driver = Driver::where('hash', $hash)->firstOrFail();
+    return response($driver->busy, 200);
+});
+
+Route::get('/app/{hash}/toggle', function ($hash) {
+
+
+    $driver = Driver::where('hash', $hash)->firstOrFail();
+    $order = Order::where('driver_id', $driver->id)->whereIn('status', [2, 21])->count();
+    if ($order == 0) {
+        $driver->busy = ($driver->busy == 1) ? $driver->busy = 0 : $driver->busy = 1;
+        $driver->save();
+        $response = Http::withHeaders([
+            'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+            'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+            'Content-Type' => 'application/json'
+        ])->post('https://parseapi.back4app.com/functions/stream', [
+            'pid' => $driver->id,
+            'model' => 'Driver',
+            'action' => 'U',
+            'meta' => ['hash' => $driver->hash]
+        ]);
+    }
+
+
+    return response($driver->busy, 200);
 });

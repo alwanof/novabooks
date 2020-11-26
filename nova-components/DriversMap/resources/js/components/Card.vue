@@ -98,6 +98,7 @@ export default {
                             var element={}
                             element.position={lat:res.data.lat,lng:res.data.lng}
                             element.icon=(res.data.busy==1)?'/images/car-active.png':'/images/car-deactive.png';
+                            console.log(res.data.busy);
                             Vue.set(this.markers, index, element);
                         });
 

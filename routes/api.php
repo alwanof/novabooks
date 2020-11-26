@@ -497,7 +497,14 @@ Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
 
 Route::get('/app/{hash}/check/active', function ($hash) {
     $driver = Driver::where('hash', $hash)->firstOrFail();
+
     return response($driver->busy, 200);
+});
+
+Route::get('/app/{hash}/get/driver', function ($hash) {
+    $driver = Driver::where('hash', $hash)->firstOrFail();
+    $office = User::find($driver->user_id);
+    return response(['driver' => $driver, 'office' => $office], 200);
 });
 
 Route::get('/app/{hash}/toggle', function ($hash) {

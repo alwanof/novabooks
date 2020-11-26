@@ -4,13 +4,11 @@
 
 @section('content')
 
-
-    <img class="img-thumbnail rounded-circle" src="/storage/{{ $agent->avatar }}" alt="" width="64">
     <div class="container text-center">
-        <form class="form-signin was-validated text-center" action="{{ route('client.composse') }}" method="POST">
+        <img class="img-thumbnail rounded-circle mb-2" src="/storage/{{ $office->avatar }}" alt="" width="100">
+        <h1 class="h3 mb-5 font-weight-normal"><span class="badge badge-secondary">{{ $office->name }}</span></h1>
 
-            <img class="img-thumbnail rounded-circle" src="/storage/{{ $office->avatar }}" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal"><span class="badge badge-secondary">{{ $office->name }}</span></h1>
+        <form class="form-signin was-validated text-center" action="{{ route('client.composse') }}" method="POST">
 
             @csrf
             <input type="hidden" name="from_lat" value="{{ $order['from_lat'] }}">
@@ -35,12 +33,13 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
-                            <i class="fas fa-map-marker-alt text-primary" id="confirmDist"></i>
+                            <i class="fas fa-map-marker-alt text-danger" id="confirmDist"></i>
                         </span>
                     </div>
 
-                    <input type="text" class="form-control" placeholder="Enter your Distination" id="to_address"
-                        name="to_address" required>
+                    <textarea type="text" class="form-control"
+                        style="border: solid 1px #ced4da;background-color:#f5f5f5;obacity:1"
+                        placeholder="Enter your Distination" id="to_address" name="to_address" required></textarea>
                     <div id="dist"></div>
                 </div>
             </div>
@@ -53,7 +52,7 @@
 
 
 
-    <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+    <button type="submit" class="btn btn-lg btn-warning btn-block">Submit</button>
 
 
 
@@ -182,6 +181,17 @@
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
+        }
+
+        .badge-secondary {
+            color: #252525;
+            background-color: #d3d3d3;
+        }
+
+        .form-signin .form-control {
+            border: none;
+            border-bottom: solid #d3d3d3;
+            background-color: #f5f5f5;
         }
 
     </style>

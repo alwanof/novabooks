@@ -4,16 +4,16 @@
 
 @section('content')
 
-    <img class="img-thumbnail rounded-circle" src="/storage/{{ $agent->avatar }}" alt="" width="64">
     <div class="container text-center">
+        <img class="img-thumbnail rounded-circle mb-2" src="/storage/{{ $office->avatar }}" alt="" width="100">
+        <h1 class="h3 mb-5 font-weight-normal"><span class="badge badge-secondary">{{ $office->name }}</span></h1>
         @if (!$office->settings['auto_fwd_order'] && $office->settings['offer_enabled'])
             <form class="form-signin was-validated text-center" action="{{ route('client.dist') }}" method="POST">
             @else
                 <form class="form-signin was-validated text-center" action="{{ route('client.composse') }}" method="POST">
         @endif
 
-        <img class="img-thumbnail rounded-circle" src="/storage/{{ $office->avatar }}" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal"><span class="badge badge-secondary">{{ $office->name }}</span></h1>
+
 
 
         @csrf
@@ -46,8 +46,11 @@
                     </span>
                 </div>
 
-                <input type="text" class="form-control" placeholder="Enter your address" id="from_address"
-                    name="from_address" required readonly>
+                <textarea type="text" class="form-control"
+                    style="border: solid 1px #ced4da;background-color:#e9ecef;obacity:1" placeholder="Enter your address"
+                    id="from_address" name="from_address" required readonly>
+
+                    </textarea>
                 <div class="invalid-feedback">Please fill out this field.</div>
                 <div id="source"></div>
 
@@ -58,13 +61,14 @@
 
 
         @if (!$office->settings['auto_fwd_order'] && $office->settings['offer_enabled'])
-            <button type="submit" class="btn btn-lg btn-primary btn-block">Continue</button>
+            <button type="submit" class="btn btn-lg btn-warning btn-block">Continue</button>
         @else
-            <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+            <button type="submit" class="btn btn-lg btn-warning btn-block">SUBMIT</button>
         @endif
 
 
         </form>
+
     </div>
 @endsection
 
@@ -194,6 +198,17 @@
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
+        }
+
+        .badge-secondary {
+            color: #252525;
+            background-color: #d3d3d3;
+        }
+
+        .form-signin .form-control {
+            border: none;
+            border-bottom: solid #d3d3d3;
+            background-color: #f5f5f5;
         }
 
     </style>

@@ -3,9 +3,8 @@
 @section('title', 'create')
 
 @section('content')
-    <img class="img-thumbnail rounded-circle" src="/storage/{{ $agent->avatar }}" alt="" width="64">
     <div class="container text-center">
-        <img class="img-thumbnail rounded-circle" src="/storage/{{ $office->avatar }}" alt="" width="72" height="72">
+        <img class="img-thumbnail rounded-circle mb-2" src="/storage/{{ $office->avatar }}" alt="" width="100">
         <h1 class="h3 mb-3 font-weight-normal"><span class="badge badge-secondary">{{ $office->name }}</span></h1>
         <order-component :order="{{ json_encode($order) }}" :office="{{ json_encode($office) }}"
             :agent="{{ json_encode($agent) }}">
@@ -85,6 +84,11 @@
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
+        }
+
+        .badge-secondary {
+            color: #252525;
+            background-color: #d3d3d3;
         }
 
     </style>

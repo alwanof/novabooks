@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\Multitenantable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 // $table->string('session');
 // $table->string('name');
@@ -83,5 +84,10 @@ class Order extends Model
             ->get();
 
         return $drivers;
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::parse($date)->format('d-M-Y H:i:s');
     }
 }

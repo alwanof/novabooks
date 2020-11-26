@@ -28,7 +28,12 @@
         <main class="p-2 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12">
             @yield('content')
         </main>
-        <p class="mt-5 mb-3 text-muted text-center">&copy; <?= Date('Y') ?> {{ config('app.name', 'Project0') }}</p>
+
+        <div class="mt-5 mb-3 text-muted text-center">
+            <p class="lead text-muted m-0">Powered by</p>
+            <img src="/images/logo-sm.png" height="42" class="mb-2" alt=""><br>
+            &copy; <?= Date('Y') ?> {{ config('app.name', 'Project0') }}
+        </div>
     </div>
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

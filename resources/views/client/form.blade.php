@@ -4,6 +4,9 @@
 
 @section('content')
 
+    <div>
+        <a href="/set/lang/ar">عربي</a> | <a href="/set/lang/en">English</a>
+    </div>
     <div class="container text-center">
         <img class="img-thumbnail rounded-circle mb-2" src="/storage/{{ $office->avatar }}" alt="" width="100">
         <h1 class="h3 mb-5 font-weight-normal"><span class="badge badge-secondary">{{ $office->name }}</span></h1>
@@ -25,18 +28,18 @@
 
         <div class="form-group">
 
-            <input type="text" class="form-control" placeholder="Enter your name" name="name" required>
-            <div class="invalid-feedback">Please fill out this field.</div>
+            <input type="text" class="form-control" placeholder="{{ __('app.Enter your name') }}" name="name" required>
+            <div class="invalid-feedback">{{ __('app.Please fill out this field.') }}</div>
         </div>
         <div class="form-group">
 
-            <input type="text" class="form-control" placeholder="Enter your phone" name="phone" required>
-            <div class="invalid-feedback">Please fill out this field.</div>
+            <input type="text" class="form-control" placeholder="{{ __('app.Enter your phone') }}" name="phone" required>
+            <div class="invalid-feedback">{{ __('app.Please fill out this field.') }}</div>
         </div>
         <div class="form-group">
 
-            <input type="text" class="form-control" placeholder="Enter your email" name="email" required>
-            <div class="invalid-feedback">Please fill out this field.</div>
+            <input type="text" class="form-control" placeholder="{{ __('app.Enter your email') }}" name="email" required>
+            <div class="invalid-feedback">{{ __('app.Please fill out this field.') }}</div>
         </div>
         <div class="form-group">
             <div class="input-group mb-3">
@@ -50,8 +53,8 @@
                     style="border: solid 1px #ced4da;background-color:#e9ecef;obacity:1" placeholder="Enter your address"
                     id="from_address" name="from_address" required readonly>
 
-                    </textarea>
-                <div class="invalid-feedback">Please fill out this field.</div>
+                                                            </textarea>
+                <div class="invalid-feedback">{{ __('app.Please fill out this field.') }}</div>
                 <div id="source"></div>
 
             </div>
@@ -61,9 +64,9 @@
 
 
         @if (!$office->settings['auto_fwd_order'] && $office->settings['offer_enabled'])
-            <button type="submit" class="btn btn-lg btn-warning btn-block">Continue</button>
+            <button type="submit" class="btn btn-lg btn-warning btn-block">{{ __('app.Continue') }}</button>
         @else
-            <button type="submit" class="btn btn-lg btn-warning btn-block">SUBMIT</button>
+            <button type="submit" class="btn btn-lg btn-warning btn-block">{{ __('app.SUBMIT') }}</button>
         @endif
 
 

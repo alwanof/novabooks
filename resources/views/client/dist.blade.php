@@ -52,7 +52,7 @@
 
 
 
-    <button type="submit" class="btn btn-lg btn-warning btn-block">Submit</button>
+    <button type="submit" class="btn btn-lg btn-warning btn-block">{{ __('app.SUBMIT') }}</button>
 
 
 

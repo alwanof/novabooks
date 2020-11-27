@@ -1,0 +1,52 @@
+{
+    "en": {
+        "DATE":"DATE",
+        "Order No":"Order No",
+        "Your Trip":"Your Trip",
+        "From":"From",
+        "Cancel":"Cancel",
+        "Driver Details":"Driver Details",
+        "Name":"Name",
+        "Car Model":"Car Color",
+        "Approve":"Approve",
+        "Reject":"Reject",
+        "Accepted":"Accepted",
+        "Waiting Driver Approve":"Waiting Driver Approve",
+        "On the way":"On the way",
+        "Waiting Customer Approve":"Waiting Customer Approve",
+        "Done":"Done",
+        "Office Rejected":"Office Rejected",
+        "Customer Rejected":"Customer Rejected",
+        "No-Res. from Customer":"No-Res. from Customer",
+        "Canceled":"Canceled",
+        "Canceled from Customer":"Canceled from Customer",
+        "New":"New"
+
+    },
+    "ar": {
+        "DATE":"DATE",
+         "Order No":"Order No",
+        "Your Trip":"Your Trip",
+        "From":"From",
+        "Cancel":"Cancel",
+        "Driver Details":"Driver Details",
+        "Name":"Name",
+        "Car Model":"Car Color",
+        "Approve":"Approve",
+        "Reject":"Reject",
+        "Accepted":"Accepted",
+        "Waiting Driver Approve":"Waiting Driver Approve",
+        "On the way":"On the way",
+        "Waiting Customer Approve":"Waiting Customer Approve",
+        "Done":"Done",
+        "Office Rejected":"Office Rejected",
+        "Customer Rejected":"Customer Rejected",
+        "No-Res. from Customer":"No-Res. from Customer",
+        "Canceled":"Canceled",
+        "Canceled from Customer":"Canceled from Customer",
+        "New":"New"
+    }
+
+
+
+}

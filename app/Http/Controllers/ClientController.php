@@ -6,10 +6,35 @@ use App\Driver;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 
 class ClientController extends Controller
 {
+
+    private function getLang($lang)
+    {
+        $locale = $lang;
+        if (session()->has('lang')) {
+            App::setLocale(session()->get('lang'));
+            $locale = session()->get('lang');
+        } else {
+            session()->put('lang', $lang);
+            App::setLocale($lang);
+        }
+
+        return $locale;
+    }
+
+    public function setLang($lang)
+    {
+
+        session()->put('lang', $lang);
+        App::setLocale($lang);
+        return back();
+    }
+
+
     private function sendMobileNoti($title, $body, $token)
     {
 
@@ -53,13 +78,19 @@ class ClientController extends Controller
 
     public function index($office_email)
     {
+
+
         $office = User::where('email', $office_email)->firstOrFail();
+        $lang = $this->getLang($office->settings['lang']);
 
         if ($office->level != 2) abort(404);
         $agent = $office->parent;
         $session = session()->getId();
 
-        return view('client.form', compact(['office', 'agent', 'session']));
+        $lang = $this->getLang($office->settings['lang']);
+        //return App::getLocale();
+
+        return view('client.form', compact(['office', 'agent', 'session', 'lang']));
     }
 
     public function composse(Request $request)
@@ -76,7 +107,8 @@ class ClientController extends Controller
         if ($oldOrder > 0) {
 
             $order = $oldOrder = Order::where('session', $session)->firstOrFail();
-            return view('client.order', compact(['office', 'agent', 'order']));
+            $lang = $this->getLang($office->settings['lang']);
+            return view('client.order', compact(['office', 'agent', 'order', 'lang']));
         } else {
 
             $order = Order::create(
@@ -139,8 +171,8 @@ class ClientController extends Controller
         }
 
 
-
-        return view('client.order', compact(['office', 'agent', 'order']));
+        $lang = $this->getLang($office->settings['lang']);
+        return view('client.order', compact(['office', 'agent', 'order', 'lang']));
     }
 
 
@@ -151,6 +183,7 @@ class ClientController extends Controller
         $office = User::findOrFail($hash[0]);
         $agent = User::findOrFail($hash[2]);
         $order = $request->all();
-        return view('client.dist', compact(['office', 'agent', 'order']));
+        $lang = $this->getLang($office->settings['lang']);
+        return view('client.dist', compact(['office', 'agent', 'order', 'lang']));
     }
 }

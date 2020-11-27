@@ -1,5 +1,6 @@
 <template>
     <div class="container text-left">
+
         <div class="row">
             <div class="col-12 text-center">
                 <i :class="statusIcon(feed.status)+' fa-2x'"></i> <span class="text-danger lead">{{statusLabel(feed.status)}}</span>
@@ -113,13 +114,14 @@ const query = new Parse.Query("Stream");
 query.equalTo("model", "Order");
 Client.open();
 var subscription = Client.subscribe(query);
-
+ import json from '../../lang/app.json';
     export default {
         name:"Order-Component",
-        props:['office','agent','order'],
+        props:['office','agent','order','lang'],
         data() {
             return {
                 feed:null,
+                local:json[this.lang]
             }
         },
         created() {
@@ -127,6 +129,12 @@ var subscription = Client.subscribe(query);
             this.listen();
         },
         methods: {
+            trans(key){
+               if(typeof this.local[key] != 'undefined') {
+                   return this.local[key];
+               }
+               return '-';
+            },
             listen(){
                 subscription.on("create", (feedDoc) => {
                     console.log(feedDoc.attributes);
@@ -164,49 +172,47 @@ var subscription = Client.subscribe(query);
                 return valid.includes(status);
 
             },
-            statusLabel(status){
-                var label='-';
+           statusLabel(status){
+            var label='-';
                 switch (status) {
                     case 0:
-                        label='New';
+                        label=this.trans('New');
                         break;
                     case 1:
-                        label='Accepted';
+                        label=this.trans('Accepted');
                         break;
                     case 2:
-                        label='Waiting Driver Approve';
+                        label=this.trans('Waiting Driver Approve');
                         break;
                     case 21:
-                        label='Proccessing..';
+                        label=this.trans('On the way');
                         break;
                     case 3:
-                        label='Waiting Customer Approve';
+                        label=this.trans('Waiting Customer Approve');
                         break;
                     case 9:
-                        label='Done';
+                        label=this.trans('Done');
                         break;
                     case 91:
-                        label='Office Reject';
+                        label=this.trans('Office Rejected');
                         break;
                     case 92:
-                        label='Customer Reject';
+                        label=this.trans('Customer Rejected');
                         break;
                     case 93:
-                        $label='No-Resp from Office';
+                        $label=this.trans('No-Res. from Customer');
                         break;
                     case 94:
-                        label='No-Resp from Customer';
+                        label=this.trans('No-Res. from Customer');
                         break;
                     case 95:
-                        label='Canceled';
+                        label=this.trans('Canceled');
                         break;
                     case 99:
-                        label='Canceled from Customer';
+                        label=this.trans('Canceled from Customer');
                         break;
 
-
                     default:
-
                         break;
                 }
                 return label;

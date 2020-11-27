@@ -27,6 +27,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/set/lang/{lang}', 'ClientController@setLang')->name('client.lang');
+
 Route::get('/taxi/{office_email}', 'ClientController@index')->name('client.create');
 Route::post('/taxi/dist/order', 'ClientController@dist')->name('client.dist');
 Route::post('/taxi/composse/order', 'ClientController@composse')->name('client.composse');

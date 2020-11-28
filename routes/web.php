@@ -3,6 +3,7 @@
 use App\Driver;
 use App\Notifications\SendCredentials;
 use App\Order;
+use App\Parse\User as ParseUser;
 use App\Role;
 use App\Setting;
 use App\User;
@@ -78,5 +79,3 @@ Route::get('jobs/nores/{m}', function ($m) {
 
     return $orders;
 });
-
-//Route::get('/send/noti/{title}/{body}/{token}', 'ClientController@sendMobileNoti');

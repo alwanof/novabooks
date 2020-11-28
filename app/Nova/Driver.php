@@ -113,7 +113,8 @@ class Driver extends Resource
                 ])->get()->count();
             })->onlyOnIndex(),
 
-            Boolean::make(__('Active'), 'active'),
+            Boolean::make(__('Active'), 'active')
+                ->hideWhenCreating(),
             HasMany::make(__('Orders'), 'orders')
         ];
     }

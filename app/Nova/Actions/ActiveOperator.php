@@ -37,6 +37,7 @@ class ActiveOperator extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {
+
             if ($model->active) {
                 $user = User::findOrFail($model->hash);
                 $user->delete();

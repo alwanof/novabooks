@@ -7,11 +7,11 @@
             </div>
 
             <div class="col-8">
-                <div class="text-muted">DATE</div>
+                <div class="text-muted">{{trans('DATE')}}</div>
                 {{feed.created_at}}
             </div>
             <div class="col-4">
-                <div class="text-muted">Order No</div>
+                <div class="text-muted">{{trans('Order No')}}</div>
                 {{feed.id}}
 
 
@@ -39,18 +39,18 @@
         <div class="row mt-3">
             <div class="col-12">
                 <div class="text-muted">
-                    Your Trip
+                    {{trans('Your Trip')}}
                     <span class="float-right h4 text-danger font-bold" v-show="feed.offer">{{feed.offer}} {{office.settings.currency}}</span>
                 </div>
             </div>
             <div class="col-12">
 
                 <div class="col-12" v-show="feed.from_address">
-                    <div class="text-danger">From</div>
+                    <div class="text-danger">{{trans('From')}}</div>
                     {{feed.from_address}}
                 </div>
                 <div class="col-12" v-show="feed.to_address">
-                     <div class="text-danger">To</div>
+                     <div class="text-danger">{{trans('To')}}</div>
                     {{feed.to_address}}
                 </div>
 
@@ -59,23 +59,23 @@
 
         </div>
         <div class="row mt-4 py-2 border border-secondary" v-if="feed.status==21">
-                <div class="col-12 text-muted">Driver Details</div>
+                <div class="col-12 text-muted">{{trans('Driver Details')}}</div>
                 <div class="col-3">
                     <img class="img-thumbnail rounded-circle" :src="'/storage/'+feed.driver.avatar" alt="" width="64" >
                 </div>
                 <div class="col-9">
-                    <div class="text-muted">Name</div>
+                    <div class="text-muted">{{trans('Name')}}</div>
                     {{feed.driver.name}}
                     <a :href="'tel:'+feed.driver.phone" class="btn btn-lg btn-outline-success float-right">
                             <i class="fas fa-phone-square-alt"></i>
                         </a>
                 </div>
                 <div class="col-6">
-                    <div class="text-muted">Car Model</div>
+                    <div class="text-muted">{{trans('Car Model')}}</div>
                      {{feed.driver.taxi}}
                 </div>
                 <div class="col-6">
-                    <div class="text-muted">Car Color</div>
+                    <div class="text-muted">{{trans('Car Color')}}</div>
                      {{feed.driver.taxiColor}}
                 </div>
 
@@ -83,16 +83,16 @@
 
         <div class="row mt-3" v-if="feed.status==3">
             <div class="col-12">
-                   <button type="button" @click="approve()" class="btn btn-outline-success btn-sm btn-block mb-1">Approve</button>
+                   <button type="button" @click="approve()" class="btn btn-outline-success btn-sm btn-block mb-1">{{trans('Approve')}}</button>
 
-                   <button type="button" @click="reject()" class="btn btn-outline-danger btn-sm btn-block">Reject</button>
+                   <button type="button" @click="reject()" class="btn btn-outline-danger btn-sm btn-block">{{trans('Reject')}}</button>
                 </div>
 
         </div>
          <div class="row " v-if="cancelValid(feed.status)">
 
                 <div class="col mt-3">
-                    <button type="button" @click="cancel()" class="btn btn-dark btn-block">Cancel</button>
+                    <button type="button" @click="cancel()" class="btn btn-dark btn-block">{{trans('Cancel')}}</button>
                 </div>
             </div>
     </div>

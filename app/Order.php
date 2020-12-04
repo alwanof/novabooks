@@ -60,10 +60,9 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function parent()
-    {
+    /*public function parent(){
         return User::find($this->parent);
-    }
+    }*/
 
     public function getDriverAttribute()
     {
@@ -84,6 +83,20 @@ class Order extends Model
             ->get();
 
         return $drivers;
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
+
+    public function office()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function actor()
+    {
+        return $this->belongsTo(User::class, 'parent');
     }
 
     public function getCreatedAtAttribute($date)

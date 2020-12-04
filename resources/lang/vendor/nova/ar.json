@@ -456,5 +456,22 @@
     "Customer Rejected":"تم الرفض من قبل الزبون",
     "No-Res. from Customer":"تم الرفض من قبل الزبون",
     "Canceled":"تم الإلغاء",
-    "Canceled from Customer":"تم الإلغاء من قبل الزبون"
+    "Canceled from Customer":"تم الإلغاء من قبل الزبون",
+     "Root":"مسؤول",
+    "Agent":"عميل",
+    "Office":"مكتب",
+    "Date Filter":"فلتر تاريخ",
+    "Order Agent":"طلبية عميل",
+    "Order Office":"طلبية مكتب",
+    "Order Type":"نوع الطلبية",
+    "Order Driver":"سائق الطلبية",
+    "Total":"اجمالي",
+    "Priced":"مسعر",
+    "NON-Priced":"غير مسعر",
+    "Driver Orders":"طلبيات السائق",
+    "Income":"الوارد",
+    "NON-Priced Income":"وارد طلبيات غ مسعرة",
+    "Priced Fee":"رسوم مسعرة",
+    "NON Priced Fee":"رسوم غير مسعرة",
+    "Children":"الافرع"
 }

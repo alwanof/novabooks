@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "ampeco/nova-date-range-filter": "^0.1.1",
         "bissolli/nova-phone-field": "^0.0.4",
         "coderello/laravel-nova-lang": "^1.7",
         "ctessier/nova-advanced-image-field": "^1.2",
@@ -26,6 +27,7 @@
         "muradalwan/drivers-map": "*",
         "muradalwan/nova-theme": "*",
         "muradalwan/orders-card": "*",
+        "nemrutco/nova-filterable-metrics": "^1.1",
         "opanegro/field-nova-password-show-hide": "^1.0",
         "parziphal/parse": "^0.0.8",
         "silvanite/novatoolpermissions": "^1.1",

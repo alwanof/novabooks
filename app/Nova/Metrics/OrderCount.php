@@ -2,12 +2,17 @@
 
 namespace App\Nova\Metrics;
 
+
+use App\Nova\Filters\RangeOrderFilter;
+use App\Nova\Filters\ToOrderFilter;
 use App\Order;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Nemrutco\Filterable\FilterableValue;
 
 class OrderCount extends Value
 {
+    use FilterableValue;
     /**
      * Calculate the value of the metric.
      *
@@ -65,5 +70,14 @@ class OrderCount extends Value
     public function uriKey()
     {
         return 'order-count';
+    }
+
+    public function filters()
+    {
+        return [
+            (new RangeOrderFilter)->range(),
+
+
+        ];
     }
 }

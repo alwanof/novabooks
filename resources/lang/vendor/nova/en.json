@@ -468,6 +468,24 @@
     "Customer Rejected":"Customer Rejected",
     "No-Res. from Customer":"No-Res. from Customer",
     "Canceled":"Canceled",
-    "Canceled from Customer":"Canceled from Customer"
+    "Canceled from Customer":"Canceled from Customer",
+    "Root":"Root",
+    "Agent":"Agent",
+    "Office":"Office",
+    "Date Filter":"Date Filter",
+    "Order Agent":"Order Agent",
+    "Order Office":"Order Office",
+    "Order Type":"Order Type",
+    "Order Driver":"Order Driver",
+    "Total":"Total",
+    "Priced":"Priced",
+    "NON-Priced":"NON-Priced",
+    "Driver Orders":"Driver Orders",
+    "Income":"Income",
+    "NON-Priced Income":"NON-Priced Income",
+    "Priced Fee":"Priced Fee",
+    "NON Priced Fee":"NON Priced Fee",
+    "Children":"Children"
+
 
 }

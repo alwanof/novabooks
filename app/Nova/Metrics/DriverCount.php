@@ -3,11 +3,15 @@
 namespace App\Nova\Metrics;
 
 use App\Driver;
+
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
+
 class DriverCount extends Value
 {
+
+
     /**
      * Get the displayable name of the metric.
      *
@@ -56,6 +60,8 @@ class DriverCount extends Value
     {
         // return now()->addMinutes(5);
     }
+
+
 
     /**
      * Get the URI key for the metric.

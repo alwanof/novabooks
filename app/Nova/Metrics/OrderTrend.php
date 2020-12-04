@@ -2,12 +2,18 @@
 
 namespace App\Nova\Metrics;
 
+use App\Nova\Filters\FromOrderFilter;
+use App\Nova\Filters\ToOrderFilter;
 use App\Order;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 
+
 class OrderTrend extends Trend
 {
+
+
+
     /**
      * Calculate the value of the metric.
      *

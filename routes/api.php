@@ -386,7 +386,7 @@ Route::get('/app/{hash}/reject/{order_id}', function ($hash, $order_id) {
     $driver->busy = 0;
     $driver->save();
 
-    $office = User::findOrFail($order->parent);
+    $office = User::findOrFail($order->actor);
 
     if ($office->settings['auto_fwd_order']) {
         $block = explode('--', $order->block);

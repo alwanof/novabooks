@@ -3,35 +3,47 @@
 namespace App\Nova\Metrics;
 
 use App\Nova\Filters\RangeOrderFilter;
-use App\User;
+use App\Order;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Nova;
 use Nemrutco\Filterable\FilterableValue;
 
-class UserCount extends Value
+class OrdersPricedOfficeFee extends Value
 {
     use FilterableValue;
-
     /**
      * Calculate the value of the metric.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(NovaRequest $request)
-    {
-        return $this->count($request, User::class);
-    }
-    /**
-     * Get the displayable name of the metric.
-     *
-     * @return string
-     */
     public function name()
     {
-        return __('Total Users');
+        return __('Priced Fee');
     }
+    public function calculate(NovaRequest $request)
+    {
+        $currency = Auth::user()->settings['currency'];
+        $pricedFactor = (Auth::user()->settings['p_order_fee']) / 100;
+        //$factor = Auth::user()->settings['order_fee'];
+        $timezone = Nova::resolveUserTimezone($request) ?? $request->timezone;
 
+
+        if ($request->input('App\Nova\Filters\RangeOrderFilter')) {
+            $rangeDate = explode(" to ", $request->input('App\Nova\Filters\RangeOrderFilter'));
+            $res = Order::whereNotNull('offer')
+                ->whereBetween('created_at', $rangeDate)
+                ->get()->sum('offer');
+        } else {
+            $res = Order::whereNotNull('offer')->whereBetween('created_at', $this->currentRange($request->range, $timezone))->get()->sum('offer');
+        }
+
+        //$prev = Order::whereNull('offer')->whereBetween('created_at', $this->previousRange($request->range, $timezone))->get()->count();
+
+        return $this->result(round($res * $pricedFactor, 2))->currency($currency);
+    }
 
     /**
      * Get the ranges available for the metric.
@@ -50,6 +62,7 @@ class UserCount extends Value
             'YTD' => __('Year To Date'),
         ];
     }
+
     public function filters()
     {
         return [
@@ -74,6 +87,6 @@ class UserCount extends Value
      */
     public function uriKey()
     {
-        return 'user-count';
+        return 'orders-priced-office-fee';
     }
 }

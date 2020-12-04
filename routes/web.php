@@ -79,3 +79,7 @@ Route::get('jobs/nores/{m}', function ($m) {
 
     return $orders;
 });
+
+Route::get('testoo', function () {
+    return Auth::user()->settings['currency'];
+});

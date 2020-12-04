@@ -6,6 +6,10 @@ use App\Nova\Metrics\DriverCount;
 use App\Nova\Metrics\DriverPartition;
 use App\Nova\Metrics\DriverTrend;
 use App\Nova\Metrics\OrderCount;
+use App\Nova\Metrics\OrdersFee;
+use App\Nova\Metrics\OrdersIncome;
+use App\Nova\Metrics\OrdersNpricedOfficeFee;
+use App\Nova\Metrics\OrdersPricedOfficeFee;
 use App\Nova\Metrics\OrderTrend;
 use App\Nova\Metrics\UserCount;
 use App\User;
@@ -15,6 +19,7 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Silvanite\NovaToolPermissions\NovaToolPermissions;
 use Digitalcloud\MultilingualNova\NovaLanguageTool;
+use Illuminate\Support\Facades\Auth;
 use Muradalwan\DriversMap\DriversMap;
 use Muradalwan\TaxiOrder\TaxiOrder;
 
@@ -66,16 +71,49 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [
-            //new Help,
-            (new DriversMap)->authUser(),
-            new UserCount(),
-            new DriverCount(),
-            new DriverTrend(),
-            new DriverPartition(),
-            new OrderCount(),
-            new OrderTrend()
-        ];
+        $metrics = [];
+        $level = Auth::user()->level;
+        switch ($level) {
+            case 0:
+                $metrics = [
+                    new DriversMap(),
+                    new UserCount(),
+                    new DriverCount(),
+                    new DriverTrend(),
+                    new DriverPartition(),
+                    new OrderCount(),
+                    new OrderTrend(),
+                ];
+                break;
+            case 1:
+                $metrics = [
+                    new DriversMap(),
+                    new UserCount(),
+                    new DriverCount(),
+                    new DriverTrend(),
+                    new DriverPartition(),
+                    new OrderCount(),
+                    new OrderTrend(),
+                    new OrdersIncome(),
+                    new OrdersPricedOfficeFee(),
+                    new OrdersNpricedOfficeFee()
+                ];
+                break;
+            case 2:
+                $metrics = [
+                    new DriversMap(),
+                    new DriverCount(),
+                    new DriverTrend(),
+                    new DriverPartition(),
+                    new OrderCount(),
+                    new OrderTrend(),
+                    new OrdersIncome(),
+                    new OrdersPricedOfficeFee(),
+                    new OrdersNpricedOfficeFee()
+                ];
+                break;
+        }
+        return $metrics;
     }
 
     /**

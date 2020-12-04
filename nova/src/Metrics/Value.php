@@ -36,6 +36,8 @@ abstract class Value extends RangedMetric
         return $this->aggregate($request, $model, 'count', $column, $dateColumn);
     }
 
+
+
     /**
      * Return a value result showing the growth of an average aggregate over time.
      *
@@ -122,6 +124,8 @@ abstract class Value extends RangedMetric
             )->{$function}($column), $this->precision)
         )->previous($previousValue);
     }
+
+
 
     /**
      * Calculate the previous range and calculate any short-cuts.

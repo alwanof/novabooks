@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Driver;
 use App\Nova\Actions\TestActionn;
+use App\Nova\Lenses\OrdersARLense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Avatar;
@@ -97,13 +98,13 @@ class User extends Resource
             Text::make(__('Level'), 'level', function () {
                 switch ($this->level) {
                     case 0:
-                        return __('app.LEVELS.0');
+                        return __('Root');
                         break;
                     case 1:
-                        return __('app.LEVELS.1');
+                        return __('Agent');
                         break;
                     case 2:
-                        return __('app.LEVELS.2');
+                        return __('Offcie');
                         break;
 
                     default:
@@ -115,22 +116,25 @@ class User extends Resource
                 $options = [];
                 $level = auth()->user()->level;
                 if ($level == 0) {
-                    $options[0] = __('app.LEVELS.0');
-                    $options[1] = __('app.LEVELS.1');
+                    $options[0] = __('Root');
+                    $options[1] = __('Agent');
                 }
                 if ($level == 1) {
-                    $options[2] = __('app.LEVELS.2');
+                    $options[2] = __('Offcie');
                 }
                 return $options;
             })->creationRules('required')->onlyOnForms(),
 
 
             Boolean::make(__('Active'), 'active')->onlyOnDetail()->onlyOnForms()->withMeta(["value" => 1]),
-            Text::make(__('Ref'), 'ref', function () {
+            /*Text::make(__('Ref'), 'ref', function () {
 
                 return ($this->parent) ? $this->parent->name : '-';
-            })->onlyOnIndex(),
+            })->onlyOnIndex(),*/
+            BelongsTo::make(__('Ref'), 'main', User::class),
             BelongsToMany::make(__('Roles'), 'roles', Role::class),
+            HasMany::make(__('Orders'), 'orders', Order::class),
+            HasMany::make(__('Children'), 'children', User::class)
 
         ];
     }
@@ -165,7 +169,9 @@ class User extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new OrdersARLense()
+        ];
     }
 
     /**

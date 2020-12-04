@@ -3,7 +3,16 @@
 namespace App\Nova;
 
 use App\Driver;
+use App\Nova\Filters\OrderAgentFilter;
+use App\Nova\Filters\OrderDriverFilter;
+use App\Nova\Filters\OrderOfficeFilter;
+use App\Nova\Filters\OrderTypeFilter;
+use App\Nova\Filters\RangeOrderFilter;
+use App\Nova\Filters\ToOrderFilter;
+use App\Nova\Lenses\OrderOfficeLense;
+use App\Nova\Metrics\OrderCount;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -14,6 +23,7 @@ use Muradalwan\OrderStream\OrderStream;
 
 class Order extends Resource
 {
+
     /**
      * The model the resource corresponds to.
      *
@@ -28,7 +38,7 @@ class Order extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -36,7 +46,7 @@ class Order extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'name', 'email', 'phone',
     ];
     /**
      * Get the displayable label of the resource.
@@ -67,6 +77,7 @@ class Order extends Resource
      */
     public function fields(Request $request)
     {
+
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__('Name'), 'name'),
@@ -75,13 +86,17 @@ class Order extends Resource
             Text::make(__('Status'), 'status', function () {
                 return $this->statusLabel($this->status);
             }),
-            Text::make(__('Driver'), function () {
+            /*Text::make(__('Driver'), function () {
                 if ($this->driver_id) {
                     return Driver::find($this->driver_id)->name;
                 }
                 return '-';
-            }),
+            }),*/
             Number::make(__('Offer'), 'offer'),
+            BelongsTo::make(__('Driver'), 'driver', 'App\Nova\Driver'),
+
+            BelongsTo::make(__('Office'), 'office', 'App\Nova\User'),
+            BelongsTo::make(__('Agent'), 'actor', 'App\Nova\User'),
 
 
         ];
@@ -110,6 +125,7 @@ class Order extends Resource
                 }
                 return true;
             }),
+
         ];
     }
 
@@ -121,7 +137,20 @@ class Order extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            //new RangeOrderFilter(),
+            (new RangeOrderFilter)->range(),
+            //new OrderAgentFilter(),
+            //new OrderOfficeFilter(),
+            //new OrderTypeFilter(),
+            (new OrderDriverFilter)->authUser()->canSee(function ($request) {
+
+                if (auth()->user()->level != 2) {
+                    return false;
+                }
+                return true;
+            }),
+        ];
     }
 
     /**

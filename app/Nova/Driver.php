@@ -5,6 +5,8 @@ namespace App\Nova;
 
 use App\Nova\Actions\ActiveOperator;
 use App\Nova\Actions\SendCredentionalAction;
+use App\Nova\Filters\OrderOfficeFilter;
+use App\Nova\Lenses\OrderOfficeLense;
 use App\Order;
 use App\User;
 use Bissolli\NovaPhoneField\PhoneNumber;
@@ -107,15 +109,15 @@ class Driver extends Resource
                 ->onlyOnDetail(),
             Number::make(__('Distance'), 'distance')
                 ->onlyOnIndex(),
-            Number::make(__('Orders'), function () {
+            /*Number::make(__('Orders'), function () {
                 return Order::where([
                     'driver_id' => $this->id,
                 ])->get()->count();
-            })->onlyOnIndex(),
+            })->onlyOnIndex(),*/
 
             Boolean::make(__('Active'), 'active')
                 ->hideWhenCreating(),
-            HasMany::make(__('Orders'), 'orders')
+            HasMany::make(__('Orders'), 'orders', 'App\Nova\Order')
         ];
     }
 
@@ -149,7 +151,15 @@ class Driver extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        $lens = [];
+        $level = auth()->user()->level;
+        switch ($level) {
+            case 2:
+                $lens[] = new OrderOfficeLense();
+                break;
+        }
+
+        return $lens;
     }
 
     /**

@@ -126,19 +126,18 @@ class User extends Authenticatable
         return $result;
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
 
+    public function children()
+    {
+        return $this->hasMany(User::class, 'ref');
+    }
 
-    // public function drivers()
-    // {
-    //     $level = $this->level;
-    //     switch ($level) {
-    //         case 1:
-    //             return $this->hasMany(Driver::class, 'parent');
-    //             break;
-
-    //         default:
-    //             return $this->hasMany(Driver::class, 'user_id');
-    //             break;
-    //     }
-    // }
+    public function main()
+    {
+        return $this->belongsTo(User::class, 'ref');
+    }
 }

@@ -2,12 +2,10 @@
 
 namespace App\Policies;
 
-use App\Order;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Gate;
 
-class OrderPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -26,12 +24,12 @@ class OrderPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Order  $order
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function view(User $user, Order $order)
+    public function view(User $user, User $model)
     {
-        return true;
+        return $user->userCan($model);
     }
 
     /**
@@ -42,54 +40,54 @@ class OrderPolicy
      */
     public function create(User $user)
     {
-        return ($user->level == 2);
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Order  $order
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function update(User $user, Order $order)
+    public function update(User $user, User $model)
     {
-        return false;
+        return $user->userCan($model);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Order  $order
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function delete(User $user, Order $order)
+    public function delete(User $user, User $model)
     {
-        return false;
+        return $user->userCan($model);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Order  $order
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function restore(User $user, Order $order)
+    public function restore(User $user, User $model)
     {
-        return false;
+        return $user->userCan($model);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Order  $order
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function forceDelete(User $user, Order $order)
+    public function forceDelete(User $user, User $model)
     {
-        return false;
+        return $user->userCan($model);
     }
 }

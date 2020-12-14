@@ -11,8 +11,10 @@ use App\Nova\Filters\RangeOrderFilter;
 use App\Nova\Filters\ToOrderFilter;
 use App\Nova\Lenses\OrderOfficeLense;
 use App\Nova\Metrics\OrderCount;
+use Bissolli\NovaPhoneField\PhoneNumber;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -20,6 +22,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Muradalwan\DriversMap\DriversMap;
 use Muradalwan\OrdersCard\OrdersCard;
 use Muradalwan\OrderStream\OrderStream;
+use Illuminate\Support\Str;
 
 class Order extends Resource
 {
@@ -79,24 +82,35 @@ class Order extends Resource
     {
 
         return [
+
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make(__('Name'), 'name'),
-            Text::make(__('Email'), 'email'),
-            Text::make(__('Phone'), 'phone'),
+            Hidden::make('Session')->default(Str::random(64)),
+            Hidden::make('Email')->default(Str::random(12) . '@random.comx'),
+            Hidden::make('from_lat')->default(41.056051),
+            Hidden::make('from_lng')->default(28.9760503),
+            Hidden::make('to_lat')->default(41.056051),
+            Hidden::make('to_lng')->default(28.9760503),
+            Hidden::make('Status')->default(1),
+
+            Text::make(__('Name'), 'name')
+                ->rules('required', 'max:255'),
+            Text::make(__('Email'), 'email')->hideWhenCreating(),
+            PhoneNumber::make(__('Phone'), 'phone'),
+            Text::make(__('Address'), 'from_address')
+                ->rules('required', 'max:255')
+                ->onlyOnForms(),
+            Text::make(__('Destination'), 'to_address')
+                ->creationRules('required_with:offer')
+                ->onlyOnForms(),
+            Number::make(__('Offer'), 'offer')
+                ->creationRules('required_with:to_address'),
             Text::make(__('Status'), 'status', function () {
                 return $this->statusLabel($this->status);
-            }),
-            /*Text::make(__('Driver'), function () {
-                if ($this->driver_id) {
-                    return Driver::find($this->driver_id)->name;
-                }
-                return '-';
-            }),*/
-            Number::make(__('Offer'), 'offer'),
-            BelongsTo::make(__('Driver'), 'driver', 'App\Nova\Driver'),
+            })->hideWhenCreating(),
+            BelongsTo::make(__('Driver'), 'driver', 'App\Nova\Driver')->hideWhenCreating(),
 
-            BelongsTo::make(__('Office'), 'office', 'App\Nova\User'),
-            BelongsTo::make(__('Agent'), 'actor', 'App\Nova\User'),
+            BelongsTo::make(__('Office'), 'office', 'App\Nova\User')->hideWhenCreating(),
+            BelongsTo::make(__('Agent'), 'actor', 'App\Nova\User')->hideWhenCreating(),
 
 
         ];

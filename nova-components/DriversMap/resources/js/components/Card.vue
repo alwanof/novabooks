@@ -48,7 +48,7 @@ export default {
     ],
     data() {
         return {
-            drivers:[],
+            //drivers:[],
             title:'foo',
             center: {
                 lat: 41.1374382,
@@ -72,21 +72,23 @@ export default {
            this.center.lat=lat;
            this.center.lng=lng;
 
-            axios.get('/api/drivers')
+            axios.get('/api/drivers/'+this.card.authUser.id)
             .then(res => {
-                this.drivers=res.data;
+                //this.drivers=res.data;
                 res.data.forEach(item=>{
                     var element={}
-                    element.position={lat:item.lat,lng:item.lng}
-                    element.icon=(item.busy==1)?'/images/car-active.png':'/images/car-deactive.png';
-                    element.id=item.id;
-                    this.markers.push(element);
+                    if(item.lat){
+                        element.position={lat:item.lat,lng:item.lng}
+                        element.icon=(item.busy==1)?'/images/car-active.png':'/images/car-deactive.png';
+                        element.id=item.id;
+                        this.markers.push(element);
+
+                    }
+
                 });
             });
         },
         listen(){
-
-
                 subscription.on("create", (feedDoc) => {
                     let index = this.markers.findIndex(
                     (o) => o.id === feedDoc.attributes.pid
@@ -96,15 +98,15 @@ export default {
                         axios.get('/api/drivers/'+feedDoc.attributes.pid)
                         .then((res) => {
                             var element={}
-                            element.position={lat:res.data.lat,lng:res.data.lng}
-                            element.icon=(res.data.busy==1)?'/images/car-active.png':'/images/car-deactive.png';
-                            console.log(res.data.busy);
-                            Vue.set(this.markers, index, element);
+                            if(res.data.lat){
+                                element.position={lat:res.data.lat,lng:res.data.lng}
+                                element.icon=(res.data.busy==1)?'/images/car-active.png':'/images/car-deactive.png';
+                                Vue.set(this.markers, index, element);
+
+                            }
                         });
 
                     }
-
-
 
                 });
 

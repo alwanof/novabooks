@@ -76,7 +76,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         switch ($level) {
             case 0:
                 $metrics = [
-                    new DriversMap(),
+                    (new DriversMap)->authUser(),
                     new UserCount(),
                     new DriverCount(),
                     new DriverTrend(),
@@ -87,7 +87,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 break;
             case 1:
                 $metrics = [
-                    new DriversMap(),
+                    (new DriversMap)->authUser(),
                     new UserCount(),
                     new DriverCount(),
                     new DriverTrend(),
@@ -101,7 +101,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 break;
             case 2:
                 $metrics = [
-                    new DriversMap(),
+                    (new DriversMap)->authUser(),
                     new DriverCount(),
                     new DriverTrend(),
                     new DriverPartition(),

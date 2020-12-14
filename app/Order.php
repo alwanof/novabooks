@@ -5,19 +5,7 @@ namespace App;
 use App\Traits\Multitenantable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-// $table->string('session');
-// $table->string('name');
-// $table->string('email');
-// $table->string('phone');
-// $table->string('from_address');
-// $table->double('from_location');
-// $table->string('to_address')->nullable();
-// $table->double('to_address')->nullable();
-// $table->unsignedFloat('offer')->nullable();
-// $table->integer('status')->default(0);
-// $table->unsignedBigInteger('driver_id')->nullable();
-// $table->unsignedBigInteger('user_id');
-//$table->unsignedBigInteger('parent');
+
 class Order extends Model
 {
     // block_drivers=null default,

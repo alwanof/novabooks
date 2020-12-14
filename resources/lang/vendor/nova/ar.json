@@ -473,5 +473,7 @@
     "NON-Priced Income":"وارد طلبيات غ مسعرة",
     "Priced Fee":"رسوم مسعرة",
     "NON Priced Fee":"رسوم غير مسعرة",
-    "Children":"الافرع"
+    "Children":"الافرع",
+    "Address":"العنوان | من",
+    "Destination":"الوجهه | الى"
 }

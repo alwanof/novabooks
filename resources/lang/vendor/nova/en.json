@@ -485,7 +485,9 @@
     "NON-Priced Income":"NON-Priced Income",
     "Priced Fee":"Priced Fee",
     "NON Priced Fee":"NON Priced Fee",
-    "Children":"Children"
+    "Children":"Children",
+    "Address":"From/Address",
+    "Destination":"Destination/To"
 
 
 }

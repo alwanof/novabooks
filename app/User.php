@@ -140,4 +140,21 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'ref');
     }
+
+    public function userCan($model)
+    {
+        if ($model->id == $this->id) {
+            return true;
+        }
+
+        if ($this->level == 0) {
+            return true;
+        }
+        if ($this->level == 1) {
+            if ($model->ref == $this->id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

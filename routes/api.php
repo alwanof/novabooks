@@ -64,7 +64,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/drivers', function () {
+Route::get('/drivers/{user}', function ($user) {
+    $user = User::findOrFail($user);
+    switch ($user->level) {
+        case 2:
+            return Driver::where('user_id', $user->id)->get();
+            break;
+        case 1:
+            return Driver::where('parent', $user->id)->get();
+            break;
+    }
     return Driver::all();
 });
 Route::get('/drivers/{driver}', function ($driver) {

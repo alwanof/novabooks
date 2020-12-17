@@ -134,11 +134,13 @@ class Preference extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         $role_id = auth()->user()->roles->first()->id;
+
         return $query->whereExists(function ($iquery)  use ($role_id) {
             $iquery->select(DB::raw(1))
                 ->from('role_setting')
                 ->whereRaw('setting_id = settings.id')
                 ->whereRaw('role_id = ' . $role_id);
+                
         });
     }
 }

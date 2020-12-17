@@ -490,6 +490,7 @@ Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
 
 
 
+
     $response = Http::withHeaders([
         'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
         'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
@@ -500,6 +501,7 @@ Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
         'action' => 'U',
         'meta' => ['hash' => $driver->hash]
     ]);
+    return $distance;
 
     return response(1, 200);
 });

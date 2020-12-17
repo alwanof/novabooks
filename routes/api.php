@@ -501,7 +501,10 @@ Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
         'action' => 'U',
         'meta' => ['hash' => $driver->hash]
     ]);
-    return $distance;
+    return [
+        'Office Lat Lng' => $olat . ' <> ' . $olng,
+        'distance' => $distance
+    ];
 
     return response(1, 200);
 });

@@ -526,13 +526,16 @@ Route::get('/app/{hash}/toggle', function ($hash) {
     $order = Order::where('driver_id', $driver->id)->whereIn('status', [2, 21])->count();
 
     if ($order == 0) {
+
         if ($driver->busy == 0) {
             $driver->busy = 2;
-        }
-        if ($driver->busy == 2) {
+        } elseif ($driver->busy == 2) {
             $driver->busy = 0;
         }
+
+
         $driver->save();
+
 
         $response = Http::withHeaders([
             'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
@@ -545,6 +548,8 @@ Route::get('/app/{hash}/toggle', function ($hash) {
             'meta' => ['hash' => $driver->hash]
         ]);
     }
+
+
 
 
     return response($driver->busy, 200);

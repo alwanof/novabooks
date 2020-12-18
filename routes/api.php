@@ -524,12 +524,13 @@ Route::get('/app/{hash}/get/driver', function ($hash) {
 Route::get('/app/{hash}/toggle', function ($hash) {
     $driver = Driver::where('hash', $hash)->firstOrFail();
     $order = Order::where('driver_id', $driver->id)->whereIn('status', [2, 21])->count();
+
     if ($order == 0) {
         if ($driver->busy == 0) {
-            $driver->busy == 2;
+            $driver->busy = 2;
         }
         if ($driver->busy == 2) {
-            $driver->busy == 0;
+            $driver->busy = 0;
         }
         $driver->save();
 

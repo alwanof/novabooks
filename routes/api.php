@@ -88,7 +88,7 @@ Route::get('/orders/{id}', function ($id) {
 
 
     if ($user->level == 2) {
-        return $user;
+
         return
             Order::where('user_id', $user->id)
             ->whereIn('status', [0, 1, 12, 2, 21, 3])

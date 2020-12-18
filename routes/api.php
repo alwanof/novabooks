@@ -204,7 +204,7 @@ Route::get('/order/office/undo/{order}', function ($order) {
     $order = Order::find($order);
 
     $driver = Driver::find($order->driver_id);
-    $driver->busy = 0;
+    $driver->busy = 2;
     $driver->save();
 
     $order->status = 1;
@@ -392,7 +392,7 @@ Route::get('/app/{hash}/reject/{order_id}', function ($hash, $order_id) {
     $order->block = ($order->block == null) ? $driver->id : '--' . $driver->id;
     $order->save();
 
-    $driver->busy = 0;
+    $driver->busy = 2;
     $driver->save();
 
     $office = User::findOrFail($order->actor);
@@ -400,7 +400,7 @@ Route::get('/app/{hash}/reject/{order_id}', function ($hash, $order_id) {
     if ($office->settings['auto_fwd_order']) {
         $block = explode('--', $order->block);
         $driver = Driver::where('user_id', $order->user_id)
-            ->where('busy', 0)
+            ->where('busy', 2)
             ->whereNotIn('id', $block)
             ->inRandomOrder()
             ->first();
@@ -446,7 +446,7 @@ Route::get('/app/{hash}/done/{order_id}', function ($hash, $order_id) {
     $order->status = 9;
     $order->save();
 
-    $driver->busy = 0;
+    $driver->busy = 2;
     $driver->save();
 
     $response = Http::withHeaders([
@@ -525,8 +525,14 @@ Route::get('/app/{hash}/toggle', function ($hash) {
     $driver = Driver::where('hash', $hash)->firstOrFail();
     $order = Order::where('driver_id', $driver->id)->whereIn('status', [2, 21])->count();
     if ($order == 0) {
-        $driver->busy = ($driver->busy == 1) ? $driver->busy = 0 : $driver->busy = 1;
+        if ($driver->busy == 0) {
+            $driver->busy == 2;
+        }
+        if ($driver->busy == 2) {
+            $driver->busy == 0;
+        }
         $driver->save();
+
         $response = Http::withHeaders([
             'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
             'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',

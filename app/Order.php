@@ -66,7 +66,7 @@ class Order extends Model
     {
         $block = explode('--', $this->block);
         $drivers = Driver::where('user_id', $this->user_id)
-            ->whereIn('busy', 2)
+            ->where('busy', 2)
             ->whereNotIn('id', $block)
             ->get();
 

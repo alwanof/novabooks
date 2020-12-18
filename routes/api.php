@@ -85,9 +85,12 @@ Route::get('/drivers/{driver}', function ($driver) {
 Route::get('/orders/{id}', function ($id) {
     $user = User::findOrFail($id);
 
+
+
     if ($user->level == 2) {
+        return $user;
         return
-            $orders = Order::where('user_id', $user->id)
+            Order::where('user_id', $user->id)
             ->whereIn('status', [0, 1, 12, 2, 21, 3])
             ->orderBy('updated_at', 'DESC')
             ->get();

@@ -389,7 +389,10 @@ Route::get('/app/approve/{order_id}', function ($order_id) {
 
 Route::get('/app/{hash}/reject/{order_id}', function ($hash, $order_id) {
     $driver = Driver::where('hash', $hash)->firstOrFail();
+
+
     $order = Order::findOrFail($order_id);
+
     $order->status = 1;
     $order->driver_id = null;
     $order->block = ($order->block == null) ? $driver->id : '--' . $driver->id;
@@ -398,7 +401,8 @@ Route::get('/app/{hash}/reject/{order_id}', function ($hash, $order_id) {
     $driver->busy = 2;
     $driver->save();
 
-    $office = User::findOrFail($order->actor);
+    $office = User::findOrFail($order->user_id);
+
 
     if ($office->settings['auto_fwd_order']) {
         $block = explode('--', $order->block);

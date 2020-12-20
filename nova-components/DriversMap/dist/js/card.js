@@ -57298,6 +57298,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 window.Vue = __webpack_require__(358);
 // Parse Here
@@ -57354,8 +57357,9 @@ var subscription = Client.subscribe(query);
                     var element = {};
                     if (item.lat) {
                         element.position = { lat: item.lat, lng: item.lng };
-                        element.icon = item.busy == 1 ? '/images/car-active.png' : '/images/car-deactive.png';
+                        element.icon = item.busy == 1 ? '/images/car-busy.png' : '/images/car-active.png';
                         element.id = item.id;
+                        element.name = item.name;
                         _this.markers.push(element);
                     }
                 });
@@ -57368,17 +57372,24 @@ var subscription = Client.subscribe(query);
                 var index = _this2.markers.findIndex(function (o) {
                     return o.id === feedDoc.attributes.pid;
                 });
-
-                if (index > -1) {
-                    axios.get('/api/drivers/' + feedDoc.attributes.pid).then(function (res) {
-                        var element = {};
-                        if (res.data.lat) {
-                            element.position = { lat: res.data.lat, lng: res.data.lng };
-                            element.icon = res.data.busy == 1 ? '/images/car-active.png' : '/images/car-deactive.png';
-                            Vue.set(_this2.markers, index, element);
+                axios.get('/api/fetch/drivers/' + feedDoc.attributes.pid).then(function (res) {
+                    var element = {};
+                    element.position = { lat: res.data.lat, lng: res.data.lng };
+                    element.icon = res.data.busy == 1 ? '/images/car-busy.png' : '/images/car-active.png';
+                    element.id = res.data.id;
+                    element.name = res.data.name;
+                    if (res.data.lat) {
+                        if (index == -1) {
+                            _this2.markers.push(element);
+                        } else {
+                            if (res.data.busy == 0) {
+                                _this2.markers.splice(index, 1);
+                            } else {
+                                Vue.set(_this2.markers, index, element);
+                            }
                         }
-                    });
-                }
+                    }
+                });
             });
         }
     },
@@ -101484,15 +101495,30 @@ var render = function() {
           attrs: { center: _vm.center, zoom: 10, draggable: true }
         },
         _vm._l(_vm.markers, function(marker) {
-          return _c("GmapMarker", {
-            key: marker.id,
-            attrs: {
-              clickable: true,
-              name: marker.name,
-              icon: marker.icon,
-              position: marker.position
-            }
-          })
+          return _c(
+            "GmapMarker",
+            {
+              key: marker.id,
+              attrs: {
+                clickable: true,
+                name: marker.name,
+                icon: marker.icon,
+                position: marker.position
+              }
+            },
+            [
+              _c(
+                "gmap-info-window",
+                { attrs: { position: marker.position, opened: true } },
+                [
+                  _vm._v(
+                    "\n              " + _vm._s(marker.name) + "\n            "
+                  )
+                ]
+              )
+            ],
+            1
+          )
         }),
         1
       )

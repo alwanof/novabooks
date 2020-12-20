@@ -5,9 +5,14 @@
  */
 
 require('./bootstrap');
-
+import * as VueGoogleMaps from "vue2-google-maps";
 window.Vue = require('vue');
-
+Vue.use(VueGoogleMaps, {
+        load: {
+            key: "AIzaSyANYVpeOpsNN4DqdKR4AKAyd03IQ3_9PvU",
+            libraries: "places,directions"
+        }
+    });
 
 /**
  * The following block of code may be used to automatically register your
@@ -22,6 +27,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('order-component', require('./components/OrderComponent.vue').default);
+Vue.component('tracking-component', require('./components/TrackingComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

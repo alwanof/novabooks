@@ -14,6 +14,9 @@
                 :name="marker.name"
                 :icon="marker.icon"
                 :position="marker.position" >
+                <gmap-info-window :position="marker.position" :opened="true">
+                  {{marker.name}}
+                </gmap-info-window>
 
               </GmapMarker>
             </GmapMap>
@@ -79,8 +82,9 @@ export default {
                     var element={}
                     if(item.lat){
                         element.position={lat:item.lat,lng:item.lng}
-                        element.icon=(item.busy==1)?'/images/car-active.png':'/images/car-deactive.png';
+                        element.icon=(item.busy==1)?'/images/car-busy.png':'/images/car-active.png';
                         element.id=item.id;
+                        element.name=item.name;
                         this.markers.push(element);
 
                     }
@@ -93,20 +97,30 @@ export default {
                     let index = this.markers.findIndex(
                     (o) => o.id === feedDoc.attributes.pid
                     );
-
-                    if(index>-1){
-                        axios.get('/api/drivers/'+feedDoc.attributes.pid)
+                    axios.get('/api/fetch/drivers/'+feedDoc.attributes.pid)
                         .then((res) => {
                             var element={}
+                            element.position={lat:res.data.lat,lng:res.data.lng}
+                            element.icon=(res.data.busy==1)?'/images/car-busy.png':'/images/car-active.png';
+                            element.id=res.data.id;
+                            element.name=res.data.name;
                             if(res.data.lat){
-                                element.position={lat:res.data.lat,lng:res.data.lng}
-                                element.icon=(res.data.busy==1)?'/images/car-active.png':'/images/car-deactive.png';
-                                Vue.set(this.markers, index, element);
+                                if(index==-1){
+                                    this.markers.push(element);
+                                }else{
+                                    if(res.data.busy==0){
+                                        this.markers.splice(index,1);
+                                    }else{
+                                        Vue.set(this.markers, index, element);
+                                    }
+
+                                }
+
 
                             }
                         });
 
-                    }
+
 
                 });
 

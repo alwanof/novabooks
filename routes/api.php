@@ -68,18 +68,25 @@ Route::get('/drivers/{user}', function ($user) {
     $user = User::findOrFail($user);
     switch ($user->level) {
         case 2:
-            return Driver::where('user_id', $user->id)->get();
+            return Driver::where('user_id', $user->id)->where('busy', '>', 0)->get();
             break;
         case 1:
-            return Driver::where('parent', $user->id)->get();
+            return Driver::where('parent', $user->id)->where('busy', '>', 0)->get();
             break;
     }
     return Driver::all();
 });
-Route::get('/drivers/{driver}', function ($driver) {
+Route::get('fetch/drivers/{driver}', function ($driver) {
+
     //$driver = Driver::where('hash', $hash)->firstOrFail();
     $driver = Driver::findOrFail($driver);
     return $driver;
+});
+
+Route::get('/testoo', function () {
+
+
+    return 99;
 });
 
 Route::get('/orders/{id}', function ($id) {
@@ -556,8 +563,23 @@ Route::get('/app/{hash}/toggle', function ($hash) {
         ]);
     }
 
+    return response($driver->busy, 200);
+});
 
-
+Route::get('/app/{hash}/reset', function ($hash) {
+    $driver = Driver::where('hash', $hash)->firstOrFail();
+    $driver->busy == 0;
+    $driver->save();
+    $response = Http::withHeaders([
+        'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+        'X-Parse-REST-API-Key' => 'ozmiEzNHJIAb3EqCD9lislhOC5dPsC0OS18DFJ6j',
+        'Content-Type' => 'application/json'
+    ])->post('https://parseapi.back4app.com/functions/stream', [
+        'pid' => $driver->id,
+        'model' => 'Driver',
+        'action' => 'U',
+        'meta' => ['hash' => $driver->hash]
+    ]);
 
     return response($driver->busy, 200);
 });

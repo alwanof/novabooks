@@ -8,7 +8,7 @@
 
             <div class="col-8">
                 <div class="text-muted">{{trans('DATE')}}</div>
-                {{feed.created_at}}
+                {{feed.created_at}}++
             </div>
             <div class="col-4">
                 <div class="text-muted">{{trans('Order No')}}</div>
@@ -95,6 +95,12 @@
                     <button type="button" @click="cancel()" class="btn btn-dark btn-block">{{trans('Cancel')}}</button>
                 </div>
             </div>
+            <hr>
+            <div v-if="feed.status==21">
+                <tracking-component :driver="feed.driver"></tracking-component>
+
+            </div>
+
     </div>
 </template>
 
@@ -137,7 +143,7 @@ var subscription = Client.subscribe(query);
             },
             listen(){
                 subscription.on("create", (feedDoc) => {
-                    console.log(feedDoc.attributes);
+                    //console.log(feedDoc.attributes);
                     let index = (this.feed.id==feedDoc.attributes.pid);
                     if(index){
                         axios

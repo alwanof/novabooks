@@ -10,6 +10,8 @@
             :office="{{ json_encode($office) }}" :agent="{{ json_encode($agent) }}">
         </order-component>
 
+
+
     </div>
 @endsection
 

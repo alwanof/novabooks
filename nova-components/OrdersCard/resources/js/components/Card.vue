@@ -54,7 +54,7 @@
                         </td>
                         <td >
 
-                            <span class="m-2" v-if="order.status==0">
+                            <span class="m-2" v-if="order.status==0 || order.status==1">
                                 <button class="btn btn-default" @click="reject(order)"><i class="far fa-window-close"></i> </button>
                             </span>
                             <span class="m-2" v-if="order.status==0 && card.authUser.settings.offer_enabled==0">

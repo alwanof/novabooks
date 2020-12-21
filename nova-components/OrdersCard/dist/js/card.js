@@ -99136,7 +99136,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", [
-                    order.status == 0
+                    order.status == 0 || order.status == 1
                       ? _c("span", { staticClass: "m-2" }, [
                           _c(
                             "button",

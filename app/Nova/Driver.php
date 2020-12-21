@@ -8,6 +8,7 @@ use App\Nova\Actions\SendCredentionalAction;
 use App\Nova\Filters\OrderOfficeFilter;
 use App\Nova\Lenses\OrderOfficeLense;
 use App\Order;
+use App\Parse\User as ParseUser;
 use App\User;
 use Bissolli\NovaPhoneField\PhoneNumber;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
@@ -103,20 +104,26 @@ class Driver extends Resource
             Text::make(__('TaxiColor'), 'taxiColor')
                 ->rules('required', 'max:25')
                 ->hideFromIndex(),
-            //Text::make('Agent', 'parent')->onlyOnIndex(),
-            //Text::make('Office', 'user_id')->onlyOnIndex(),
-            Boolean::make(__('Busy'), 'busy')
+
+            Text::make(__('Busy'), function () {
+                return $this->driverStatus();
+            })
+                ->onlyOnDetail(),
+            Boolean::make('Server Status', function () {
+                $driver = ParseUser::find($this->hash);
+                if ($driver) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
                 ->onlyOnDetail(),
             Number::make(__('Distance'), 'distance')
                 ->onlyOnIndex(),
-            /*Number::make(__('Orders'), function () {
-                return Order::where([
-                    'driver_id' => $this->id,
-                ])->get()->count();
-            })->onlyOnIndex(),*/
 
-            Boolean::make(__('Active'), 'active')
-                ->hideWhenCreating(),
+
+            /*Boolean::make(__('Active'), 'active')
+                ->hideWhenCreating(),*/
             HasMany::make(__('Orders'), 'orders', 'App\Nova\Order')
         ];
     }
@@ -171,8 +178,27 @@ class Driver extends Resource
     public function actions(Request $request)
     {
         return [
-            (new ActiveOperator())->onlyOnTableRow(),
+            (new ActiveOperator())->onlyOnDetail(),
             (new SendCredentionalAction()),
         ];
+    }
+
+    public function driverStatus()
+    {
+        switch ($this->busy) {
+            case 0:
+                return __('Offline');
+                break;
+            case 1:
+                return __('BusyNow');
+                break;
+            case 2:
+                return __('Free');
+                break;
+
+            default:
+                __('Offline');
+                break;
+        }
     }
 }

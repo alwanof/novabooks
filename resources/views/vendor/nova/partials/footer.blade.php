@@ -4,11 +4,13 @@
     &copy; {{ date('Y') }} Marasiel Taxi< - By Totil IT Group. <span class="px-1">&middot;</span>
         v0.0.1
         <div class="text-center mt-4">
-            <a href="{{ env('APP_URL') }}/taxi/{{ auth()->user()->email }}" target="_blank">
+            @if (auth()->user()->level == 2)
+                <a href="{{ env('APP_URL') }}/taxi/{{ auth()->user()->email }}" target="_blank">
 
 
-                {!! QrCode::size(250)->generate(env('APP_URL') . '/taxi/' . auth()->user()->email) !!}
-            </a>
+                    {!! QrCode::size(250)->generate(env('APP_URL') . '/taxi/' . auth()->user()->email) !!}
+                </a>
+            @endif
 
 
         </div>

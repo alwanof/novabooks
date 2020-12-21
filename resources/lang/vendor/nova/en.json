@@ -448,7 +448,7 @@
     "Offer":"Offer",
     "Taxi":"Taxi",
     "TaxiNo":"TaxiNo",
-    "Busy":"Busy",
+    "Busy":"Status Now",
     "Distance":"Distance",
     "Send Credentional Email":"Send Credentional Email",
     "De/Activate":"De/Activate",
@@ -487,7 +487,10 @@
     "NON Priced Fee":"NON Priced Fee",
     "Children":"Children",
     "Address":"From/Address",
-    "Destination":"Destination/To"
+    "Destination":"Destination/To",
+    "Offline":"Offline",
+    "BusyNow":"BusyNow",
+    "Free":"Free"
 
 
 }

@@ -98972,23 +98972,6 @@ var render = function() {
               },
               [_vm._v(_vm._s(_vm.__("Auto-Forward")))]
             )
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _c(
-              "a",
-              {
-                attrs: {
-                  href: _vm.url + "/taxi/" + _vm.card.authUser.email,
-                  target: "_blank"
-                }
-              },
-              [
-                _vm._v(
-                  _vm._s(_vm.url) + "/taxi/" + _vm._s(_vm.card.authUser.email)
-                )
-              ]
-            )
           ])
         ]),
         _vm._v(" "),

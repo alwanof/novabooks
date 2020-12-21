@@ -436,10 +436,10 @@
     "Offer":"عرض",
     "Taxi":"تكسي",
     "TaxiNo":"رقم التكسي",
-    "Busy":"مشغول",
+    "Busy":"الحالة الان",
     "Distance":"المسافة",
     "Send Credentional Email":"إرسال بريد إلكتروني معتمد",
-    "De/Activate":"إلغاء التفعيل",
+    "De/Activate":"تنشيط /ايقاف",
     "Current Orders":"الطلبات الحالية",
     "Auto-Forward":"تحويل تلقائي",
     "Customer":"الزبون",
@@ -475,5 +475,8 @@
     "NON Priced Fee":"رسوم غير مسعرة",
     "Children":"الافرع",
     "Address":"العنوان | من",
-    "Destination":"الوجهه | الى"
+    "Destination":"الوجهه | الى",
+     "Offline":"Offline",
+    "BusyNow":"BusyNow",
+    "Free":"Free"
 }

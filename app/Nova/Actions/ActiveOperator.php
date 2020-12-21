@@ -40,15 +40,18 @@ class ActiveOperator extends Action
 
             if ($model->active) {
                 $user = User::findOrFail($model->hash);
-                $user->delete();
-                $model->active = 0;
-                $model->hash = '';
-                $model->save();
+                if ($user->delete()) {
+                    $model->active = 0;
+                    $model->hash = '';
+                    $model->save();
+                }
             } else {
                 $user = User::create(['username' => $model->email, 'password' => $model->password, 'email' => $model->email]);
-                $model->active = 1;
-                $model->hash = $user->id;
-                $model->save();
+                if (isset($user->username)) {
+                    $model->active = 1;
+                    $model->hash = $user->id;
+                    $model->save();
+                }
             }
         }
     }

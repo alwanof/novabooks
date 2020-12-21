@@ -7,7 +7,7 @@
                 <i class="fas fa-cog fa-spin text-danger" v-show="loading"></i> {{__('Current Orders')}}
                 <button type="button" v-show="card.authUser.settings.auto_fwd_order==1"  class="btn btn-default btn-danger">{{__("Auto-Forward")}}</button>
             </h1>
-            <p><a :href="'https://'+url+'/taxi/'+card.authUser.email" target="_blank">{{url}}/taxi/{{card.authUser.email}}</a></p>
+
         </div>
 
 

@@ -57380,7 +57380,7 @@ var subscription = Client.subscribe(query);
                     element.name = res.data.name;
                     if (res.data.lat) {
                         if (index == -1) {
-                            _this2.markers.push(element);
+                            //this.markers.push(element);
                         } else {
                             if (res.data.busy == 0) {
                                 _this2.markers.splice(index, 1);

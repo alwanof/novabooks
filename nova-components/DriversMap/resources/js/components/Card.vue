@@ -106,7 +106,7 @@ export default {
                             element.name=res.data.name;
                             if(res.data.lat){
                                 if(index==-1){
-                                    this.markers.push(element);
+                                    //this.markers.push(element);
                                 }else{
                                     if(res.data.busy==0){
                                         this.markers.splice(index,1);

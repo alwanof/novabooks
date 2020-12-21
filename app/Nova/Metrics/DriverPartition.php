@@ -30,15 +30,21 @@ class DriverPartition extends Partition
             ->label(function ($value) {
                 switch ($value) {
                     case 0:
-                        return 'Free';
+                        return __('Offline');
+                        break;
                     case 1:
-                        return 'Busy';
+                        return __('BusyNow');
+                        break;
+                    case 2:
+                        return __('Free');
+                        break;
                     default:
                         return ucfirst($value);
                 }
             })->colors([
-                0 => '#27ae60',
-                1 => '#c0392b',
+                0 => '#7f8c8d',
+                1 => '#e74c3c',
+                2 => '#27ae60',
                 // photo will use the default color from Nova
             ]);
     }

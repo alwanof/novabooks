@@ -476,7 +476,7 @@
     "Children":"الافرع",
     "Address":"العنوان | من",
     "Destination":"الوجهه | الى",
-     "Offline":"Offline",
-    "BusyNow":"BusyNow",
-    "Free":"Free"
+    "Offline":"خارج العمل",
+    "BusyNow":"مشغول",
+    "Free":"جاهز"
 }

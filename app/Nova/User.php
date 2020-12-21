@@ -131,10 +131,10 @@ class User extends Resource
 
                 return ($this->parent) ? $this->parent->name : '-';
             })->onlyOnIndex(),*/
-            BelongsTo::make(__('Ref'), 'main', User::class),
+            BelongsTo::make(__('Ref'), 'main', User::class)->hideWhenCreating()->hideWhenUpdating(),
             BelongsToMany::make(__('Roles'), 'roles', Role::class),
             HasMany::make(__('Orders'), 'orders', Order::class),
-            HasMany::make(__('Children'), 'children', User::class)
+            HasMany::make(__('Children'), 'children', User::class)->hideWhenCreating()->hideWhenUpdating()
 
         ];
     }

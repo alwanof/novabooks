@@ -42,9 +42,9 @@ class DriverPartition extends Partition
                         return ucfirst($value);
                 }
             })->colors([
-                0 => '#7f8c8d',
-                1 => '#e74c3c',
-                2 => '#27ae60',
+                __('Offline') => '#7f8c8d',
+                __('BusyNow') => '#e74c3c',
+                __('Free') => '#27ae60',
                 // photo will use the default color from Nova
             ]);
     }

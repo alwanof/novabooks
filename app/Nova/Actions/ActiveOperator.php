@@ -40,6 +40,7 @@ class ActiveOperator extends Action
 
             if ($model->active) {
                 $user = User::findOrFail($model->hash);
+                $user->useMasterKey(true);
                 if ($user->delete()) {
                     $model->active = 0;
                     $model->hash = '';

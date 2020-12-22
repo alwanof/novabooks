@@ -118,6 +118,7 @@ var Client = new Parse.LiveQueryClient({
 });
 const streamQuery = new Parse.Query("Stream");
 streamQuery.equalTo("model", "Order");
+query.equalTo("meta.office", this.card.authUser.id);
 Client.open();
 var subscription = Client.subscribe(streamQuery);
 

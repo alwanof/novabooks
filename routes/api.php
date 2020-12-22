@@ -80,7 +80,7 @@ Route::get('fetch/drivers/{driver}', function ($driver) {
 
     //$driver = Driver::where('hash', $hash)->firstOrFail();
     $driver = Driver::find($driver);
-    if ($driver) {
+    if (is_object($driver)) {
         return $driver;
     }
     return false;

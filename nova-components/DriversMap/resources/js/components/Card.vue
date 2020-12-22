@@ -26,15 +26,7 @@
 <script>
 window.Vue = require('vue');
   // Parse Here
-const Parse = require('parse');
-Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
-Parse.serverURL = "https://smartaxi.b4a.io";
 
-var Client = new Parse.LiveQueryClient({
-    applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
-    serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
-    javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
-});
 
 export default {
      name: "DriverMap",
@@ -57,12 +49,11 @@ export default {
             markers: []
         }
     },
+
     created() {
+
         this.listen();
         this.getDrivers();
-
-
-
 
 
     },
@@ -91,6 +82,16 @@ export default {
             });
         },
         listen(){
+            const Parse = require('parse');
+            Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
+            Parse.serverURL = "https://smartaxi.b4a.io";
+
+            var Client = new Parse.LiveQueryClient({
+                applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+                serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
+                javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
+            });
+
                 const query = new Parse.Query("Stream");
                 query.equalTo("model", "Driver");
                 switch (this.card.authUser.level) {

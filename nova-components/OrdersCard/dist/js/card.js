@@ -54443,16 +54443,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_native_notification__["a" /* default */]
     // showing notification (default: true)
     requestOnNotify: true
 });
-// Parse Here
-var Parse = __webpack_require__(320);
-Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
-Parse.serverURL = "https://smartaxi.b4a.io";
-
-var Client = new Parse.LiveQueryClient({
-    applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
-    serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
-    javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
-});
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "TaxiOrderCard",
@@ -54557,6 +54547,16 @@ var Client = new Parse.LiveQueryClient({
         listen: function listen() {
             var _this7 = this;
 
+            // Parse Here
+            var Parse = __webpack_require__(320);
+            Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
+            Parse.serverURL = "https://smartaxi.b4a.io";
+
+            var Client = new Parse.LiveQueryClient({
+                applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+                serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
+                javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
+            });
             var streamQuery = new Parse.Query("Stream");
             streamQuery.equalTo("model", "Order");
             streamQuery.equalTo("meta.office", this.card.authUser.id);

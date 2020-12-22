@@ -1,4 +1,5 @@
 import * as VueGoogleMaps from "vue2-google-maps";
+
 Nova.booting((Vue, router, store) => {
   Vue.component('drivers-map', require('./components/Card'));
   Vue.config.devtools = true;
@@ -9,4 +10,6 @@ Nova.booting((Vue, router, store) => {
         }
     });
 
-})
+});
+
+

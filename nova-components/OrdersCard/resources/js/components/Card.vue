@@ -106,16 +106,7 @@ Vue.use(VueNativeNotification, {
   // showing notification (default: true)
   requestOnNotify: true
 });
-  // Parse Here
-const Parse = require('parse');
-Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
-Parse.serverURL = "https://smartaxi.b4a.io";
 
-var Client = new Parse.LiveQueryClient({
-    applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
-    serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
-    javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
-});
 
 
 export default {
@@ -222,6 +213,16 @@ export default {
 
         },
         listen(){
+             // Parse Here
+            const Parse = require('parse');
+            Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
+            Parse.serverURL = "https://smartaxi.b4a.io";
+
+            var Client = new Parse.LiveQueryClient({
+                applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+                serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
+                javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
+            });
             const streamQuery = new Parse.Query("Stream");
             streamQuery.equalTo("model", "Order");
             streamQuery.equalTo("meta.office", this.card.authUser.id);

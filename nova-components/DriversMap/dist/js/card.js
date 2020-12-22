@@ -55192,6 +55192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_google_maps__ = __webpack_require__(324);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_google_maps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_google_maps__);
 
+
 Nova.booting(function (Vue, router, store) {
     Vue.component('drivers-map', __webpack_require__(356));
     Vue.config.devtools = true;
@@ -57304,15 +57305,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 window.Vue = __webpack_require__(358);
 // Parse Here
-var Parse = __webpack_require__(361);
-Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
-Parse.serverURL = "https://smartaxi.b4a.io";
 
-var Client = new Parse.LiveQueryClient({
-    applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
-    serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
-    javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
-});
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "DriverMap",
@@ -57335,6 +57328,7 @@ var Client = new Parse.LiveQueryClient({
         };
     },
     created: function created() {
+
         this.listen();
         this.getDrivers();
     },
@@ -57364,6 +57358,16 @@ var Client = new Parse.LiveQueryClient({
         },
         listen: function listen() {
             var _this2 = this;
+
+            var Parse = __webpack_require__(361);
+            Parse.initialize("REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV", "VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn");
+            Parse.serverURL = "https://smartaxi.b4a.io";
+
+            var Client = new Parse.LiveQueryClient({
+                applicationId: 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
+                serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
+                javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
+            });
 
             var query = new Parse.Query("Stream");
             query.equalTo("model", "Driver");

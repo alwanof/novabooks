@@ -79,8 +79,11 @@ Route::get('/drivers/{user}', function ($user) {
 Route::get('fetch/drivers/{driver}', function ($driver) {
 
     //$driver = Driver::where('hash', $hash)->firstOrFail();
-    $driver = Driver::findOrFail($driver);
-    return $driver;
+    $driver = Driver::find($driver);
+    if ($driver) {
+        return $driver;
+    }
+    return false;
 });
 
 Route::get('/testoo', function () {

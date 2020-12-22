@@ -57385,19 +57385,23 @@ var Client = new Parse.LiveQueryClient({
                     return o.id === feedDoc.attributes.pid;
                 });
                 axios.get('/api/fetch/drivers/' + feedDoc.attributes.pid).then(function (res) {
-                    var element = {};
-                    element.position = { lat: res.data.lat, lng: res.data.lng };
-                    element.icon = res.data.busy == 1 ? '/images/car-busy.png' : '/images/car-active.png';
-                    element.id = res.data.id;
-                    element.name = res.data.name;
-                    if (res.data.lat) {
-                        if (index == -1) {
-                            _this2.markers.push(element);
-                        } else {
-                            if (res.data.busy == 0) {
-                                _this2.markers.splice(index, 1);
+                    if (res.data) {
+                        var element = {};
+                        element.position = { lat: res.data.lat, lng: res.data.lng };
+                        element.icon = res.data.busy == 1 ? '/images/car-busy.png' : '/images/car-active.png';
+                        element.id = res.data.id;
+                        element.name = res.data.name;
+                        if (res.data.lat) {
+                            if (index == -1) {
+                                if (res.data.busy == 2) {
+                                    _this2.markers.push(element);
+                                }
                             } else {
-                                Vue.set(_this2.markers, index, element);
+                                if (res.data.busy == 0) {
+                                    _this2.markers.splice(index, 1);
+                                } else {
+                                    Vue.set(_this2.markers, index, element);
+                                }
                             }
                         }
                     }

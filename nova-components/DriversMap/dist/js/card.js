@@ -57313,10 +57313,7 @@ var Client = new Parse.LiveQueryClient({
     serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
     javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
 });
-var query = new Parse.Query("Stream");
-query.equalTo("model", "Driver");
-Client.open();
-var subscription = Client.subscribe(query);
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "DriverMap",
     props: ['card'
@@ -57368,6 +57365,21 @@ var subscription = Client.subscribe(query);
         listen: function listen() {
             var _this2 = this;
 
+            var query = new Parse.Query("Stream");
+            query.equalTo("model", "Driver");
+            switch (this.card.authUser.level) {
+                case 1:
+                    query.equalTo("meta.agent", this.card.authUser.id);
+                    break;
+                case 2:
+                    query.equalTo("meta.office", this.card.authUser.id);
+                    break;
+                default:
+                    break;
+            }
+
+            Client.open();
+            var subscription = Client.subscribe(query);
             subscription.on("create", function (feedDoc) {
                 var index = _this2.markers.findIndex(function (o) {
                     return o.id === feedDoc.attributes.pid;
@@ -57380,7 +57392,7 @@ var subscription = Client.subscribe(query);
                     element.name = res.data.name;
                     if (res.data.lat) {
                         if (index == -1) {
-                            //this.markers.push(element);
+                            _this2.markers.push(element);
                         } else {
                             if (res.data.busy == 0) {
                                 _this2.markers.splice(index, 1);

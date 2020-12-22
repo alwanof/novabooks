@@ -129,6 +129,7 @@ Route::post('/orders/create', function (Request $request) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'C',
+        'meta' => ['office' => $user->id, 'agent' => $user->parent->id, 'action' => 'create']
     ]);
 
     return $order;
@@ -146,6 +147,7 @@ Route::post('/orders/update', function (Request $request) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
     return $order;
@@ -163,6 +165,8 @@ Route::post('/orders/delete', function (Request $request) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'D',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'delete']
+
     ]);
     $order->delete();
 
@@ -187,6 +191,7 @@ Route::get('/orders/cancel/{order}', function ($order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'cancel']
 
     ]);
 
@@ -205,6 +210,7 @@ Route::get('/order/office/reject/{order}', function ($order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
     return $order;
@@ -230,7 +236,7 @@ Route::get('/order/office/undo/{order}', function ($order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash, 'action' => 'undo']
+        'meta' => ['hash' => $driver->hash, 'office' => $order->user_id, 'agent' => $order->parent, 'action' => 'undo']
     ]);
     $response = Http::withHeaders([
         'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
@@ -240,7 +246,7 @@ Route::get('/order/office/undo/{order}', function ($order) {
         'pid' => $driver->id,
         'model' => 'Driver',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash, 'action' => 'undo']
+        'meta' => ['hash' => $driver->hash, 'office' => $driver->user_id, 'agent' => $driver->parent, 'action' => 'undo']
     ]);
 
     return $order;
@@ -258,6 +264,7 @@ Route::get('/order/customer/reject/{order}', function ($order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
     return $order;
@@ -274,6 +281,7 @@ Route::get('/order/office/approve/{order}', function ($order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
     return $order;
@@ -291,6 +299,7 @@ Route::get('/order/customer/approve/{order}', function ($order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
     return $order;
@@ -314,7 +323,7 @@ Route::get('/order/office/select/{driver}/to/{order}', function ($driver, $order
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
     $response = Http::withHeaders([
         'X-Parse-Application-Id' => 'REhnNlzTuS88KmmKaNuqwWZ3D3KNYurvNIoWHdYV',
@@ -324,7 +333,7 @@ Route::get('/order/office/select/{driver}/to/{order}', function ($driver, $order
         'pid' => $driver->id,
         'model' => 'Driver',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'office' => $driver->user_id, 'agent' => $driver->parent]
     ]);
 
     sendMobileNoti('New Order!', 'You have been got a new order', $driver->hash);
@@ -345,6 +354,7 @@ Route::get('/order/office/send/{offer}/to/{order}', function ($offer, $order) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
     return $order;
@@ -388,6 +398,7 @@ Route::get('/app/approve/{order_id}', function ($order_id) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
 
@@ -437,7 +448,8 @@ Route::get('/app/{hash}/reject/{order_id}', function ($hash, $order_id) {
     ])->post('https://parseapi.back4app.com/functions/stream', [
         'pid' => $order->id,
         'model' => 'Order',
-        'action' => 'U'
+        'action' => 'U',
+        'meta' => ['office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
     $response = Http::withHeaders([
@@ -448,7 +460,7 @@ Route::get('/app/{hash}/reject/{order_id}', function ($hash, $order_id) {
         'pid' => $driver->id,
         'model' => 'Driver',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'office' => $driver->user_id, 'agent' => $driver->parent]
     ]);
 
     return response(1, 200);
@@ -471,7 +483,7 @@ Route::get('/app/{hash}/done/{order_id}', function ($hash, $order_id) {
         'pid' => $order->id,
         'model' => 'Order',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'office' => $order->user_id, 'agent' => $order->parent, 'action' => 'update']
     ]);
 
     $response = Http::withHeaders([
@@ -482,7 +494,7 @@ Route::get('/app/{hash}/done/{order_id}', function ($hash, $order_id) {
         'pid' => $driver->id,
         'model' => 'Driver',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'office' => $driver->user_id, 'agent' => $driver->parent]
     ]);
 
     return response(1, 200);
@@ -513,7 +525,7 @@ Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
         'pid' => $driver->id,
         'model' => 'Driver',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'office' => $driver->user_id, 'agent' => $driver->parent]
     ]);
     return [
         'Office Lat Lng' => $olat . ' <> ' . $olng,
@@ -559,7 +571,7 @@ Route::get('/app/{hash}/toggle', function ($hash) {
             'pid' => $driver->id,
             'model' => 'Driver',
             'action' => 'U',
-            'meta' => ['hash' => $driver->hash]
+            'meta' => ['hash' => $driver->hash, 'office' => $driver->user_id, 'agent' => $driver->parent]
         ]);
     }
 
@@ -578,7 +590,7 @@ Route::get('/app/{hash}/reset', function ($hash) {
         'pid' => $driver->id,
         'model' => 'Driver',
         'action' => 'U',
-        'meta' => ['hash' => $driver->hash]
+        'meta' => ['hash' => $driver->hash, 'office' => $driver->user_id, 'agent' => $driver->parent]
     ]);
 
     return response($driver->busy, 200);

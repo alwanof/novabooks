@@ -62,7 +62,7 @@ export default {
         },
         listen(){
             const query = new Parse.Query("Stream");
-            query.equalTo("model", "Driver")
+            query.equalTo("model", "Driver");
             query.equalTo("meta.hash", this.driver.hash);
             Client.open();
             var subscription = Client.subscribe(query);

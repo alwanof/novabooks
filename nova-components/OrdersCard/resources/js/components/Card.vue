@@ -116,11 +116,7 @@ var Client = new Parse.LiveQueryClient({
     serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
     javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
 });
-const streamQuery = new Parse.Query("Stream");
-streamQuery.equalTo("model", "Order");
-query.equalTo("meta.office", this.card.authUser.id);
-Client.open();
-var subscription = Client.subscribe(streamQuery);
+
 
 export default {
     name: "TaxiOrderCard",
@@ -226,6 +222,11 @@ export default {
 
         },
         listen(){
+            const streamQuery = new Parse.Query("Stream");
+            streamQuery.equalTo("model", "Order");
+            streamQuery.equalTo("meta.office", this.card.authUser.id);
+            Client.open();
+            var subscription = Client.subscribe(streamQuery);
                 subscription.on("create", (feedDoc) => {
                     let index = this.orders.findIndex(
                     (o) => o.id === feedDoc.attributes.pid

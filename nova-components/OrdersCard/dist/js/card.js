@@ -54453,11 +54453,6 @@ var Client = new Parse.LiveQueryClient({
     serverURL: 'wss://' + 'smartaxi.b4a.io', // Example: 'wss://livequerytutorial.back4app.io'
     javascriptKey: 'VSDqMVaQWg5HDnFM0oAezLdeDRdfMvdZKhgW7THn'
 });
-var streamQuery = new Parse.Query("Stream");
-streamQuery.equalTo("model", "Order");
-query.equalTo("meta.office", this.card.authUser.id);
-Client.open();
-var subscription = Client.subscribe(streamQuery);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "TaxiOrderCard",
@@ -54562,6 +54557,11 @@ var subscription = Client.subscribe(streamQuery);
         listen: function listen() {
             var _this7 = this;
 
+            var streamQuery = new Parse.Query("Stream");
+            streamQuery.equalTo("model", "Order");
+            streamQuery.equalTo("meta.office", this.card.authUser.id);
+            Client.open();
+            var subscription = Client.subscribe(streamQuery);
             subscription.on("create", function (feedDoc) {
                 var index = _this7.orders.findIndex(function (o) {
                     return o.id === feedDoc.attributes.pid;

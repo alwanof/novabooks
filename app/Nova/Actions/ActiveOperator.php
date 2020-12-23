@@ -38,18 +38,18 @@ class ActiveOperator extends Action
     {
         foreach ($models as $model) {
 
-            if ($model->active) {
+            if (strlen($model->hash) > 4) {
                 $user = User::findOrFail($model->hash);
                 $user->useMasterKey(true);
                 if ($user->delete()) {
-                    $model->active = 0;
+                    //$model->active = 0;
                     $model->hash = '';
                     $model->save();
                 }
             } else {
                 $user = User::create(['username' => $model->email, 'password' => $model->password, 'email' => $model->email]);
                 if (isset($user->username)) {
-                    $model->active = 1;
+                    //$model->active = 1;
                     $model->hash = $user->id;
                     $model->save();
                 }

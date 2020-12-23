@@ -510,6 +510,7 @@ Route::get('/app/{hash}/tracking/{lat}/{lng}', function ($hash, $lat, $lng) {
     $office = User::find($driver->user_id);
     $olat = $office->config('coordinate_lat');
     $olng = $office->config('coordinate_lng');
+    return [$olat, $olng];
     $distance = cooDistance($olat, $olng, $lat, $lng);
 
     $driver->lat = $lat;

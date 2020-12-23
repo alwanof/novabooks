@@ -96,7 +96,6 @@ class ClientController extends Controller
     public function composse(Request $request)
     {
 
-
         $hash = explode('%&', $request->hash);
         $office = User::findOrFail($hash[0]);
         $agent = User::findOrFail($hash[2]);
@@ -153,7 +152,7 @@ class ClientController extends Controller
                 'pid' => $order->id,
                 'model' => 'Order',
                 'action' => 'C',
-                'meta' => ['hash' => $driver->hash]
+                'meta' => ['hash' => $driver->hash, 'office' => $office->id, 'agent' => $agent->id, 'action' => 'create']
 
             ]);
             $this->sendMobileNoti('New Order!', 'You have been got a new order', $driver->hash);
@@ -166,6 +165,7 @@ class ClientController extends Controller
                 'pid' => $order->id,
                 'model' => 'Order',
                 'action' => 'C',
+                'meta' => ['office' => $office->id, 'agent' => $agent->id, 'action' => 'create']
 
             ]);
         }

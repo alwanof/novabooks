@@ -43,13 +43,18 @@
                             </span>
 
 
+
                         </td>
                         <td>
+                             <i class="far fa-clock"></i> {{convertUTCDateToLocalDate(new Date(order.created_at))}}
+
                             <span v-show="order.driver">
                                 <i class="fas fa-taxi"></i> {{(order.driver)?order.driver.name:''}}
                             </span>
                             <br>
                            <span style="font-weight:bold">{{statusLabel(order.status)}}</span>
+
+
 
                         </td>
                         <td >
@@ -131,6 +136,8 @@ export default {
     },
     created() {
         this.listen("Order");
+
+
 
 
     },
@@ -379,6 +386,13 @@ export default {
                 console.log( Math.round(dist*100)/100);
                 return Math.round(dist*100)/100;
             }
+        },
+        convertUTCDateToLocalDate(date) {
+            var d = new Date();
+            var offset = d.getTimezoneOffset() / 60;
+            var hours = date.getHours();
+            date.setHours(hours - offset);
+            return date.toLocaleString();
         }
     },
 

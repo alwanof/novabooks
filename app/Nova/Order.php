@@ -96,7 +96,12 @@ class Order extends Resource
                 ->rules('required', 'max:255'),
             Text::make(__('Email'), 'email')->hideWhenCreating(),
             PhoneNumber::make(__('Phone'), 'phone')
-                ->withCustomFormats('+218 (##[#]) ###-####'),
+                ->withCustomFormats('+218##[#]#######')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'style' => 'direction:ltr !important'
+                    ]
+                ]),
             Text::make(__('Address'), 'from_address')
                 ->rules('required', 'max:255')
                 ->onlyOnForms(),

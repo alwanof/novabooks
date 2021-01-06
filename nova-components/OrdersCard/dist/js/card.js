@@ -54434,6 +54434,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 window.Vue = __webpack_require__(316);
 
@@ -54711,6 +54716,13 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_native_notification__["a" /* default */]
                 console.log(Math.round(dist * 100) / 100);
                 return Math.round(dist * 100) / 100;
             }
+        },
+        convertUTCDateToLocalDate: function convertUTCDateToLocalDate(date) {
+            var d = new Date();
+            var offset = d.getTimezoneOffset() / 60;
+            var hours = date.getHours();
+            date.setHours(hours - offset);
+            return date.toLocaleString();
         }
     },
 
@@ -99107,6 +99119,16 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", [
+                    _c("i", { staticClass: "far fa-clock" }),
+                    _vm._v(
+                      " " +
+                        _vm._s(
+                          _vm.convertUTCDateToLocalDate(
+                            new Date(order.created_at)
+                          )
+                        ) +
+                        "\n\n                            "
+                    ),
                     _c(
                       "span",
                       {

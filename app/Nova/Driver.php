@@ -100,7 +100,12 @@ class Driver extends Resource
                 ->hideFromIndex(),
             PhoneNumber::make(__('Phone'), 'phone')
                 ->rules('required', 'min:6', 'max:20')
-                ->hideFromIndex(),
+                ->withCustomFormats('+218 (##[#]) ### ####')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'style' => 'direction:ltr !important'
+                    ]
+                ]),
             Text::make(__('TaxiColor'), 'taxiColor')
                 ->rules('required', 'max:25')
                 ->hideFromIndex(),

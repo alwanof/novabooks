@@ -136,12 +136,30 @@ export default {
     },
     created() {
         this.listen("Order");
-
-
-
-
     },
     methods: {
+        Notify(title,body)
+            {
+                document.addEventListener('DOMContentLoaded', function() {
+                    if (!Notification) {
+                        alert('Desktop notifications not available in your browser. Try Chromium.');
+                        return;
+                    }
+
+                    if (Notification.permission !== 'granted')
+                        Notification.requestPermission();
+                });
+
+                if (Notification.permission !== 'granted')
+                    Notification.requestPermission();
+                else {
+
+                    var notification = new Notification(title, {
+                        icon: 'https://www.kindpng.com/picc/m/169-1699400_svg-png-icon-free-android-notification-icon-png.png',
+                        body: body,
+                    });
+                }
+            },
 
         trans(key){
             if(Nova.config.translations[key]!== undefined){
@@ -150,12 +168,7 @@ export default {
             return '-';
 
         },
-        notify () {
-            // https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification#Parameters
-            Vue.notification.show('Hello World', {
-                body: 'This is an example!'
-            }, {})
-        },
+
         undo(order){
             this.loading=true;
             axios.get('/api/order/office/undo/'+order.id).then((res) => {
@@ -245,9 +258,11 @@ export default {
                         .then((res) => {
                         if (feedDoc.attributes.action == "U") {
                             Vue.set(this.orders, index, res.data);
+                            this.Notify('From/من'+res.data.name,'Order Updated !/تحديث طلبية');
                         } else if (feedDoc.attributes.action == "C") {
                             //console.log('C',feedDoc.attributes.action);
                             this.orders.unshift(res.data);
+                             this.Notify('From/من'+res.data.name,'New order/طلبية جديدة');
                         } else if (feedDoc.attributes.action == "D") {
                             this.orders.splice(index, 1);
                         }

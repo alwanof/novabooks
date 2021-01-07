@@ -54467,17 +54467,29 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_native_notification__["a" /* default */]
     },
 
     methods: {
+        Notify: function Notify(title, body) {
+            document.addEventListener('DOMContentLoaded', function () {
+                if (!Notification) {
+                    alert('Desktop notifications not available in your browser. Try Chromium.');
+                    return;
+                }
+
+                if (Notification.permission !== 'granted') Notification.requestPermission();
+            });
+
+            if (Notification.permission !== 'granted') Notification.requestPermission();else {
+
+                var notification = new Notification(title, {
+                    icon: 'https://www.kindpng.com/picc/m/169-1699400_svg-png-icon-free-android-notification-icon-png.png',
+                    body: body
+                });
+            }
+        },
         trans: function trans(key) {
             if (Nova.config.translations[key] !== undefined) {
                 return Nova.config.translations[key];
             }
             return '-';
-        },
-        notify: function notify() {
-            // https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification#Parameters
-            Vue.notification.show('Hello World', {
-                body: 'This is an example!'
-            }, {});
         },
         undo: function undo(order) {
             var _this = this;
@@ -54575,9 +54587,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_native_notification__["a" /* default */]
                 axios.get('/api/orders/get/' + feedDoc.attributes.pid).then(function (res) {
                     if (feedDoc.attributes.action == "U") {
                         Vue.set(_this7.orders, index, res.data);
+                        _this7.Notify('From/من' + res.data.name, 'Order Updated !/تحديث طلبية');
                     } else if (feedDoc.attributes.action == "C") {
                         //console.log('C',feedDoc.attributes.action);
                         _this7.orders.unshift(res.data);
+                        _this7.Notify('From/من' + res.data.name, 'New order/طلبية جديدة');
                     } else if (feedDoc.attributes.action == "D") {
                         _this7.orders.splice(index, 1);
                     }

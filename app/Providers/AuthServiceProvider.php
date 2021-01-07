@@ -33,7 +33,10 @@ class AuthServiceProvider extends ServiceProvider
             'manageTask',
             'viewDriver',
             'manageDriver',
-            'manageSetting'
+            'manageSetting',
+            'manageUser',
+            'viewUser'
+
         ])->each(function ($permission) {
             Gate::define($permission, function ($user) use ($permission) {
                 return $user->hasRoleWithPermission($permission);

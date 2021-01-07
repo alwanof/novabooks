@@ -130,11 +130,14 @@ var subscription = Client.subscribe(query);
                 local:json[this.lang]
             }
         },
+
         created() {
             this.feed=this.order;
             this.listen();
+
         },
         methods: {
+
             trans(key){
                if(typeof this.local[key] != 'undefined') {
                    return this.local[key];

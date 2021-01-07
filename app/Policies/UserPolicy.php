@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Gate;
 
 class UserPolicy
 {
@@ -17,7 +18,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return Gate::any(['viewUser', 'manageUser'], $user);
     }
 
     /**
@@ -29,7 +30,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->userCan($model);
+        return Gate::any(['viewUser', 'manageUser'], $user);
     }
 
     /**
@@ -40,7 +41,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return Gate::any(['manageUser'], $user);
     }
 
     /**
@@ -52,7 +53,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->userCan($model);
+        return Gate::any(['manageUser'], $user);
     }
 
     /**
@@ -64,7 +65,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->userCan($model);
+        return Gate::any(['manageUser'], $user);
     }
 
     /**
@@ -76,7 +77,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        return $user->userCan($model);
+        return Gate::any(['manageUser'], $user);
     }
 
     /**
@@ -88,6 +89,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        return $user->userCan($model);
+        return Gate::any(['manageUser'], $user);
     }
 }

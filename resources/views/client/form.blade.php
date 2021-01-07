@@ -48,13 +48,15 @@
                         <i class="fas fa-map-marker-alt text-primary" id="confirmSource"></i>
                     </span>
                 </div>
-
                 <textarea type="text" class="form-control"
                     style="border: solid 1px #ced4da;background-color:#e9ecef;obacity:1" placeholder="Enter your address"
                     id="from_address" name="from_address" required readonly>
 
-                                                            </textarea>
-                <div class="invalid-feedback">{{ __('app.Please fill out this field.') }}</div>
+                                                                    </textarea>
+                <div style="display: block;width:100%;color:green">
+                    {{ __('app.Address hint1') }}
+                    <i class="fas fa-map-marker-alt text-primary"></i> {{ __('app.Address hint2') }}
+                </div>
                 <div id="source"></div>
 
             </div>

@@ -92,7 +92,7 @@
          <div class="row " v-if="cancelValid(feed.status)">
 
                 <div class="col mt-3">
-                    <button type="button" @click="cancel()" class="btn btn-dark btn-block">{{trans('Cancel')}}</button>
+                    <button type="button" @click="cancel()" class="btn btn-sm btn-outline-dark">{{trans('Cancel')}}</button>
                 </div>
             </div>
             <hr>

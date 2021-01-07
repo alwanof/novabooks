@@ -54440,6 +54440,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+document.addEventListener('DOMContentLoaded', function () {
+    if (!Notification) {
+        alert('Desktop notifications not available in your browser. Try Chromium.');
+        return;
+    }
+
+    if (Notification.permission !== 'granted') Notification.requestPermission();
+});
 window.Vue = __webpack_require__(316);
 
 
@@ -54468,22 +54476,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_native_notification__["a" /* default */]
 
     methods: {
         Notify: function Notify(title, body) {
-            document.addEventListener('DOMContentLoaded', function () {
-                if (!Notification) {
-                    alert('Desktop notifications not available in your browser. Try Chromium.');
-                    return;
-                }
-
-                if (Notification.permission !== 'granted') Notification.requestPermission();
+            var notification = new Notification(title, {
+                icon: 'https://www.kindpng.com/picc/m/169-1699400_svg-png-icon-free-android-notification-icon-png.png',
+                body: body
             });
-
-            if (Notification.permission !== 'granted') Notification.requestPermission();else {
-
-                var notification = new Notification(title, {
-                    icon: 'https://www.kindpng.com/picc/m/169-1699400_svg-png-icon-free-android-notification-icon-png.png',
-                    body: body
-                });
-            }
         },
         trans: function trans(key) {
             if (Nova.config.translations[key] !== undefined) {

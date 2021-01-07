@@ -103,6 +103,15 @@
 </template>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+                    if (!Notification) {
+                        alert('Desktop notifications not available in your browser. Try Chromium.');
+                        return;
+                    }
+
+                    if (Notification.permission !== 'granted')
+                        Notification.requestPermission();
+                });
 window.Vue = require('vue');
 import VueNativeNotification from 'vue-native-notification'
 
@@ -138,28 +147,12 @@ export default {
         this.listen("Order");
     },
     methods: {
-        Notify(title,body)
-            {
-                document.addEventListener('DOMContentLoaded', function() {
-                    if (!Notification) {
-                        alert('Desktop notifications not available in your browser. Try Chromium.');
-                        return;
-                    }
-
-                    if (Notification.permission !== 'granted')
-                        Notification.requestPermission();
-                });
-
-                if (Notification.permission !== 'granted')
-                    Notification.requestPermission();
-                else {
-
-                    var notification = new Notification(title, {
+        Notify(title,body){
+            var notification = new Notification(title, {
                         icon: 'https://www.kindpng.com/picc/m/169-1699400_svg-png-icon-free-android-notification-icon-png.png',
                         body: body,
                     });
-                }
-            },
+        },
 
         trans(key){
             if(Nova.config.translations[key]!== undefined){

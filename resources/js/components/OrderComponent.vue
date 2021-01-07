@@ -8,7 +8,7 @@
 
             <div class="col-8">
                 <div class="text-muted">{{trans('DATE')}}</div>
-                {{feed.created_at}}++
+                {{convertUTCDateToLocalDate(new Date(feed.created_at))}}
             </div>
             <div class="col-4">
                 <div class="text-muted">{{trans('Order No')}}</div>
@@ -268,6 +268,13 @@ var subscription = Client.subscribe(query);
                 }
                 return icon;
             },
+            convertUTCDateToLocalDate(date) {
+            var d = new Date();
+            var offset = d.getTimezoneOffset() / 60;
+            var hours = date.getHours();
+            date.setHours(hours - offset);
+            return date.toLocaleString();
+        }
         },
     }
 </script>

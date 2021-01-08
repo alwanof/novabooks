@@ -40,6 +40,7 @@ function sendMobileNoti($title, $body, $token)
             "notification" => [
                 "title" => $title,
                 "body" => $body,
+                "sound" => "default"
             ]
         ];
         $dataString = json_encode($data);

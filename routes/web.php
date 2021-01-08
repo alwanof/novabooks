@@ -75,11 +75,10 @@ Route::get('jobs/nores/{m}', function ($m) {
     $orders = Order::whereIn('status', [0, 1, 12, 2, 21, 3])
         ->where('updated_at', '<=', $noResD_formatted_date)
         ->update(['status' => 95]);
+    Driver::where('busy', 1)->whereHas('orders', function ($q) {
+        $q->whereNotIn('status', [2, 21]);
+    })->update(['busy' => 0]);
 
 
     return $orders;
-});
-
-Route::get('testoo', function () {
-    return Auth::user()->settings['currency'];
 });

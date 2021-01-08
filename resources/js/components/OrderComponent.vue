@@ -209,7 +209,7 @@ var subscription = Client.subscribe(query);
                         label=this.trans('Customer Rejected');
                         break;
                     case 93:
-                        $label=this.trans('No-Res. from Customer');
+                        $label=this.trans('No-Res. from Driver');
                         break;
                     case 94:
                         label=this.trans('No-Res. from Customer');

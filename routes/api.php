@@ -366,7 +366,6 @@ Route::get('/order/office/send/{offer}/to/{order}', function ($offer, $order) {
 
 
 
-
 // API Mobile APP:
 
 Route::get('/app/get/order/{hash}', function ($hash) {

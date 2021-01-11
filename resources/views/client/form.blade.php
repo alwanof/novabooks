@@ -9,7 +9,12 @@
     </div>
     <div class="container text-center">
         <img class="img-thumbnail rounded-circle mb-2" src="/storage/{{ $office->avatar }}" alt="" width="100">
-        <h1 class="h3 mb-5 font-weight-normal"><span class="badge badge-secondary">{{ $office->name }}</span></h1>
+        <h1 class="h3 mb-5 font-weight-normal">
+            <span class="badge badge-secondary">{{ $office->name }}</span>
+            <br><small><i class="fas fa-phone-square-alt text-success mx-1"></i>{{ $office->settings['phone'] }}</small>
+
+        </h1>
+
         @if (!$office->settings['auto_fwd_order'] && $office->settings['offer_enabled'])
             <form class="form-signin was-validated text-center" action="{{ route('client.dist') }}" method="POST">
             @else
@@ -52,7 +57,7 @@
                     style="border: solid 1px #ced4da;background-color:#e9ecef;obacity:1" placeholder="Enter your address"
                     id="from_address" name="from_address" required readonly>
 
-                                                                    </textarea>
+                                                                                            </textarea>
                 <div style="display: block;width:100%;color:green">
                     {{ __('app.Address hint1') }}
                     <i class="fas fa-map-marker-alt text-primary"></i> {{ __('app.Address hint2') }}

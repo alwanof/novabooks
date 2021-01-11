@@ -188,7 +188,7 @@ var subscription = Client.subscribe(query);
                         label=this.trans('New');
                         break;
                     case 1:
-                        label=this.trans('Accepted');
+                        label=this.trans('DriverSerching');
                         break;
                     case 2:
                         label=this.trans('Waiting Driver Approve');

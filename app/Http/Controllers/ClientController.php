@@ -101,7 +101,7 @@ class ClientController extends Controller
         $agent = User::findOrFail($hash[2]);
         $session = session()->getId();
         $oldOrder = Order::where('session', $session)
-            ->whereNotIn('status', [9, 92, 94])
+            ->whereNotIn('status', [9, 91, 92, 93, 94, 95, 99])
             ->count();
         if ($oldOrder > 0) {
 

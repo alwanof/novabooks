@@ -83,9 +83,9 @@
 
         <div class="row mt-3" v-if="feed.status==3">
             <div class="col-12">
-                   <button type="button" @click="approve()" class="btn btn-outline-success btn-sm btn-block mb-1">{{trans('Approve')}}</button>
+                   <button type="button" @click="approve()" class="btn btn-success  btn-block mb-1">{{trans('Approve')}}</button>
 
-                   <button type="button" @click="reject()" class="btn btn-outline-danger btn-sm btn-block">{{trans('Reject')}}</button>
+                   <button type="button" @click="reject()" class="btn btn-danger btn-block">{{trans('Reject')}}</button>
                 </div>
 
         </div>

@@ -36,11 +36,51 @@
 
             </div>
         </div>
+        <div class="row mt-4 py-2 border border-secondary" v-if="feed.status==21">
+                <div class="col-12 text-muted">
+                    {{trans('Driver Details')}}
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{trans('Name')}}</th>
+                            <th scope="col">{{trans('Car Model')}}</th>
+                            <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th scope="row">
+                                <img class="img-thumbnail rounded-circle" :src="'/storage/'+feed.driver.avatar" alt="" width="64" >
+                            </th>
+                            <td>{{feed.driver.name}}</td>
+                            <td>
+                                {{feed.driver.taxi}} / {{feed.driver.taxiColor}}
+                            </td>
+                            <td>
+                                 <a :href="'tel:'+feed.driver.phone" class="btn btn-lg btn-outline-success float-right">
+                                     <i class="fas fa-phone-square-alt"></i>
+                                </a>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+        </div>
         <div class="row mt-3">
+
             <div class="col-12">
                 <div class="text-muted">
                     {{trans('Your Trip')}}
-                    <span class="float-right h4 text-danger font-bold" v-show="feed.offer">{{feed.offer}} {{office.settings.currency}}</span>
+
+                    <span class="float-right h2 text-danger font-bold" v-show="feed.offer">
+                        <div class="spinner-grow text-danger" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        {{feed.offer}} {{office.settings.currency}}
+                    </span>
                 </div>
             </div>
             <div class="col-12">
@@ -58,28 +98,7 @@
 
 
         </div>
-        <div class="row mt-4 py-2 border border-secondary" v-if="feed.status==21">
-                <div class="col-12 text-muted">{{trans('Driver Details')}}</div>
-                <div class="col-3">
-                    <img class="img-thumbnail rounded-circle" :src="'/storage/'+feed.driver.avatar" alt="" width="64" >
-                </div>
-                <div class="col-9">
-                    <div class="text-muted">{{trans('Name')}}</div>
-                    {{feed.driver.name}}
-                    <a :href="'tel:'+feed.driver.phone" class="btn btn-lg btn-outline-success float-right">
-                            <i class="fas fa-phone-square-alt"></i>
-                        </a>
-                </div>
-                <div class="col-6">
-                    <div class="text-muted">{{trans('Car Model')}}</div>
-                     {{feed.driver.taxi}}
-                </div>
-                <div class="col-6">
-                    <div class="text-muted">{{trans('Car Color')}}</div>
-                     {{feed.driver.taxiColor}}
-                </div>
 
-        </div>
 
         <div class="row mt-3" v-if="feed.status==3">
             <div class="col-12">
@@ -89,9 +108,9 @@
                 </div>
 
         </div>
-         <div class="row " v-if="cancelValid(feed.status)">
+         <div class="row mt-4" v-if="cancelValid(feed.status)">
 
-                <div class="col mt-3">
+                <div class="col mt-3 text-center">
                     <button type="button" @click="cancel()" class="btn btn-sm btn-outline-dark">{{trans('Cancel')}}</button>
                 </div>
             </div>
@@ -188,7 +207,7 @@ var subscription = Client.subscribe(query);
                         label=this.trans('New');
                         break;
                     case 1:
-                        label=this.trans('DriverSerching');
+                        label=this.trans('Accepted');
                         break;
                     case 2:
                         label=this.trans('Waiting Driver Approve');

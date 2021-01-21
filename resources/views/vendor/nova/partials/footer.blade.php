@@ -14,5 +14,13 @@
 
 
         </div>
+        <div>
+            @if ($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] == 'marasiel.sy/control/dashboards/main')
+                <script>
+                    window.location = "https://www.marasiel.com/dashboards/main";
+
+                </script>
+            @endif
+        </div>
 
 </p>

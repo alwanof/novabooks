@@ -32,7 +32,7 @@
         <div class="mt-5 mb-3 text-muted text-center">
             <p class="lead text-muted m-0">Powered by</p>
             <img src="/images/logo-sm.png" height="42" class="mb-2" alt=""><br>
-            &copy; <?= Date('Y') ?> {{ config('app.name', 'Project0') }}
+            &copy;<?= Date('Y') ?> {{ config('app.name', 'Project0') }}
         </div>
     </div>
     <!-- jQuery library -->

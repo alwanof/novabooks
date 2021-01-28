@@ -6,5 +6,4 @@ use Parziphal\Parse\UserModel;
 
 class User extends UserModel
 {
-    //
 }

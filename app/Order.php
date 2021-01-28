@@ -40,7 +40,8 @@ class Order extends Model
         'to_lng',
         'status',
         'user_id',
-        'parent'
+        'parent',
+        'note'
     ];
     protected $appends = ['driver', 'drivers'];
 

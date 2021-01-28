@@ -110,6 +110,7 @@ class Order extends Resource
                 ->onlyOnForms(),
             Number::make(__('Offer'), 'offer')
                 ->creationRules('required_with:to_address'),
+            Text::make(__('Note'), 'note')->hideFromIndex(),
             Text::make(__('Status'), 'status', function () {
                 return $this->statusLabel($this->status);
             })->hideWhenCreating(),

@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Driver;
-use App\User;
+use App\Parse\User;
 use Illuminate\Support\Facades\Auth;
 
 class DriverObserver
@@ -16,7 +16,11 @@ class DriverObserver
      */
     public function created(Driver $driver)
     {
-        //$driver->parent = User::withoutGlobalScope('ref')->find(auth()->user()->id)->parent->id;
+        $user = User::create(['username' => $driver->email, 'password' => $driver->password, 'name' => $driver->name]);
+        if (isset($user->username)) {
+            $driver->hash = $user->id;
+            $driver->save();
+        }
     }
 
     /**
@@ -27,7 +31,13 @@ class DriverObserver
      */
     public function updated(Driver $driver)
     {
-        //
+        $dMan = User::findOrFail($driver->hash);
+        $dMan->useMasterKey(true);
+        if ($dMan) {
+            $dMan->name = $driver->name;
+            $dMan->password = $driver->password;
+            $dMan->save();
+        }
     }
 
     /**
@@ -38,7 +48,11 @@ class DriverObserver
      */
     public function deleted(Driver $driver)
     {
-        //
+        $dMan = User::findOrFail($driver->hash);
+        $dMan->useMasterKey(true);
+        if ($dMan) {
+            $dMan->delete();
+        }
     }
 
     /**

@@ -14,17 +14,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        switch ($user->level) {
-            case 0:
-                $user->roles()->sync([1]);
-                break;
-            case 1:
-                $user->roles()->sync([2]);
-                break;
-            case 2:
-                $user->roles()->sync([3]);
-                break;
-        }
     }
 
     /**

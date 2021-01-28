@@ -43,6 +43,11 @@
                     <div id="dist"></div>
                 </div>
             </div>
+            <div class="form-group">
+
+                <input type="text" class="form-control" placeholder="{{ __('app.Note') }}" name="note">
+                <div class="invalid-feedback">{{ __('app.Please fill out this field.') }}</div>
+            </div>
 
 
 

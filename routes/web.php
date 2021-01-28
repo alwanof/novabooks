@@ -10,6 +10,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Parziphal\Parse\Auth\UserModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,17 @@ Route::get('/', function () {
 
 
     return view('welcome');
+});
+
+Route::get('/test', function () {
+    //$user = ParseUser::find('uiHronA7Tj');
+    $user = new ParseUser();
+    $user->username = 'OOPOOP1';
+    $user->password = '12345678';
+    $user->name = 'OOPOOP1';
+    $user->save();
+
+    return $user;
 });
 
 Route::get('/set/lang/{lang}', 'ClientController@setLang')->name('client.lang');

@@ -125,6 +125,7 @@ class ClientController extends Controller
                     'user_id' => $office->id,
                     'parent' => $agent->id,
                     'status' => 0,
+                    'note' => $request->note
                 ]
             );
         }

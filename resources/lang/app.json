@@ -21,7 +21,8 @@
         "No-Res. from Customer":"No-Res. from Customer",
         "Canceled":"Canceled",
         "Canceled from Customer":"Canceled from Customer",
-        "New":"New"
+        "New":"New",
+        "Note":"Note"
 
     },
     "ar": {
@@ -46,7 +47,8 @@
         "No-Res. from Customer":"لا يوجد رد من العميل",
         "Canceled":"ملغى",
         "Canceled from Customer":"تم الالغاء من العميل",
-        "New":"جديد"
+        "New":"جديد",
+        "Note":"ملاحظات"
     }
 
 

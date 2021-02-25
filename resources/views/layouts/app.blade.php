@@ -20,6 +20,7 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="yandex-verification" content="a07c4ea94aeaa8e8" />
     @yield('css')
 
     <!-- Styles -->

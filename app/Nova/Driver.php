@@ -183,7 +183,7 @@ class Driver extends Resource
     public function actions(Request $request)
     {
         return [
-            //(new ActiveOperator())->onlyOnDetail(),
+            (new ActiveOperator())->onlyOnDetail(),
             (new SendCredentionalAction()),
         ];
     }

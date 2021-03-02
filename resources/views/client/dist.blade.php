@@ -49,10 +49,14 @@
                 <div class="invalid-feedback">{{ __('app.Please fill out this field.') }}</div>
             </div>
 
-
-
-
-
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="privacy" required>
+        <label class="form-check-label" for="exampleCheck1">
+            <a href="{{ route('privacy') }}" target="_blank">
+                Privacy Policy(اتفاقية الاستحدام)
+            </a>
+        </label>
     </div>
 
 

@@ -29,6 +29,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/privacy', function () {
+
+
+    return view('privacy');
+})->name('privacy');
+
 Route::get('/test', function () {
     //$user = ParseUser::find('uiHronA7Tj');
     $user = new ParseUser();
